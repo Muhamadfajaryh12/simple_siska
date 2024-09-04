@@ -16,8 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string("nama_prodi");
             $table->string('kode_prodi');
-            $table->int('id_fakultas');
-            $table->foreign('id_fakultas')->references('id')->on('fakultas');
+            $table->unsignedBigInteger('id_fakultas');
+            $table->foreign('id_fakultas')->references('id')->on('fakultas')->onDelete('cascade');
         });
     }
 

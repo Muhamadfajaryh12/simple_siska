@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('krs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->int('id_mata_kuliah');
-            $table->int('id_user');
-            $table->int('nilai_angka');
+            $table->unsignedBigInteger('id_mata_kuliah');
+            $table->unsignedBigInteger('id_user');
+            $table->integer('nilai_angka');
             $table->string('nilai_huruf');
-            $table->foreign('id_mata_kuliah')->references('id')->on('mata_kuliah');
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_mata_kuliah')->references('id')->on('mata_kuliah')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
