@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Fakultas\FakultasController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/fakultas',[FakultasController::class,'index'])->name('fakultas.index');
+Route::get('/fakultas_create',[FakultasController::class,'create'])->name('fakultas.create');
+Route::post('/fakultas_store',[FakultasController::class,'store'])->name('fakultas.store');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
