@@ -21,11 +21,11 @@ const Sidebar = () => {
             children: [
                 {
                     title: "Master Program Studi",
-                    link: "fakultas.index",
+                    link: "prodi.index",
                 },
                 {
                     title: "Create Program Studi",
-                    link: "fakultas.create",
+                    link: "prodi.create",
                 },
             ],
         },

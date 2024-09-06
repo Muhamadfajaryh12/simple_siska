@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Fakultas\FakultasController;
+use App\Http\Controllers\Prodi\ProdiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,7 +33,16 @@ Route::get('/dashboard', function () {
 
 Route::get('/fakultas',[FakultasController::class,'index'])->name('fakultas.index');
 Route::get('/fakultas_create',[FakultasController::class,'create'])->name('fakultas.create');
+Route::get('/fakultas_update/{id}',[FakultasController::class,'update'])->name('fakultas.update');
+
 Route::post('/fakultas_store',[FakultasController::class,'store'])->name('fakultas.store');
+Route::put('/fakultas_change/{id}',[FakultasController::class,'change'])->name('fakultas.change');
+
+
+Route::get('/prodi',[ProdiController::class,'index'])->name('prodi.index');
+Route::get('/prodi_create',[ProdiController::class,'create'])->name('prodi.create');
+Route::post('/prodi_store',[ProdiController::class,'store'])->name('prodi.store');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -6,16 +6,23 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 
-const FakultasCreateLayout = () => {
-    const { data, setData, post, processing, errors, reset } = useForm({
+const FakultasUpdateLayout = (fakultas) => {
+    const { data, setData, put, processing, errors } = useForm({
         nama_fakultas: "",
         kode_fakultas: "",
     });
+    useEffect(() => {
+        if (fakultas) {
+            setData({
+                nama_fakultas: fakultas.nama_fakultas,
+                kode_fakultas: fakultas.kode_fakultas,
+            });
+        }
+    }, [fakultas]);
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("fakultas.store"));
-        reset();
+        put(route("fakultas.change", fakultas.id));
     };
     return (
         <>
@@ -77,16 +84,17 @@ const FakultasCreateLayout = () => {
         </>
     );
 };
-const FormCreateFakultas = () => {
+
+const FormUpdateFakultas = ({ data }) => {
     return (
         <>
             <AdminLayout
-                component={FakultasCreateLayout()}
-                title="Create Fakultas"
+                component={FakultasUpdateLayout(data)}
+                title="Update Fakultas"
             />
             ;
         </>
     );
 };
 
-export default FormCreateFakultas;
+export default FormUpdateFakultas;

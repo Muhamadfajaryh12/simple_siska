@@ -6,14 +6,14 @@ const AdminLayout = ({ title, component }) => {
         <div className="w-screen h-screen bg-white">
             <div className="flex">
                 <Sidebar />
-                <div className="m-2">
+                <div className="m-2 w-full">
                     <h2
-                        className="font-semibold text-2xl"
-                        style={{ letterSpacing: "2px" }}
+                        className="font-bold text-2xl "
+                        style={{ letterSpacing: "1px" }}
                     >
                         {title}
                     </h2>
-                    {component}
+                    <div className="w-full">{component}</div>
                 </div>
             </div>
         </div>

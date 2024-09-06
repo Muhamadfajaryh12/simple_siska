@@ -22,7 +22,13 @@ class FakultasController extends Controller
         return Inertia::render('Fakultas/FormCreateFakultas');
     }
 
-  
+    public function update($id){
+        $fetch = Fakultas::findOrFail($id);
+
+        return Inertia::render('Fakultas/FormUpdateFakultas',[
+            'data'=>$fetch
+        ]);
+    }
     public function store (Request $request)
     {
         $validation_fakultas = $request->validate([
@@ -31,6 +37,24 @@ class FakultasController extends Controller
         ]);
         Fakultas::create($validation_fakultas);
     }
+
+    public function change(Request $request, $id){
+        $validation_fakultas = $request->validate([
+            'nama_fakultas' => 'required|string|max:255',
+            'kode_fakultas' => 'required|string|max:255|unique:fakultas,kode_fakultas'
+        ]);
+    
+        try {
+            $fakultas = Fakultas::findOrFail($id);
+            $fakultas->update($validation_fakultas);
+
+            return redirect()->back()->with('success', 'Fakultas berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['update_error' => 'Gagal memperbarui fakultas. Silakan coba lagi.']);
+        }
+    
+    }
+
 
     
 };
