@@ -46,6 +46,11 @@ Route::post('/prodi_store',[ProdiController::class,'store'])->name('prodi.store'
 
 
 Route::get('/user_create',[UserController::class,'create'])->name('user.create');
+Route::post('/user_store',[UserController::class,'store'])->name('user.store');
+
+Route::get('/mahasiswa',[UserController::class,'mahasiswaIndex'])->name('user.mahasiswaIndex');
+Route::get('/dosen',[UserController::class,'dosenIndex'])->name('user.dosenIndex');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

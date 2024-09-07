@@ -7,7 +7,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { useForm } from "@inertiajs/react";
 import React from "react";
 
-const FormCreateUser = () => {
+const FormCreateUser = ({ prodi }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
         nomor_induk: "",
@@ -15,11 +15,16 @@ const FormCreateUser = () => {
         status: "",
         jenis_kelamin: "",
         password: "",
+        id_prodi: "",
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post();
+        post(route("user.store"), {
+            onSuccess: () => {
+                reset();
+            },
+        });
     };
 
     const emailUser = (value) => {
@@ -79,7 +84,7 @@ const FormCreateUser = () => {
                             isFocused={true}
                             value={data.email}
                             readOnly
-                        />{" "}
+                        />
                         <InputError message={errors.email} className="mt-2" />
                     </div>
                     <div className="my-2 grid grid-cols-2 gap-2">
@@ -99,6 +104,9 @@ const FormCreateUser = () => {
                                 ]}
                                 valueField="id"
                                 labelField="id"
+                                onChange={(e) =>
+                                    setData("status", e.target.value)
+                                }
                             />{" "}
                             <InputError
                                 message={errors.status}
@@ -124,12 +132,33 @@ const FormCreateUser = () => {
                                 ]}
                                 valueField="id"
                                 labelField="id"
+                                onChange={(e) =>
+                                    setData("jenis_kelamin", e.target.value)
+                                }
                             />
                             <InputError
                                 message={errors.jenis_kelamin}
                                 className="mt-2"
                             />
                         </div>
+                    </div>
+                    <div className="mt-2">
+                        <InputLabel htmlFor="Prodi" value="Prodi" />
+                        <Select
+                            id="id_prodi"
+                            name="id_prodi"
+                            className="mt-1 block w-full"
+                            data={prodi}
+                            valueField="id"
+                            labelField="nama_prodi"
+                            onChange={(e) =>
+                                setData("id_prodi", e.target.value)
+                            }
+                        />
+                        <InputError
+                            message={errors.id_prodi}
+                            className="mt-2"
+                        />
                     </div>
                     <PrimaryButton className="mt-4" disabled={processing}>
                         Submit

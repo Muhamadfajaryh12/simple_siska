@@ -18,9 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
+        'nomor_induk',
+        'status',
+        'jenis_kelamin',
+        'id_prodi'
     ];
 
     /**
@@ -42,4 +46,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function prodi(){
+        return $this->belongsTo(Prodi::class, 'id_prodi');
+
+    }
 }

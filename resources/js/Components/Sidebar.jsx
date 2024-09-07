@@ -1,50 +1,44 @@
 import { Link } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
 
 const Sidebar = () => {
+    const [active, setActive] = useState(null);
     const list = [
         {
-            group: "Fakultas",
-            children: [
-                {
-                    title: "Master Fakultas",
-                    link: "fakultas.index",
-                },
-                {
-                    title: "Create Fakultas",
-                    link: "fakultas.create",
-                },
-            ],
+            title: "Master Data Mahasiswa",
+            link: "user.mahasiswaIndex",
         },
         {
-            group: "Program Studi",
-            children: [
-                {
-                    title: "Master Program Studi",
-                    link: "prodi.index",
-                },
-                {
-                    title: "Create Program Studi",
-                    link: "prodi.create",
-                },
-            ],
+            title: "Master Data Dosen",
+            link: "user.dosenIndex",
+        },
+        {
+            title: "Master Data Fakultas",
+            link: "fakultas.index",
+        },
+        {
+            title: "Master Data Program Studi",
+            link: "prodi.index",
         },
     ];
+    const handleSetActive = (title) => {
+        setActive(title);
+    };
     return (
-        <div className="w-1/4 bg-gray-100 h-screen">
-            <ul className="m-4">
+        <div className="w-80 bg-gray-100 h-screen">
+            <ul className="my-4 mx-auto p-2">
                 {list.map((item) => (
-                    <li key={item.group}>
-                        <p className="font-semibold text-xl">{item.group}</p>
-                        <ul>
-                            {item.children.map((child) => (
-                                <li key={child.title}>
-                                    <Link href={route(child.link)}>
-                                        {child.title}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                    <li
+                        key={item.title}
+                        className={`hover:bg-gray-200 p-1 rounded-md ${
+                            active == item.title ? "bg-gray-200" : ""
+                        }`}
+                        style={{ letterSpacing: "1px" }}
+                        onClick={() => handleSetActive(item.title)}
+                    >
+                        <Link href={route(item.link)} className="mx-2">
+                            {item.title}
+                        </Link>
                     </li>
                 ))}
             </ul>

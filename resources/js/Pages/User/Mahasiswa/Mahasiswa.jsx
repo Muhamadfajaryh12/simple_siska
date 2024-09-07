@@ -2,17 +2,17 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 
-const Dosen = ({ data, data_prodi }) => {
-    const [dataDosen, setDataDosen] = useState([]);
+const Mahasiswa = ({ data, data_prodi }) => {
+    const [dataMahasiswa, setDataMahasiswa] = useState([]);
     const [active, setActive] = useState(null);
 
     useEffect(() => {
-        setDataDosen(data);
+        setDataMahasiswa(data);
     }, [data]);
 
-    const filterDataDosen = (value) => {
+    const filterDataMahasiswa = (value) => {
         const filter = data.filter((item) => item.id_prodi == value);
-        setDataDosen(filter);
+        setDataMahasiswa(filter);
         setActive(value);
     };
 
@@ -54,7 +54,7 @@ const Dosen = ({ data, data_prodi }) => {
     ];
     return (
         <div>
-            <AdminLayout title={"Master Dosen"}>
+            <AdminLayout title={"Master Mahasiswa"}>
                 <div className="my-2">
                     {data_prodi.map((item) => (
                         <button
@@ -63,7 +63,7 @@ const Dosen = ({ data, data_prodi }) => {
                                     ? "bg-gray-300"
                                     : "bg-gray-200"
                             }`}
-                            onClick={() => filterDataDosen(item.id)}
+                            onClick={() => filterDataMahasiswa(item.id)}
                             key={item.id}
                         >
                             <p className="text-xs">{item.nama_prodi}</p>
@@ -72,7 +72,7 @@ const Dosen = ({ data, data_prodi }) => {
                 </div>
                 <DataTable
                     columns={columns}
-                    data={dataDosen}
+                    data={dataMahasiswa}
                     fixedHeader
                     pagination
                 />
@@ -81,4 +81,4 @@ const Dosen = ({ data, data_prodi }) => {
     );
 };
 
-export default Dosen;
+export default Mahasiswa;

@@ -47,20 +47,12 @@ const Prodi = ({ data }) => {
         <>
             <AdminLayout title="Master Prodi">
                 <div className="">
-                    <Modal show={showModal} onClose={() => setShowModal(false)}>
-                        <form action="" className="m-2">
-                            <h2 className="text-lg font-medium text-gray-900">
-                                Are you sure you want to delete your account?
-                            </h2>
+                    <Link href={route("prodi.create")}>
+                        <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
+                            Create
+                        </button>
+                    </Link>
 
-                            <p className="mt-1 text-sm text-gray-600">
-                                Once your account is deleted, all of its
-                                resources and data will be permanently deleted.
-                                Please enter your password to confirm you would
-                                like to permanently delete your account.
-                            </p>
-                        </form>
-                    </Modal>
                     <DataTable
                         columns={columns}
                         data={data}
@@ -68,6 +60,20 @@ const Prodi = ({ data }) => {
                         pagination
                     />
                 </div>
+                <Modal show={showModal} onClose={() => setShowModal(false)}>
+                    <form action="" className="m-2">
+                        <h2 className="text-lg font-medium text-gray-900">
+                            Are you sure you want to delete your account?
+                        </h2>
+
+                        <p className="mt-1 text-sm text-gray-600">
+                            Once your account is deleted, all of its resources
+                            and data will be permanently deleted. Please enter
+                            your password to confirm you would like to
+                            permanently delete your account.
+                        </p>
+                    </form>
+                </Modal>
             </AdminLayout>
         </>
     );
