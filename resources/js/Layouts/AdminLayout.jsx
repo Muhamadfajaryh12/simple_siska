@@ -1,7 +1,7 @@
 import Sidebar from "@/Components/Sidebar";
 import React from "react";
 
-const AdminLayout = ({ title, component }) => {
+const AdminLayout = ({ title, children }) => {
     return (
         <div className="w-screen h-screen bg-white">
             <div className="flex">
@@ -13,7 +13,7 @@ const AdminLayout = ({ title, component }) => {
                     >
                         {title}
                     </h2>
-                    <div className="w-full">{component}</div>
+                    <div className="w-full">{children}</div>
                 </div>
             </div>
         </div>

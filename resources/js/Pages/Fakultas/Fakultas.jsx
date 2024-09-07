@@ -5,46 +5,44 @@ import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/react";
 import Modal from "@/Components/Modal";
 const Fakultas = () => {
-    const FakultasLayout = () => {
-        const { data } = usePage().props;
-        const [showModal, setShowModal] = useState(false);
-        let index = 0;
+    const { data } = usePage().props;
+    const [showModal, setShowModal] = useState(false);
+    let index = 0;
 
-        const columns = [
-            {
-                name: "No",
-                selector: (row) => ++index,
-            },
-            {
-                name: "Fakultas",
-                selector: (row) => row.nama_fakultas,
-            },
-            {
-                name: "Kode Fakultas",
-                selector: (row) => row.kode_fakultas,
-            },
-            {
-                name: "Action",
-                selector: (row) => (
-                    <div>
-                        <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
-                            <Link href={`/fakultas_update/${row.id}`}>
-                                Update
-                            </Link>
-                        </button>
-                        <button
-                            className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
-                            onClick={() => setShowModal(true)}
-                        >
-                            Delete
-                        </button>
-                    </div>
-                ),
-            },
-        ];
+    const columns = [
+        {
+            name: "No",
+            selector: (row) => ++index,
+        },
+        {
+            name: "Fakultas",
+            selector: (row) => row.nama_fakultas,
+        },
+        {
+            name: "Kode Fakultas",
+            selector: (row) => row.kode_fakultas,
+        },
+        {
+            name: "Action",
+            selector: (row) => (
+                <div>
+                    <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
+                        <Link href={`/fakultas_update/${row.id}`}>Update</Link>
+                    </button>
+                    <button
+                        className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
+                        onClick={() => setShowModal(true)}
+                    >
+                        Delete
+                    </button>
+                </div>
+            ),
+        },
+    ];
 
-        return (
-            <>
+    return (
+        <>
+            <AdminLayout title="Master Fakultas">
                 <div className="">
                     <Modal show={showModal} onClose={() => setShowModal(false)}>
                         <form action="" className="m-2">
@@ -67,12 +65,7 @@ const Fakultas = () => {
                         pagination
                     />
                 </div>
-            </>
-        );
-    };
-    return (
-        <>
-            <AdminLayout component={FakultasLayout()} title="Master Fakultas" />
+            </AdminLayout>
             ;
         </>
     );

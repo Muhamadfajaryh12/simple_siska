@@ -5,50 +5,47 @@ import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/react";
 import Modal from "@/Components/Modal";
 const Prodi = ({ data }) => {
-    const ProdiLayout = () => {
-        const { data } = usePage().props;
-        const [showModal, setShowModal] = useState(false);
-        let index = 0;
+    const [showModal, setShowModal] = useState(false);
+    let index = 0;
 
-        const columns = [
-            {
-                name: "No",
-                selector: (row) => ++index,
-            },
-            {
-                name: "Prodi",
-                selector: (row) => row.nama_prodi,
-            },
-            {
-                name: "Kode Prodi",
-                selector: (row) => row.kode_prodi,
-            },
-            {
-                name: "Fakultas",
-                selector: (row) => row.fakultas.nama_fakultas,
-            },
-            {
-                name: "Action",
-                selector: (row) => (
-                    <div>
-                        <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
-                            <Link href={`/fakultas_update/${row.id}`}>
-                                Update
-                            </Link>
-                        </button>
-                        <button
-                            className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
-                            onClick={() => setShowModal(true)}
-                        >
-                            Delete
-                        </button>
-                    </div>
-                ),
-            },
-        ];
+    const columns = [
+        {
+            name: "No",
+            selector: (row) => ++index,
+        },
+        {
+            name: "Prodi",
+            selector: (row) => row.nama_prodi,
+        },
+        {
+            name: "Kode Prodi",
+            selector: (row) => row.kode_prodi,
+        },
+        {
+            name: "Fakultas",
+            selector: (row) => row.fakultas.nama_fakultas,
+        },
+        {
+            name: "Action",
+            selector: (row) => (
+                <div>
+                    <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
+                        <Link href={`/fakultas_update/${row.id}`}>Update</Link>
+                    </button>
+                    <button
+                        className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
+                        onClick={() => setShowModal(true)}
+                    >
+                        Delete
+                    </button>
+                </div>
+            ),
+        },
+    ];
 
-        return (
-            <>
+    return (
+        <>
+            <AdminLayout title="Master Prodi">
                 <div className="">
                     <Modal show={showModal} onClose={() => setShowModal(false)}>
                         <form action="" className="m-2">
@@ -71,12 +68,7 @@ const Prodi = ({ data }) => {
                         pagination
                     />
                 </div>
-            </>
-        );
-    };
-    return (
-        <>
-            <AdminLayout component={ProdiLayout()} title="Master Prodi" />;
+            </AdminLayout>
         </>
     );
 };

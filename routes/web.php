@@ -3,6 +3,7 @@
 use App\Http\Controllers\Fakultas\FakultasController;
 use App\Http\Controllers\Prodi\ProdiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -43,6 +44,8 @@ Route::get('/prodi',[ProdiController::class,'index'])->name('prodi.index');
 Route::get('/prodi_create',[ProdiController::class,'create'])->name('prodi.create');
 Route::post('/prodi_store',[ProdiController::class,'store'])->name('prodi.store');
 
+
+Route::get('/user_create',[UserController::class,'create'])->name('user.create');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

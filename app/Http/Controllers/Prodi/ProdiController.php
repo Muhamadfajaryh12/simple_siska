@@ -11,19 +11,21 @@ use Inertia\Inertia;
 class ProdiController extends Controller
 {
 
-    public function create (){
-        $fetch = Fakultas::all();
-        return Inertia::render('Prodi/FormCreateProdi',[
-            'data'=> $fetch
-        ]);
-    }
-
     public function index(){
         $fetch = Prodi::with('fakultas')->get();
         return Inertia::render('Prodi/Prodi',[
             'data' =>$fetch
         ]);
     }
+    public function create (){
+        $fetch = Fakultas::all();
+        return Inertia::render('Prodi/FormCreateProdi',[
+            'fakultas'=> $fetch
+        ]);
+    }
+
+    
+
     public function store (Request $request){
 
         $validation_prodi = $request->validate([
