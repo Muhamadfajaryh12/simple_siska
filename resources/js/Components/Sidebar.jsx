@@ -20,6 +20,14 @@ const Sidebar = () => {
             title: "Master Data Program Studi",
             link: "prodi.index",
         },
+        {
+            title: "Master Data Mata Kuliah",
+            link: "matakuliah.index",
+        },
+        {
+            title: "Master Data Kelas",
+            link: "kelas.create",
+        },
     ];
     const handleSetActive = (title) => {
         setActive(title);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nama_mata_kuliah');
-            $table->date('jadwal');
+            $table->string('jadwal');
             $table->integer('sks');
             $table->integer('semester');
             $table->unsignedBigInteger('id_kelas');

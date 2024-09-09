@@ -8,7 +8,7 @@ const AdminLayout = ({ title, children }) => {
                 <Sidebar />
                 <div className="m-2 w-full">
                     <h2
-                        className="font-bold text-2xl "
+                        className="font-bold text-2xl mb-2 "
                         style={{ letterSpacing: "1px" }}
                     >
                         {title}

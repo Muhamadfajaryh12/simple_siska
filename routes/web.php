@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Fakultas\FakultasController;
+use App\Http\Controllers\Kelas\KelasController;
+use App\Http\Controllers\Matakuliah\MatakuliahController;
 use App\Http\Controllers\Prodi\ProdiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
@@ -50,6 +52,14 @@ Route::post('/user_store',[UserController::class,'store'])->name('user.store');
 
 Route::get('/mahasiswa',[UserController::class,'mahasiswaIndex'])->name('user.mahasiswaIndex');
 Route::get('/dosen',[UserController::class,'dosenIndex'])->name('user.dosenIndex');
+
+
+Route::get('/matakuliah',[MatakuliahController::class,'index'])->name('matakuliah.index');
+Route::get('/matakuliah_create',[MatakuliahController::class,'create'])->name('matakuliah.create');
+Route::post('/matakuliah_store',[MatakuliahController::class,'store'])->name('matakuliah.store');
+
+Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');
+Route::post('/kelas_store',[KelasController::class,'store'])->name('kelas.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
