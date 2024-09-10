@@ -35,23 +35,22 @@ class MatakuliahController extends Controller
     }
 
     public function store(Request $request){
-        $request->validate([
-            'mata_kuliah.*.nama_mata_kuliah' => 'required|string',
+        $validatedData = $request->validate([
+            'mata_kuliah.*.nama_mata_kuliah' => 'required',
             'mata_kuliah.*.jadwal' => 'required',
             'mata_kuliah.*.jam_mulai' => 'required',
             'mata_kuliah.*.jam_selesai' => 'required',
-            'mata_kuliah.*.sks' => 'required',
+            'mata_kuliah.*.sks' => 'required|integer',
             'mata_kuliah.*.semester' => 'required',
+            'mata_kuliah.*.id_kelas' => 'required',
             'mata_kuliah.*.id_fakultas' => 'required',
             'mata_kuliah.*.id_prodi' => 'required',
             'mata_kuliah.*.id_dosen' => 'required',
-            'mata_kuliah.*.id_kelas' => 'required',
         ]);
-        $mataKuliahArray = $request->input('mata_kuliah');
-        dd($mataKuliahArray);
-        foreach ($validatedData['mata_kuliah'] as $data) {
-            Matakuliah::create($data);
+        foreach ($validatedData['mata_kuliah'] as $item) {
+            MataKuliah::create($item);
         }
+
     
 
      

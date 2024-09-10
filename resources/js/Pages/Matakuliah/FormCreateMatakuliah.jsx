@@ -5,7 +5,7 @@ import Select from "@/Components/Select";
 import TextInput from "@/Components/TextInput";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { useForm } from "@inertiajs/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
 const FormCreateMatakuliah = ({
@@ -17,31 +17,24 @@ const FormCreateMatakuliah = ({
     const [temp, setTemp] = useState([]);
 
     const { data, setData, processing, post, errors, reset } = useForm({
-        nama_mata_kuliah: "",
-        jadwal: "",
-        jam_mulai: "",
-        jam_selesai: "",
-        sks: "",
-        semester: "",
-        id_kelas: "",
-        id_fakultas: "",
-        id_prodi: "",
-        id_dosen: "",
+        mata_kuliah: [],
     });
-
-    const submit = () => {
-        console.log(data);
+    useEffect(() => {
+        setData("mata_kuliah", temp);
+    }, [temp]);
+    const submit = (e) => {
+        e.preventDefault();
         post(route("matakuliah.store"), {
-            mata_kuliah: temp,
             onSuccess: () => {
                 reset();
                 setTemp([]);
                 console.log("test");
             },
-            onError: (errors) => {
-                console.error("Error submitting data:", errors, temp);
-            },
         });
+        console.log(errors);
+
+        console.log(errors?.mata_kuliah?.[0]);
+        console.log(errors?.mata_kuliah?.[0]?.sks);
     };
 
     const submitTemp = (e) => {
@@ -165,13 +158,19 @@ const FormCreateMatakuliah = ({
         },
         {
             name: "SKS",
-            selector: (row) => (
-                <TextInput
-                    type="text"
-                    value={row.sks}
-                    onChange={(e) => handleInputChange(e, row, "sks")}
-                    className="w-full"
-                />
+            selector: (row, index) => (
+                <div>
+                    <TextInput
+                        type="text"
+                        value={row.sks}
+                        onChange={(e) => handleInputChange(e, row, "sks")}
+                        className="w-full"
+                    />
+                    <InputError
+                        message={errors?.mata_kuliah?.[index]?.sks}
+                        className="mt-2"
+                    />
+                </div>
             ),
         },
         {

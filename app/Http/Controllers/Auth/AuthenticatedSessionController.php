@@ -34,9 +34,20 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return $this->redirectBasedOnRole($request->user());
     }
+    protected function redirectBasedOnRole($user)
+    {
 
+        if ($user->status == 'Dosen') {
+            return redirect()->route('fakultas.index'); 
+        } elseif ($user->status == 'Mahasiswa') {
+            return redirect()->route('dashboard'); 
+        }
+
+        // Default redirect jika role tidak cocok
+        return redirect(RouteServiceProvider::HOME);
+    }
     /**
      * Destroy an authenticated session.
      */
