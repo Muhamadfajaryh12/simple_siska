@@ -21,4 +21,8 @@ class KRS extends Model
     public function mata_kuliah(){
         return $this->belongsTo(Matakuliah::class,'id_mata_kuliah');
     }
+    public function mahasiswa()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

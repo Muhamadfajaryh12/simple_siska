@@ -7,6 +7,7 @@ use App\Models\KRS;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class KRSController extends Controller
@@ -20,6 +21,37 @@ class KRSController extends Controller
         ]);
     }
 
+    public function index_dosen(){
+        $fetch_data = KRS::join('mata_kuliah', 'krs.id_mata_kuliah', '=', 'mata_kuliah.id')
+        ->join('users', 'krs.id_user', '=', 'users.id') 
+        ->join('prodi', 'users.id_prodi', '=','prodi.id')
+        ->select('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi')
+        ->where('users.id_prodi', Auth::user()->id_prodi) 
+        ->where('krs.status_verified', NULL)
+        ->groupBy('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi') 
+        ->get();
+        return Inertia::render('KRS/Dosen/KrsDosen',[
+            'data'=>$fetch_data
+        ]);
+    }
+
+    public function index_verifikasi($id,$semester){
+        $fetch_data = KRS::with(
+            'mata_kuliah.dosen',
+            'mata_kuliah.kelas',
+            'mata_kuliah',
+            'mahasiswa'
+        )
+        ->where('id_user',$id)
+        ->whereHas('mata_kuliah', function ($query) use ($semester) {
+            $query->where('semester', $semester);
+        })
+        ->get();
+
+        return Inertia::render('KRS/Dosen/KrsVerifikasi',[
+            'data'=>$fetch_data
+        ]);
+    }
     public function detail(){
         $fetch_data = KRS::with(    
         'mata_kuliah.prodi',

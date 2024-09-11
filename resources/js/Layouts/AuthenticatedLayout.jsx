@@ -44,9 +44,9 @@ export default function Authenticated({ user, header, children }) {
                                                 Mengambil KRS
                                             </Dropdown.Link>
                                             <Dropdown.Link
-                                                href={route("logout")}
-                                                method="post"
-                                                as="button"
+                                                href={route(
+                                                    "krs_mahasiswa.detail"
+                                                )}
                                             >
                                                 Melihat KRS
                                             </Dropdown.Link>

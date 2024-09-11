@@ -65,6 +65,10 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     
     Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');
     Route::post('/kelas_store',[KelasController::class,'store'])->name('kelas.store');
+
+    Route::get('/verifikasi_krs',[KRSController::class,'index_dosen'])->name('krs_dosen.index');
+    Route::get('/verifkasi_krs/{id}/{semester}',[KRSController::class,'index_verifikasi'])->name('krs_dosen.verifikasi');
+
 });
 
 Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
