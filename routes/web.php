@@ -69,6 +69,8 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
 
 Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
     Route::get('/krs',[KRSController::class,'index'])->name('krs_mahasiswa.index');
+    Route::post('/krs',[KRSController::class,'store'])->name('krs_mahasiswa.store');
+    Route::get('/krs_detail',[KRSController::class,'detail'])->name('krs_mahasiswa.detail');
 });
 
 Route::middleware('auth')->group(function () {

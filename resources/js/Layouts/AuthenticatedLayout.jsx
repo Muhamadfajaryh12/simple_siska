@@ -28,14 +28,31 @@ export default function Authenticated({ user, header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>{" "}
-                                <NavLink
-                                    href={route("krs_mahasiswa.index")}
-                                    active={route().current(
-                                        "krs_mahasiswa.index"
-                                    )}
-                                >
-                                    Akademik
-                                </NavLink>
+                            </div>
+                            <div className="hidden sm:flex sm:items-center sm:ms-6">
+                                <div className="ms-3 relative">
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            Akademik
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            <Dropdown.Link
+                                                href={route(
+                                                    "krs_mahasiswa.index"
+                                                )}
+                                            >
+                                                Mengambil KRS
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route("logout")}
+                                                method="post"
+                                                as="button"
+                                            >
+                                                Melihat KRS
+                                            </Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                </div>
                             </div>
                         </div>
 
@@ -48,7 +65,7 @@ export default function Authenticated({ user, header, children }) {
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {user.name}
+                                                {user.nama}
 
                                                 <svg
                                                     className="ms-2 -me-0.5 h-4 w-4"

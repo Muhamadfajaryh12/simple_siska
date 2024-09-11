@@ -15,5 +15,10 @@ class KRS extends Model
         'id_user',
         'nilai_angka',
         'nilai_huruf',
+        'status_verfied'
     ];
+
+    public function mata_kuliah(){
+        return $this->belongsTo(Matakuliah::class,'id_mata_kuliah');
+    }
 }
