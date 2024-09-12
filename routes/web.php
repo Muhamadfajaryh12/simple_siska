@@ -68,6 +68,7 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
 
     Route::get('/verifikasi_krs',[KRSController::class,'index_dosen'])->name('krs_dosen.index');
     Route::get('/verifkasi_krs/{id}/{semester}',[KRSController::class,'index_verifikasi'])->name('krs_dosen.verifikasi');
+    Route::post('/verifikasi_krs',[KrsController::class,'verifikasi'])->name('krs.verifikasi');
 
 });
 

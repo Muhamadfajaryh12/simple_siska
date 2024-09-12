@@ -28,12 +28,16 @@ const Sidebar = () => {
             title: "Master Data Kelas",
             link: "kelas.create",
         },
+        {
+            title: "Verifikasi KRS",
+            link: "krs_dosen.index",
+        },
     ];
     const handleSetActive = (title) => {
         setActive(title);
     };
     return (
-        <div className="w-80 bg-gray-100 h-screen">
+        <div className="w-80 border-r bg-white h-screen">
             <ul className="my-4 mx-auto p-2">
                 {list.map((item) => (
                     <li

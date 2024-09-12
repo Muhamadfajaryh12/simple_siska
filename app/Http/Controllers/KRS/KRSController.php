@@ -49,8 +49,20 @@ class KRSController extends Controller
         ->get();
 
         return Inertia::render('KRS/Dosen/KrsVerifikasi',[
-            'data'=>$fetch_data
+            'data_krs'=>$fetch_data
         ]);
+    }
+
+    public function verifikasi(Request $request){
+        $validation = $request->validate([
+            'data_verifikasi.*.id' =>'required'
+        ]);
+
+        foreach($validation['data_verifikasi'] as $data){
+            $krs = KRS::findOrFail($data['id']);
+            $krs->update(['status_verified' => 1]);
+        }
+        redirect('krs_dosen.index');
     }
     public function detail(){
         $fetch_data = KRS::with(    

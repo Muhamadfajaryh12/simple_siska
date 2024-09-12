@@ -15,7 +15,7 @@ class KRS extends Model
         'id_user',
         'nilai_angka',
         'nilai_huruf',
-        'status_verfied'
+        'status_verified'
     ];
 
     public function mata_kuliah(){
