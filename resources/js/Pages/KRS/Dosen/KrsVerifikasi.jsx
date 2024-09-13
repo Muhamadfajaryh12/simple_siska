@@ -17,9 +17,9 @@ const KrsVerifikasi = ({ data_krs }) => {
     }, [data_krs]);
 
     const submit = () => {
-        console.log(data);
         post(route("krs.verifikasi"));
     };
+
     const columns = [
         {
             name: "Mata Kuliah",

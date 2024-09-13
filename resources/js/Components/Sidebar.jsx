@@ -29,7 +29,7 @@ const Sidebar = () => {
             link: "kelas.create",
         },
         {
-            title: "Verifikasi KRS",
+            title: "Kartu Rencana Studi",
             link: "krs_dosen.index",
         },
     ];

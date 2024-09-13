@@ -27,7 +27,7 @@ class KRSController extends Controller
         ->join('prodi', 'users.id_prodi', '=','prodi.id')
         ->select('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi')
         ->where('users.id_prodi', Auth::user()->id_prodi) 
-        ->where('krs.status_verified', NULL)
+        // ->where('krs.status_verified', NULL)
         ->groupBy('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi') 
         ->get();
         return Inertia::render('KRS/Dosen/KrsDosen',[
