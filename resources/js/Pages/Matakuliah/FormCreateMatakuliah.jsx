@@ -258,7 +258,13 @@ const FormCreateMatakuliah = ({
     ];
 
     return (
-        <AdminLayout title={"Create Mata Kuliah"}>
+        <AdminLayout title={"Master Mata Kuliah"}>
+            <div className=" text-gray-900">
+                <p className="text-lg">Formulir Pembuatan Mata Kuliah</p>
+                <span className="text-sm font-bold">
+                    Silahkan mengisi formulir dengan benar!
+                </span>
+            </div>
             <form onSubmit={submitTemp}>
                 <div className="mt-2">
                     <InputLabel htmlFor="Mata Kuliah" value="Mata Kuliah" />
