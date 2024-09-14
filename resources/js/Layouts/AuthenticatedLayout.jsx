@@ -50,6 +50,13 @@ export default function Authenticated({ user, header, children }) {
                                             >
                                                 Melihat KRS
                                             </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route(
+                                                    "krs_mahasiswa.nilai"
+                                                )}
+                                            >
+                                                Melihat Nilai
+                                            </Dropdown.Link>
                                         </Dropdown.Content>
                                     </Dropdown>
                                 </div>

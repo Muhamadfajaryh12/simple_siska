@@ -25,10 +25,10 @@ class KRSController extends Controller
         $fetch_data = KRS::join('mata_kuliah', 'krs.id_mata_kuliah', '=', 'mata_kuliah.id')
         ->join('users', 'krs.id_user', '=', 'users.id') 
         ->join('prodi', 'users.id_prodi', '=','prodi.id')
-        ->select('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi')
+        ->select('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi','krs.nilai_angka')
         ->where('users.id_prodi', Auth::user()->id_prodi) 
         // ->where('krs.status_verified', NULL)
-        ->groupBy('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi') 
+        ->groupBy('krs.id_user', 'users.nama', 'mata_kuliah.semester','krs.status_verified','users.id_prodi','prodi.nama_prodi','krs.nilai_angka') 
         ->get();
         return Inertia::render('KRS/Dosen/KrsDosen',[
             'data'=>$fetch_data
@@ -53,6 +53,33 @@ class KRSController extends Controller
         ]);
     }
 
+    public function index_penilaian($id,$semester){
+        $fetch_data = KRS::with(
+            'mata_kuliah.dosen',
+            'mata_kuliah.kelas',
+            'mata_kuliah',
+            'mahasiswa'
+        )
+        ->where('id_user',$id)
+        ->whereHas('mata_kuliah', function ($query) use ($semester) {
+            $query->where('semester', $semester);
+        })
+        ->get();
+
+        return Inertia::render('KRS/Dosen/KrsPenilaian',[
+            'data_krs'=>$fetch_data
+        ]);
+    }
+    
+    public function index_nilai_krs(){
+        $fetch_data = KRS::with('mata_kuliah')    
+        ->where('id_user',Auth::user()->id)
+        ->get();;
+        return Inertia::render('KRS/Mahasiswa/KrsMahasiswaNilai',[
+            'data_krs'=>$fetch_data
+        ]);
+
+    }
     public function verifikasi(Request $request){
         $validation = $request->validate([
             'data_verifikasi.*.id' =>'required'
@@ -61,6 +88,30 @@ class KRSController extends Controller
         foreach($validation['data_verifikasi'] as $data){
             $krs = KRS::findOrFail($data['id']);
             $krs->update(['status_verified' => 1]);
+        }
+        redirect('krs_dosen.index');
+    }
+
+    public function penilaian(Request $request){
+        $validation = $request->validate([
+            'data_verifikasi.*.id' =>'required',
+            'data_verifikasi.*.nilai'=> 'required'
+        ]);
+
+        foreach($validation['data_verifikasi'] as $data){
+            $huruf = "";
+            $krs = KRS::findOrFail($data['id']);
+            if ($data['nilai'] >= 85) {
+                $huruf = "A";
+            } elseif ($data['nilai'] >= 70 && $data['nilai'] <= 84) {
+                $huruf = "B";
+            } else {
+                $huruf = "C";
+            }
+            $krs->update([
+                'nilai_angka' => $data['nilai'],
+                'nilai_huruf'=> $huruf
+            ]);
         }
         redirect('krs_dosen.index');
     }

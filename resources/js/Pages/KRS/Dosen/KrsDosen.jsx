@@ -11,7 +11,12 @@ const KrsDosen = ({ data }) => {
     }, []);
 
     const filterPenilaian = () => {
-        setDatas(data.filter((item) => item.status_verified != null));
+        setDatas(
+            data.filter(
+                (item) =>
+                    item.status_verified != null && item.nilai_angka == null
+            )
+        );
     };
 
     const filterVerfikasi = () => {
@@ -35,7 +40,7 @@ const KrsDosen = ({ data }) => {
             selector: (row) =>
                 row.status_verified != null ? (
                     <Link
-                        href={`/verifkasi_krs/${row.id_user}/${row.semester}`}
+                        href={`/penilaian_krs/${row.id_user}/${row.semester}`}
                     >
                         <button className="bg-green-400 text-white font-bold p-2 rounded-md">
                             Lakukan Penilaian
@@ -43,7 +48,7 @@ const KrsDosen = ({ data }) => {
                     </Link>
                 ) : (
                     <Link
-                        href={`/verifkasi_krs/${row.id_user}/${row.semester}`}
+                        href={`/verifikasi_krs/${row.id_user}/${row.semester}`}
                     >
                         <button className="bg-green-400 text-white font-bold p-2 rounded-md">
                             Lakukan Verifikasi

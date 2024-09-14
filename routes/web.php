@@ -67,14 +67,18 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     Route::post('/kelas_store',[KelasController::class,'store'])->name('kelas.store');
 
     Route::get('/verifikasi_krs',[KRSController::class,'index_dosen'])->name('krs_dosen.index');
-    Route::get('/verifkasi_krs/{id}/{semester}',[KRSController::class,'index_verifikasi'])->name('krs_dosen.verifikasi');
+    Route::get('/verifikasi_krs/{id}/{semester}',[KRSController::class,'index_verifikasi'])->name('krs_dosen.verifikasi');
+    Route::get('/penilaian_krs/{id}/{semester}',[KRSController::class,'index_penilaian'])->name('krs_dosen.penilaian');
+
     Route::post('/verifikasi_krs',[KrsController::class,'verifikasi'])->name('krs.verifikasi');
+    Route::post('/penilaian_krs',[KrsController::class,'penilaian'])->name('krs.penilaian');
 
 });
 
 Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
     Route::get('/krs',[KRSController::class,'index'])->name('krs_mahasiswa.index');
     Route::post('/krs',[KRSController::class,'store'])->name('krs_mahasiswa.store');
+    Route::get('/krs_nilai',[KRSController::class,'index_nilai_krs'])->name('krs_mahasiswa.nilai');
     Route::get('/krs_detail',[KRSController::class,'detail'])->name('krs_mahasiswa.detail');
 });
 
