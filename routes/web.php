@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Fakultas\FakultasController;
 use App\Http\Controllers\Kelas\KelasController;
 use App\Http\Controllers\KRS\KRSController;
@@ -34,9 +35,9 @@ use Inertia\Inertia;
 // });
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     Route::get('/fakultas',[FakultasController::class,'index'])->name('fakultas.index');
@@ -76,6 +77,7 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
 });
 
 Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
+    Route::get('/dashboard',[DashboardController::class,'dashboard_mahasiswa'])->name('dashboard');
     Route::get('/krs',[KRSController::class,'index'])->name('krs_mahasiswa.index');
     Route::post('/krs',[KRSController::class,'store'])->name('krs_mahasiswa.store');
     Route::get('/krs_nilai',[KRSController::class,'index_nilai_krs'])->name('krs_mahasiswa.nilai');

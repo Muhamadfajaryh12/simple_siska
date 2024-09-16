@@ -49,6 +49,5 @@ class User extends Authenticatable
 
     public function prodi(){
         return $this->belongsTo(Prodi::class, 'id_prodi');
-
     }
 }
