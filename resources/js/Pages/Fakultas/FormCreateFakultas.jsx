@@ -29,6 +29,12 @@ const FormCreateFakultas = () => {
     return (
         <>
             <AdminLayout title="Create Fakultas">
+                <div className=" text-gray-900">
+                    <p className="text-lg">Formulir Pembuatan Fakultas</p>
+                    <span className="text-sm font-bold">
+                        Silahkan mengisi formulir dengan benar!
+                    </span>
+                </div>
                 {alert && <Alert message={alert.message} />}
                 <div className="mt-2">
                     <form onSubmit={submit}>

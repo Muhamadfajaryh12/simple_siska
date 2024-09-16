@@ -16,7 +16,10 @@ const AdminLayout = ({ title, children }) => {
                         >
                             {title}
                         </h2>
-                        <button onClick={() => post(route("logout"))}>
+                        <button
+                            className="mr-10 text-sm"
+                            onClick={() => post(route("logout"))}
+                        >
                             Logout
                         </button>
                     </div>

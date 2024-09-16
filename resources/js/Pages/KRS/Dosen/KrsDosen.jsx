@@ -59,7 +59,13 @@ const KrsDosen = ({ data }) => {
     ];
     return (
         <AdminLayout title={"Kartu Rencana Studi"}>
-            <div className="m-2">
+            <div className=" text-gray-900">
+                <p className="text-lg">Daftar Kartu Rencana Studi</p>
+                <span className="text-sm font-bold">
+                    Daftar Kartu Rencana Studi yang tersedia
+                </span>
+            </div>
+            <div className="my-2">
                 <button
                     className="bg-gray-200 p-2 mx-1 rounded-md text-sm font-bold"
                     onClick={filterVerfikasi}

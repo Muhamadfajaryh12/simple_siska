@@ -30,7 +30,13 @@ const FormCreateProdi = ({ fakultas }) => {
     };
     return (
         <div>
-            <AdminLayout title="Create Prodi">
+            <AdminLayout title="Master Program Studi">
+                <div className=" text-gray-900">
+                    <p className="text-lg">Formulir Pembuatan Program Studi</p>
+                    <span className="text-sm font-bold">
+                        Silahkan mengisi formulir dengan benar!
+                    </span>
+                </div>
                 <div className="mt-2">
                     <form onSubmit={submit}>
                         <div className="w-96">

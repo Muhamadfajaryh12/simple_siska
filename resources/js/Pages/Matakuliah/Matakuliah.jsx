@@ -48,12 +48,20 @@ const Matakuliah = ({ data }) => {
     ];
     return (
         <AdminLayout title={"Master Mata Kuliah"}>
+            <div className=" text-gray-900">
+                <p className="text-lg">Daftar Mata Kuliah</p>
+                <span className="text-sm font-bold">
+                    Daftar Mata Kuliah yang tersedia
+                </span>
+            </div>
             <div className="">
-                <Link href={route("matakuliah.create")}>
-                    <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
-                        Create
-                    </button>
-                </Link>
+                <div className="flex justify-end">
+                    <Link href={route("matakuliah.create")}>
+                        <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1 ">
+                            Create
+                        </button>
+                    </Link>
+                </div>
                 <DataTable
                     columns={columns}
                     data={data}

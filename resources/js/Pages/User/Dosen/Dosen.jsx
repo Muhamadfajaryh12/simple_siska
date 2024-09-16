@@ -1,4 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
+import { Link } from "@inertiajs/react";
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 
@@ -55,6 +56,12 @@ const Dosen = ({ data, data_prodi }) => {
     return (
         <div>
             <AdminLayout title={"Master Dosen"}>
+                <div className=" text-gray-900">
+                    <p className="text-lg">Daftar Dosen</p>
+                    <span className="text-sm font-bold">
+                        Daftar Dosen yang tersedia
+                    </span>
+                </div>
                 <div className="my-2">
                     {data_prodi.map((item) => (
                         <button
@@ -69,6 +76,13 @@ const Dosen = ({ data, data_prodi }) => {
                             <p className="text-xs">{item.nama_prodi}</p>
                         </button>
                     ))}
+                </div>
+                <div className="flex justify-end">
+                    <Link href={route("user.create")}>
+                        <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
+                            Create
+                        </button>
+                    </Link>
                 </div>
                 <DataTable
                     columns={columns}

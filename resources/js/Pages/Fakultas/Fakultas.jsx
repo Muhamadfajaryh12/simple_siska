@@ -43,19 +43,25 @@ const Fakultas = () => {
     return (
         <>
             <AdminLayout title="Master Fakultas">
-                <div className="">
+                <div className=" text-gray-900">
+                    <p className="text-lg">Daftar Fakultas</p>
+                    <span className="text-sm font-bold">
+                        Daftar Fakultas yang tersedia
+                    </span>
+                </div>
+                <div className="flex justify-end">
                     <Link href={route("fakultas.create")}>
                         <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
                             Create
                         </button>
                     </Link>
-                    <DataTable
-                        columns={columns}
-                        data={data}
-                        fixedHeader
-                        pagination
-                    />
                 </div>
+                <DataTable
+                    columns={columns}
+                    data={data}
+                    fixedHeader
+                    pagination
+                />
                 <Modal show={showModal} onClose={() => setShowModal(false)}>
                     <form action="" className="m-2">
                         <h2 className="text-lg font-medium text-gray-900">
