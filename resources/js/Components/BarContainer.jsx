@@ -19,15 +19,24 @@ ChartJS.register(
     Legend
 );
 
-const BarContainer = ({ datas }) => {
-    console.log(datas);
+const BarContainer = ({
+    datas,
+    labelKey,
+    dataKey,
+    chartTitle,
+    backgroundColor,
+    chartBackgroundColor,
+}) => {
     const data = {
-        labels: datas.map((item) => "Semester" + " " + item.semester),
+        labels: datas.map((item) => item[labelKey]),
         datasets: [
             {
-                label: "Nilai",
-                data: datas.map((item) => item.ipk),
-                backgroundColor: "rgba(75, 192, 192, 0.6)",
+                label: "Jumlah Dosen",
+                data: datas.map((item) => item[dataKey]),
+                backgroundColor: datas.map(
+                    (_, index) =>
+                        backgroundColor[index % backgroundColor.length]
+                ),
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
             },
@@ -38,10 +47,19 @@ const BarContainer = ({ datas }) => {
         plugins: {
             legend: {
                 position: "top",
+                display: false,
             },
             title: {
                 display: true,
-                text: "Index Kumulatif Grafik",
+                text: chartTitle,
+            },
+            beforeDraw: (chart) => {
+                const ctx = chart.ctx;
+                ctx.save();
+                ctx.globalCompositeOperation = "destination-over";
+                ctx.fillStyle = chartBackgroundColor;
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
             },
         },
     };
