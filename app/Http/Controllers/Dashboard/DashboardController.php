@@ -3,18 +3,23 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fakultas;
 use App\Models\KRS;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Matakuliah;
+use App\Models\Prodi;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
     public function dashboard_dosen(){
-        $fetch_data = User::all();
-        return Inertia::render('Dashboard/DosenDashboard',[
-            'datas'=>$fetch_data
+        $fetch_mata_kuliah = Matakuliah::count();
+        $fetch_fakultas = Fakultas::count();
+        $fetch_prodi = Prodi::count();
+        return Inertia::render('Dashboard/DashboardDosen',[
+            'data_mata_kuliah'=>$fetch_mata_kuliah,
+            'data_fakultas'=>$fetch_fakultas,
+            'data_prodi'=>$fetch_prodi
         ]);
     }
 

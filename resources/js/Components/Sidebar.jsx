@@ -1,9 +1,14 @@
 import { Link } from "@inertiajs/react";
 import React, { useState } from "react";
+import { CiViewList } from "react-icons/ci";
 
 const Sidebar = () => {
     const [active, setActive] = useState(null);
     const list = [
+        {
+            title: "Dashboard",
+            link: "dashboard.dosen",
+        },
         {
             title: "Master Data Mahasiswa",
             link: "user.mahasiswaIndex",
@@ -42,13 +47,14 @@ const Sidebar = () => {
                 {list.map((item) => (
                     <li
                         key={item.title}
-                        className={`hover:bg-gray-200 p-1 rounded-md ${
+                        className={`hover:bg-gray-200 p-1 rounded-md  flex items-center mt-2 ${
                             active == item.title ? "bg-gray-200" : ""
                         }`}
                         style={{ letterSpacing: "1px" }}
                         onClick={() => handleSetActive(item.title)}
                     >
-                        <Link href={route(item.link)} className="mx-2">
+                        <CiViewList />
+                        <Link href={route(item.link)} className="mx-2 text-sm">
                             {item.title}
                         </Link>
                     </li>

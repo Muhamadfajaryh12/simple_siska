@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
     {
 
         if ($user->status == 'Dosen') {
-            return redirect()->route('fakultas.index'); 
+            return redirect()->route('dashboard.dosen'); 
         } elseif ($user->status == 'Mahasiswa') {
             return redirect()->route('dashboard'); 
         }

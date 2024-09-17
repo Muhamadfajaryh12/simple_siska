@@ -73,6 +73,8 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
 
     Route::post('/verifikasi_krs',[KrsController::class,'verifikasi'])->name('krs.verifikasi');
     Route::post('/penilaian_krs',[KrsController::class,'penilaian'])->name('krs.penilaian');
+    Route::get('/dashboard_dosen',[DashboardController::class,'dashboard_dosen'])->name('dashboard.dosen');
+
 
 });
 
