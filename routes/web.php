@@ -64,7 +64,7 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     Route::get('/matakuliah_create',[MatakuliahController::class,'create'])->name('matakuliah.create');
     Route::post('/matakuliah_store',[MatakuliahController::class,'store'])->name('matakuliah.store');
     
-    Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');
+    Route::get('/kelas',[KelasController::class,'index'])->name('kelas.index');    Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');
     Route::post('/kelas_store',[KelasController::class,'store'])->name('kelas.store');
 
     Route::get('/verifikasi_krs',[KRSController::class,'index_dosen'])->name('krs_dosen.index');

@@ -35,7 +35,19 @@ class FakultasController extends Controller
             'nama_fakultas' => 'required|string|max:255',
             'kode_fakultas' => 'required|string|max:255|unique:fakultas,kode_fakultas'
         ]);
-        Fakultas::create($validation_fakultas);
+        try{
+
+            Fakultas::create($validation_fakultas);
+            return redirect()->route('fakultas.create')->with([
+                'message' => 'Fakultas berhasil ditambahkan.',
+                'status' => 'success'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with([
+                'message' => 'Terjadi kesalahan saat menambahkan fakultas.',
+                'status' => 'error'
+                ]); 
+        }
     }
 
     public function change(Request $request, $id){

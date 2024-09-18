@@ -9,6 +9,12 @@ use Inertia\Inertia;
 
 class KelasController extends Controller
 {
+    public function index(){
+        $fetch_data  = Kelas::all();
+        return Inertia::render('Kelas/Kelas',[
+            'data_kelas'=> $fetch_data
+        ]);
+    }
     public function create (){
         return Inertia::render('Kelas/FormCreateKelas');
     }

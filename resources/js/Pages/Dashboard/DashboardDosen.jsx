@@ -55,7 +55,7 @@ const DashboardDosen = ({
                 <BoxCount title={" Fakultas"} count={data_fakultas} />
                 <BoxCount title={" Program Studi"} count={data_prodi} />
             </div>
-            <div className="grid grid-cols-2 gap-2 mt-2">
+            <div className="grid grid-cols-2 gap-2 mt-4">
                 <div className="h-96">
                     <BarContainer
                         datas={dosen}

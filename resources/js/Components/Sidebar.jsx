@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { CiViewList } from "react-icons/ci";
 
 const Sidebar = () => {
-    const [active, setActive] = useState(null);
     const list = [
         {
             title: "Dashboard",
@@ -31,16 +30,14 @@ const Sidebar = () => {
         },
         {
             title: "Master Data Kelas",
-            link: "kelas.create",
+            link: "kelas.index",
         },
         {
             title: "Kartu Rencana Studi",
             link: "krs_dosen.index",
         },
     ];
-    const handleSetActive = (title) => {
-        setActive(title);
-    };
+
     return (
         <div className="w-80 border-r bg-white h-screen">
             <ul className="my-4 mx-auto p-2">
@@ -48,7 +45,7 @@ const Sidebar = () => {
                     <li
                         key={item.title}
                         className={`hover:bg-gray-200 p-1 rounded-md  flex items-center mt-2 ${
-                            active == item.title ? "bg-gray-200" : ""
+                            route().current(item.link) ? "bg-gray-200" : ""
                         }`}
                         style={{ letterSpacing: "1px" }}
                         onClick={() => handleSetActive(item.title)}

@@ -1,13 +1,16 @@
+import Alert from "@/Components/Alert";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Select from "@/Components/Select";
 import TextInput from "@/Components/TextInput";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import React from "react";
 
 const FormCreateUser = ({ prodi }) => {
+    const { flash } = usePage().props;
+
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: "",
         nomor_induk: "",
@@ -44,6 +47,9 @@ const FormCreateUser = ({ prodi }) => {
                 </span>
             </div>
             <div className="">
+                {flash.message && (
+                    <Alert message={flash.message} status={flash.status} />
+                )}
                 <form onSubmit={submit}>
                     <div className="my-2">
                         <InputLabel
@@ -59,7 +65,7 @@ const FormCreateUser = ({ prodi }) => {
                             isFocused={true}
                             onChange={(e) => setData("nama", e.target.value)}
                             value={data.nama}
-                        />{" "}
+                        />
                         <InputError message={errors.nama} className="mt-2" />
                     </div>
                     <div className="my-2">
@@ -73,7 +79,7 @@ const FormCreateUser = ({ prodi }) => {
                             isFocused={true}
                             onChange={(e) => emailUser(e.target.value)}
                             value={data.nomor_induk}
-                        />{" "}
+                        />
                         <InputError
                             message={errors.nomor_induk}
                             className="mt-2"

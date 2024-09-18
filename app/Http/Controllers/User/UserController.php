@@ -8,6 +8,7 @@ use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -53,16 +54,26 @@ class UserController extends Controller
             'jenis_kelamin'=>'required',
             'id_prodi'=>'required'
         ]);
-
-        User::create([
-            'nama'=>$request->nama,
-            'nomor_induk'=>$request->nomor_induk,
-            'email'=>$request->email,
-            'password'=>Hash::make($request->password),
-            'status'=>$request->status,
-            'jenis_kelamin'=>$request->jenis_kelamin,
-            'id_prodi'=>$request->id_prodi
-        ]);
-        
+        try{
+            User::create([
+                'nama'=>$request->nama,
+                'nomor_induk'=>$request->nomor_induk,
+                'email'=>$request->email,
+                'password'=>Hash::make($request->password),
+                'status'=>$request->status,
+                'jenis_kelamin'=>$request->jenis_kelamin,
+                'id_prodi'=>$request->id_prodi
+            ]);
+            return redirect()->route('user.create')->with([
+                'message' => 'User berhasil ditambahkan.',
+                'status' => 'success'
+            ]);
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with([
+            'message' => 'Terjadi kesalahan saat menambahkan user.',
+            'status' => 'error'
+            ]);       
+        }
     }
 }

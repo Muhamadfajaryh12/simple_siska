@@ -7,7 +7,7 @@ import { useForm } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 import Alert from "@/Components/Alert";
 
-const FormCreateFakultas = () => {
+const FormCreateFakultas = ({ flash }) => {
     const [alert, setAlert] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         nama_fakultas: "",
@@ -35,7 +35,9 @@ const FormCreateFakultas = () => {
                         Silahkan mengisi formulir dengan benar!
                     </span>
                 </div>
-                {alert && <Alert message={alert.message} />}
+                {flash.message && (
+                    <Alert message={flash.message} status={flash.status} />
+                )}
                 <div className="mt-2">
                     <form onSubmit={submit}>
                         <div className="w-96">
