@@ -44,7 +44,7 @@ const DashboardMahasiswa = ({ auth, data_krs }) => {
             const ipk = totalSKS > 0 ? (totalNilai / totalSKS).toFixed(2) : 0;
 
             return {
-                semester: parseInt(semester),
+                semester: "Semester " + parseInt(semester),
                 ipk,
             };
         });
@@ -72,8 +72,14 @@ const DashboardMahasiswa = ({ auth, data_krs }) => {
                                     {auth.user.nama} !
                                 </span>
                             </h6>
-                            <div className="h-96">
-                                <BarContainer datas={data} />
+                            <div className="h-96 flex justify-center">
+                                <BarContainer
+                                    datas={data}
+                                    labelKey={"semester"}
+                                    dataKey={"ipk"}
+                                    chartTitle={"Grafik Index Prestasi"}
+                                    backgroundColor={["rgba(54,162,132,0.6)"]}
+                                />
                             </div>
                         </div>
                     </div>

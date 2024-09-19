@@ -44,7 +44,7 @@ const Sidebar = () => {
                 {list.map((item) => (
                     <li
                         key={item.title}
-                        className={`hover:bg-gray-200 p-1 rounded-md  flex items-center mt-2 ${
+                        className={`hover:bg-gray-200 p-2 rounded-md  flex items-center mt-2 ${
                             route().current(item.link) ? "bg-gray-200" : ""
                         }`}
                         style={{ letterSpacing: "1px" }}

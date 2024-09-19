@@ -9,7 +9,7 @@ const AdminLayout = ({ title, children }) => {
             <div className="flex">
                 <Sidebar />
                 <div className="w-full">
-                    <div className="flex justify-between text-md mb-2 p-2 shadow bg-white">
+                    <div className="flex justify-between text-md mb-2 p-3 shadow bg-white">
                         <h2
                             className="font-bold"
                             style={{ letterSpacing: "1px" }}
