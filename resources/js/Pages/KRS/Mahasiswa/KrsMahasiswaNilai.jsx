@@ -1,13 +1,85 @@
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import React from "react";
-
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import React, { useRef } from "react";
+import "jspdf-autotable";
 const NilaiMahasiswa = ({ data_krs, auth }) => {
+    console.log(auth);
+    const content = useRef();
     const totalSKS = data_krs.reduce(
         (acc, item) => acc + item.mata_kuliah.sks,
         0
     );
+    const downloadPDF = () => {
+        const doc = new jsPDF();
+
+        // Menambahkan teks ke PDF
+        doc.setFontSize(18); // Mengatur ukuran font
+        doc.text("Kartu Rencana Studi (KRS)", 14, 10); // Menambahkan judul
+        doc.setFontSize(12); // Ukuran font lebih kecil untuk teks tambahan
+        doc.text(`Nama:${auth.user.nama} `, 14, 20); // Menambahkan nama (contoh)
+        doc.text(`NIM: ${auth.user.nomor_induk}`, 14, 26); // Menambahkan NIM (contoh)
+
+        // Menambahkan spasi sebelum tabel
+        doc.text(" ", 14, 38);
+
+        // Siapkan data tabel
+        const tableColumn = ["Mata Kuliah", "Jumlah SKS", "Nilai"];
+        const tableRows = [];
+
+        data_krs.forEach((item) => {
+            const rowData = [
+                item.mata_kuliah.nama_mata_kuliah,
+                item.mata_kuliah.sks,
+                item.nilai_huruf,
+            ];
+            tableRows.push(rowData);
+        });
+
+        // Menambahkan tabel ke dalam PDF
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows,
+            startY: 40, // Posisi di mana tabel akan dimulai di halaman,
+            styles: {
+                fillColor: [255, 255, 255], // Warna putih untuk background (tidak ada warna)
+                textColor: 0, // Warna teks hitam
+                lineColor: 0, // Warna garis hitam
+            },
+            headStyles: {
+                fillColor: [255, 255, 255], // Warna putih untuk background header
+                textColor: 0, // Warna teks header hitam
+                lineWidth: 0.1, // Tebal garis header
+            },
+            bodyStyles: {
+                fillColor: [255, 255, 255], // Warna putih untuk background body tabel
+                textColor: 0, // Warna teks hitam
+                lineWidth: 0.1, // Tebal garis body tabel
+            },
+        });
+        // Ambil posisi akhir tabel
+        const finalY = doc.autoTable.previous.finalY;
+
+        // Menambahkan teks setelah tabel
+        doc.setFontSize(12);
+        doc.text(`Total SKS: ${totalSKS}`, 14, finalY + 10); // 10 mm di bawah tabel
+        doc.text(`Total Indeks: ${totalIndexKumulatif}`, 14, finalY + 16); // 6 mm setelah Total SKS
+        doc.text(
+            `Total Indeks Prestasi: ${totalIndexPrestasi}`,
+            14,
+            finalY + 22
+        ); // 6 mm setelah Total Indeks
+
+        // Menambahkan tanda tangan
+        doc.text(`Disetujui Oleh`, 120, finalY + 40); // Posisi tanda tangan lebih jauh dari tabel
+        doc.addImage("/signature.png", 100, finalY + 40, 80, 30); // Menambahkan gambar di posisi (x=150, y=10) dengan ukuran (40x15 mm)
+        doc.text(`Koordinator Program Studi`, 120, finalY + 70); // Posisi Koordinator lebih jauh dari Disetujui Oleh
+
+        // Menyimpan file PDF
+        doc.save("KRS.pdf");
+    };
 
     const totalIndexKumulatif = data_krs.reduce((acc, item) => {
         let index = 0;
@@ -37,7 +109,7 @@ const NilaiMahasiswa = ({ data_krs, auth }) => {
                 </h2>
             }
         >
-            <Head title="Kartu Rencana Studi" />
+            <Head title="Kartu Rencana Studi" />{" "}
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
@@ -47,8 +119,17 @@ const NilaiMahasiswa = ({ data_krs, auth }) => {
                                 Berikut merupakan keseluruhan nilai anda
                             </span>
                         </div>
-                        <PrimaryButton>Unduh KRS</PrimaryButton>
-                        <table className="border-collapse border border-slate-400 w-full ">
+                        <PrimaryButton
+                            className="my-2"
+                            type="button"
+                            onClick={downloadPDF}
+                        >
+                            Unduh KRS
+                        </PrimaryButton>
+                        <table
+                            className="border-collapse border border-slate-400 w-full "
+                            ref={content}
+                        >
                             <thead>
                                 <tr>
                                     <th className="border border-black p-2">
