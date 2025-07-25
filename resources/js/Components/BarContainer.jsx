@@ -42,6 +42,7 @@ const BarContainer = ({
             },
         ],
     };
+
     const options = {
         responsive: true,
         plugins: {
