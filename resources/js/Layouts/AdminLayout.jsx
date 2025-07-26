@@ -1,13 +1,14 @@
 import Sidebar from "@/Components/Sidebar";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import React from "react";
 
 const AdminLayout = ({ title, children }) => {
+    const { auth } = usePage().props;
     const { post } = useForm();
     return (
         <div className="w-screen h-screen bg-gray-100">
             <div className="flex">
-                <Sidebar />
+                <Sidebar auth={auth} />
                 <div className="w-full">
                     <div className="flex justify-between text-md mb-2 p-3 shadow bg-white">
                         <h2

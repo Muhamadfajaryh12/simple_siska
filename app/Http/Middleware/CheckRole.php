@@ -14,10 +14,13 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $status)
     {
-        if ($status == 'admin' && auth()->user()->status != 'Dosen' ) {
+        if ($status == "dosen" && auth()->user()->status != "Dosen" ) {
             abort(403);
         }
-        if ($status == 'user' && auth()->user()->status != 'Mahasiswa' ) {
+        if ($status == "mahasiswa" && auth()->user()->status != "Mahasiswa" ) {
+            abort(403);
+        }
+        if ($status == "admin" && auth()->user()->status != 'Admin'){
             abort(403);
         }
         return $next($request);
