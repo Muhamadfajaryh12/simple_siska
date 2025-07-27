@@ -35,4 +35,8 @@ class ProdiController extends Controller
         ]);
         Prodi::create($validation_prodi);
     }
+
+    public function update (Request $request, $id) {
+        
+    }
 }

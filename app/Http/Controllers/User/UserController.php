@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class UserController extends Controller
-{
+{   
     public function create(){
         $fetch= Prodi::all();
 
