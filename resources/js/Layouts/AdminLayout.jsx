@@ -1,4 +1,5 @@
 import Sidebar from "@/Components/Sidebar";
+import { ModalProvider } from "@/Context/ModalContext";
 import { useForm, usePage } from "@inertiajs/react";
 import React from "react";
 
@@ -11,12 +12,12 @@ const AdminLayout = ({ title, children }) => {
                 <Sidebar auth={auth} />
                 <div className="w-full">
                     <div className="flex justify-between text-md mb-2 p-3 shadow bg-white">
-                        <h2
+                        <h6
                             className="font-bold"
-                            style={{ letterSpacing: "1px" }}
+                            style={{ letterSpacing: "2px" }}
                         >
-                            {title}
-                        </h2>
+                            Hello, Admin
+                        </h6>
                         <button
                             className="mr-10 text-sm"
                             onClick={() => post(route("logout"))}
@@ -26,7 +27,19 @@ const AdminLayout = ({ title, children }) => {
                     </div>
                     <div className="py-12">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-1 p-6 ">
+                            <div className="flex gap-2 text-sm">
+                                {title?.map((item, index) => (
+                                    <>
+                                        <span>{item}</span>
+                                        {title.length - 1 > index ? (
+                                            <span>/</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </>
+                                ))}
+                            </div>
+                            <div className="bg-white mt-4 overflow-hidden shadow-sm sm:rounded-lg  p-6 ">
                                 {children}
                             </div>
                         </div>

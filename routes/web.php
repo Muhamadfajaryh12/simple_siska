@@ -51,7 +51,7 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     Route::get('/prodi',[ProdiController::class,'index'])->name('prodi.index');
     Route::get('/prodi_create',[ProdiController::class,'create'])->name('prodi.create');
     Route::post('/prodi_store',[ProdiController::class,'store'])->name('prodi.store');
-    
+    Route::put('/prodi_update/{id}',[ProdiController::class,'update'])->name("prodi.update");
     
     Route::get('/user_create',[UserController::class,'create'])->name('user.create');
     Route::post('/user_store',[UserController::class,'store'])->name('user.store');

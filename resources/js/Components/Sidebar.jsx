@@ -58,7 +58,6 @@ const Sidebar = ({ auth }) => {
                                 route().current(item.link) ? "bg-gray-200" : ""
                             }`}
                             style={{ letterSpacing: "1px" }}
-                            onClick={() => handleSetActive(item.title)}
                         >
                             <CiViewList />
                             <Link

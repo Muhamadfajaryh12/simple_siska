@@ -19,13 +19,13 @@ class FakultasController extends Controller
     }
 
     public function create(){
-        return Inertia::render('Fakultas/FormCreateFakultas');
+        return Inertia::render('Fakultas/CreateFakultas');
     }
 
     public function update($id){
         $fetch = Fakultas::findOrFail($id);
 
-        return Inertia::render('Fakultas/FormUpdateFakultas',[
+        return Inertia::render('Fakultas/UpdateFakultas',[
             'fakultas'=>$fetch
         ]);
     }

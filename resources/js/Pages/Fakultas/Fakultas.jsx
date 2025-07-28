@@ -3,10 +3,11 @@ import { usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/react";
-import Modal from "@/Components/Modal";
+import { useModal } from "@/Context/ModalContext";
+import DeleteModal from "@/Components/modal/DeleteModal";
 const Fakultas = () => {
     const { data } = usePage().props;
-    const [showModal, setShowModal] = useState(false);
+    const { showModal } = useModal();
     let index = 0;
 
     const columns = [
@@ -31,7 +32,7 @@ const Fakultas = () => {
                     </button>
                     <button
                         className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
-                        onClick={() => setShowModal(true)}
+                        onClick={() => showModal(<DeleteModal />)}
                     >
                         Delete
                     </button>
@@ -41,44 +42,22 @@ const Fakultas = () => {
     ];
 
     return (
-        <>
-            <AdminLayout title="Master Fakultas">
-                <div className=" text-gray-900">
-                    <p className="text-lg">Daftar Fakultas</p>
-                    <span className="text-sm font-bold">
-                        Daftar Fakultas yang tersedia
-                    </span>
-                </div>
-                <div className="flex justify-end">
-                    <Link href={route("fakultas.create")}>
-                        <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
-                            Create
-                        </button>
-                    </Link>
-                </div>
-                <DataTable
-                    columns={columns}
-                    data={data}
-                    fixedHeader
-                    pagination
-                />
-                <Modal show={showModal} onClose={() => setShowModal(false)}>
-                    <form action="" className="m-2">
-                        <h2 className="text-lg font-medium text-gray-900">
-                            Are you sure you want to delete your account?
-                        </h2>
-
-                        <p className="mt-1 text-sm text-gray-600">
-                            Once your account is deleted, all of its resources
-                            and data will be permanently deleted. Please enter
-                            your password to confirm you would like to
-                            permanently delete your account.
-                        </p>
-                    </form>
-                </Modal>
-            </AdminLayout>
-            ;
-        </>
+        <AdminLayout title={["Fakultas", "Table"]}>
+            <div className=" text-gray-900">
+                <p className="text-lg">Daftar Fakultas</p>
+                <span className="text-sm font-bold">
+                    Daftar Fakultas yang tersedia
+                </span>
+            </div>
+            <div className="flex justify-end">
+                <Link href={route("fakultas.create")}>
+                    <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
+                        Create
+                    </button>
+                </Link>
+            </div>
+            <DataTable columns={columns} data={data} fixedHeader pagination />
+        </AdminLayout>
     );
 };
 

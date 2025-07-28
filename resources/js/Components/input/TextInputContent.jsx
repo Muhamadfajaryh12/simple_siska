@@ -10,10 +10,10 @@ const TextInputContent = ({
     isFocused,
     type,
     errors,
-    props,
+    ...props
 }) => {
     return (
-        <div className="my-2 flex w-full flex-col gap-2">
+        <div className=" flex w-full flex-col gap-2">
             <InputLabel htmlFor={name} value={label} />
             <TextInput
                 type={type}
