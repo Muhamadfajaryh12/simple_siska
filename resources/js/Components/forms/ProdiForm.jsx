@@ -1,58 +1,64 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import React from "react";
+import React, { useEffect } from "react";
 import TextInputContent from "../input/TextInputContent";
 import { useForm } from "@inertiajs/react";
 import SelectContent from "../input/SelectContent";
 import PrimaryButton from "../PrimaryButton";
 
-const ProdiForm = ({ data_fakultas }) => {
-    const { data, setData, processing, post, errors, reset } = useForm({
+const ProdiForm = ({ data_fakultas, data_prodi }) => {
+    console.log(data_prodi);
+    const { data, setData, processing, post, put, errors, reset } = useForm({
         nama_prodi: "",
         kode_prodi: "",
         id_fakultas: "",
     });
 
+    useEffect(() => {
+        if (data_prodi) {
+            setData({
+                nama_prodi: data_prodi.nama_prodi,
+                kode_prodi: data_prodi.kode_prodi,
+                id_fakultas: data_prodi.id_fakultas,
+            });
+        }
+    }, [data_prodi]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("prodi.store"));
+        data_prodi ? put(route("prodi.update")) : post(route("prodi.store"));
         reset();
     };
 
     return (
-        <AdminLayout>
-            <div className=" text-gray-900">
-                <p className="text-lg">Formulir Pembuatan Program Studi</p>
-                <span className="text-sm font-bold">
-                    Silahkan mengisi formulir dengan benar!
-                </span>
-            </div>
-            <form className="my-4" onSubmit={handleSubmit}>
-                <TextInputContent
-                    label={"Nama Program Studi"}
-                    name={"nama_prodi"}
-                    type={"text"}
-                    errors={errors.nama_prodi}
-                    value={data.nama_prodi}
-                />
-                <TextInputContent
-                    label={"Kode Program Studi"}
-                    name={"kode_prodi"}
-                    type={"text"}
-                    errors={errors.kode_prodi}
-                    value={data.kode_prodi}
-                />
-                <SelectContent
-                    data={data_fakultas || []}
-                    label={"Fakultas"}
-                    name={"id_fakultas"}
-                    valueField={"id"}
-                    labelField={"nama_fakultas"}
-                    handleChange={setData("id_fakultas")}
-                    errors={errors.id_fakultas}
-                />
-                <PrimaryButton disabled={processing}>Submit </PrimaryButton>
-            </form>
-        </AdminLayout>
+        <form className="my-4 flex flex-col gap-4" onSubmit={handleSubmit}>
+            <TextInputContent
+                label={"Nama Program Studi"}
+                name={"nama_prodi"}
+                type={"text"}
+                errors={errors.nama_prodi}
+                value={data.nama_prodi}
+                onChange={(e) => setData("nama_prodi", e.target.value)}
+            />
+            <TextInputContent
+                label={"Kode Program Studi"}
+                name={"kode_prodi"}
+                type={"number"}
+                errors={errors.kode_prodi}
+                value={data.kode_prodi}
+                onChange={(e) => setData("kode_prodi", e.target.value)}
+            />
+            <SelectContent
+                data={data_fakultas}
+                label={"Fakultas"}
+                name={"id_fakultas"}
+                valueField={"id"}
+                labelField={"nama_fakultas"}
+                handleChange={(e) => setData("id_fakultas", e.target.value)}
+                errors={errors.id_fakultas}
+                value={data.id_fakultas}
+            />
+            <PrimaryButton disabled={processing}>Submit </PrimaryButton>
+        </form>
     );
 };
 

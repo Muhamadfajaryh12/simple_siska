@@ -18,10 +18,19 @@ class ProdiController extends Controller
             'data' =>$fetch
         ]);
     }
-    public function create (){
+    public function create(){
         $fetch = Fakultas::all();
-        return Inertia::render('Prodi/FormCreateProdi',[
+        return Inertia::render('Prodi/CreateProdi',[
             'fakultas'=> $fetch
+        ]);
+    }
+
+    public function edit_index($id){
+        $fetch_fakultas = Fakultas::all();
+        $fetch_program_studi = Prodi::findOrFail($id);
+        return Inertia::render('Prodi/UpdateProdi',[
+            'data_fakultas'=> $fetch_fakultas,
+            'data_prodi' => $fetch_program_studi
         ]);
     }
 
@@ -32,6 +41,11 @@ class ProdiController extends Controller
     public function update (ProdiRequest $request, $id) {
         $selectData = Prodi::findOrFail($id);
         $selectData->update($request->validated());
+    }
+
+    public function delete($id){
+        $selectData = Prodi::findOrFail($id);
+        $selectData->delete();
     }
     
 }

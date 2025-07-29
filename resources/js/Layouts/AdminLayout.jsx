@@ -7,7 +7,7 @@ const AdminLayout = ({ title, children }) => {
     const { auth } = usePage().props;
     const { post } = useForm();
     return (
-        <div className="w-screen h-screen bg-gray-100">
+        <div className="w-full min-h-screen bg-gray-100">
             <div className="flex">
                 <Sidebar auth={auth} />
                 <div className="w-full">
@@ -31,7 +31,7 @@ const AdminLayout = ({ title, children }) => {
                                 {title?.map((item, index) => (
                                     <>
                                         <span>{item}</span>
-                                        {title.length - 1 > index ? (
+                                        {title?.length - 1 > index ? (
                                             <span>/</span>
                                         ) : (
                                             ""

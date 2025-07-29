@@ -11,16 +11,18 @@ const SelectContent = ({
     name,
     handleChange,
     errors,
+    value,
 }) => {
     return (
-        <div className="my-2 flex flex-col gap-4">
+        <div className=" flex flex-col gap-2">
             <InputLabel htmlFor={name} value={label} />
             <Select
                 data={data}
                 valueField={valueField}
                 labelField={labelField}
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={handleChange}
                 name={name}
+                value={value}
             />
             <InputError message={errors} />
         </div>

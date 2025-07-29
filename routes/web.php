@@ -50,9 +50,11 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     
     Route::get('/prodi',[ProdiController::class,'index'])->name('prodi.index');
     Route::get('/prodi_create',[ProdiController::class,'create'])->name('prodi.create');
+    Route::get('/prodi/form/{id}',[ProdiController::class,'edit_index'])->name("prodi.edit");
     Route::post('/prodi_store',[ProdiController::class,'store'])->name('prodi.store');
     Route::put('/prodi_update/{id}',[ProdiController::class,'update'])->name("prodi.update");
-    
+    Route::delete('/prodi/{id}',[ProdiController::class,'delete'])->name("prodi.delete");
+
     Route::get('/user_create',[UserController::class,'create'])->name('user.create');
     Route::post('/user_store',[UserController::class,'store'])->name('user.store');
     
@@ -60,9 +62,9 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     Route::get('/dosen',[UserController::class,'dosenIndex'])->name('user.dosenIndex');
     
     
-    Route::get('/matakuliah',[MatakuliahController::class,'index'])->name('matakuliah.index');
-    Route::get('/matakuliah_create',[MatakuliahController::class,'create'])->name('matakuliah.create');
-    Route::post('/matakuliah_store',[MatakuliahController::class,'store'])->name('matakuliah.store');
+    Route::get('/mata_kuliah',[MatakuliahController::class,'index'])->name('matakuliah.index');
+    Route::get('/mata_kuliah/form',[MatakuliahController::class,'create'])->name('matakuliah.create');
+    Route::post('/mata_kuliah_store',[MatakuliahController::class,'store'])->name('matakuliah.store');
     
     Route::get('/kelas',[KelasController::class,'index'])->name('kelas.index');    Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');
     Route::post('/kelas_store',[KelasController::class,'store'])->name('kelas.store');

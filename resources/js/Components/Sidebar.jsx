@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { CiViewList } from "react-icons/ci";
 
 const Sidebar = ({ auth }) => {
-    console.log(auth);
     const list = [
         {
             title: "Dashboard",
@@ -48,7 +47,10 @@ const Sidebar = ({ auth }) => {
     ];
 
     return (
-        <div className="w-80 border-r bg-white h-screen">
+        <div className="w-64 border-r bg-white min-h-screen">
+            <h1 className="text-red-600 font-bold text-4xl text-center my-4">
+                SISKA
+            </h1>
             <ul className="my-4 mx-auto p-2">
                 {list.map((item) =>
                     item.role == auth?.user?.status ? (

@@ -47,7 +47,7 @@ const Matakuliah = ({ data }) => {
         },
     ];
     return (
-        <AdminLayout title={"Master Mata Kuliah"}>
+        <AdminLayout title={["Mata Kuliah", "Table"]}>
             <div className=" text-gray-900">
                 <p className="text-lg">Daftar Mata Kuliah</p>
                 <span className="text-sm font-bold">
