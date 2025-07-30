@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fakultas', function (Blueprint $table) {
+        Schema::create('nilai', function (Blueprint $table) {
             $table->id();
+            $table->string("nilai_huruf",255)->nullable();
+            $table->integer("nilai_angka",8)->nullable();
+            $table->unsignedBigInteger("krs_detail_id");
+            $table->foreign("krs_detail_id")->references("id")->on("krs_detail")->onDelete("cascasde");
             $table->timestamps();
-            $table->string('nama_fakultas');
-            $table->string('kode_fakultas');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fakultas');
+        Schema::dropIfExists('nilai');
     }
 };
