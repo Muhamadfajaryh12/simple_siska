@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Fakultas\FakultasController;
 use App\Http\Controllers\Kelas\KelasController;
 use App\Http\Controllers\KRS\KRSController;
+use App\Http\Controllers\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Matakuliah\MatakuliahController;
 use App\Http\Controllers\Prodi\ProdiController;
 use App\Http\Controllers\ProfileController;
@@ -58,8 +60,15 @@ Route::middleware(['auth','checkRole:Dosen'])->group(function(){
     Route::get('/user_create',[UserController::class,'create'])->name('user.create');
     Route::post('/user_store',[UserController::class,'store'])->name('user.store');
     
-    Route::get('/mahasiswa',[UserController::class,'mahasiswaIndex'])->name('user.mahasiswaIndex');
-    Route::get('/dosen',[UserController::class,'dosenIndex'])->name('user.dosenIndex');
+    Route::prefix("mahasiswa")->group(function(){
+        Route::get('/',[UserController::class,'mahasiswaIndex'])->name('user.mahasiswaIndex');
+        Route::get('/form',[MahasiswaController::class,'create_index'])->name('mahasiswa.create');
+    });
+    
+    Route::prefix("dosen")->group(function(){
+        Route::get('/',[UserController::class,'dosenIndex'])->name('user.dosenIndex');
+        Route::get("/form",[DosenController::class,"create_index"])->name("dosen.create");
+    });
     
     
     Route::get('/mata_kuliah',[MatakuliahController::class,'index'])->name('matakuliah.index');

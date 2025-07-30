@@ -55,7 +55,7 @@ const Dosen = ({ data, data_prodi }) => {
     ];
     return (
         <div>
-            <AdminLayout title={"Master Dosen"}>
+            <AdminLayout title={["Dosen", "Table"]}>
                 <div className=" text-gray-900">
                     <p className="text-lg">Daftar Dosen</p>
                     <span className="text-sm font-bold">

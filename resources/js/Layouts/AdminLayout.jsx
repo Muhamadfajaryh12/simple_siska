@@ -25,7 +25,7 @@ const AdminLayout = ({ title, children }) => {
                             Logout
                         </button>
                     </div>
-                    <div className="py-12">
+                    <div className="py-6">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                             <div className="flex gap-2 text-sm">
                                 {title?.map((item, index) => (

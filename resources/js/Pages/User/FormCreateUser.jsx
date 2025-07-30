@@ -39,7 +39,7 @@ const FormCreateUser = ({ prodi }) => {
         });
     };
     return (
-        <AdminLayout title={"Master User"}>
+        <AdminLayout title={["Dosen", "Form"]}>
             <div className=" text-gray-900">
                 <p className="text-lg">Formulir Pembuatan User</p>
                 <span className="text-sm font-bold">
