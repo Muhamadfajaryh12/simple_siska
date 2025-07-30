@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('nilai', function (Blueprint $table) {
             $table->id();
             $table->string("nilai_huruf",255)->nullable();
-            $table->integer("nilai_angka",8)->nullable();
+            $table->integer("nilai_angka")->nullable();
             $table->unsignedBigInteger("krs_detail_id");
-            $table->foreign("krs_detail_id")->references("id")->on("krs_detail")->onDelete("cascasde");
+            $table->foreign("krs_detail_id")->references("id")->on("krs_detail")->onDelete("cascade");
             $table->timestamps();
         });
     }

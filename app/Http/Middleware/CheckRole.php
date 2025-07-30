@@ -12,15 +12,15 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $status)
+    public function handle(Request $request, Closure $next, string $role)
     {
-        if ($status == "dosen" && auth()->user()->status != "Dosen" ) {
+        if ($role == "dosen" && auth()->user()->role != "Dosen" ) {
             abort(403);
         }
-        if ($status == "mahasiswa" && auth()->user()->status != "Mahasiswa" ) {
+        if ($role == "mahasiswa" && auth()->user()->role != "Mahasiswa" ) {
             abort(403);
         }
-        if ($status == "admin" && auth()->user()->status != 'Admin'){
+        if ($role == "admin" && auth()->user()->role != 'Admin'){
             abort(403);
         }
         return $next($request);

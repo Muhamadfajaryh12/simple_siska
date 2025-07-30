@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('krs', function (Blueprint $table) {
             $table->id();
             $table->enum("status",["disetujui","menunggu","ditolak"]);
-            $table->integer("semester",8);
+            $table->integer("semester");
             $table->string("tahun_ajaran",255);
             $table->unsignedBigInteger("mahasiswa_id");
-            $table->foreign("mahasiswa_id")->references("id")->on("mahasiswa")->onDelete("cascase");
+            $table->foreign("mahasiswa_id")->references("id")->on("mahasiswa")->onDelete("cascade");
             $table->timestamps();
         });
     }

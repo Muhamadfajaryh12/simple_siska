@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string("nama_mata_kuliah",255);
             $table->string("kode_mata_kuliah",255);
             $table->string("jadwal",255);
-            $table->integer("sks",8);
-            $table->integer("semester",8);
+            $table->integer("sks");
+            $table->integer("semester");
             $table->unsignedBigInteger("prodi_id");
             $table->unsignedBigInteger("kelas_id");
             $table->unsignedBigInteger("dosen_id");
