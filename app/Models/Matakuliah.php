@@ -12,33 +12,28 @@ class Matakuliah extends Model
 
     protected $fillable = [
         'nama_mata_kuliah',
+        'kode_mata_kuliah',
         'jadwal',
-        'jam_mulai',
-        'jam_selesai',
         'sks',
         'semester',
-        'id_kelas',
-        'id_fakultas',
-        'id_prodi',
-        'id_dosen',
+        'kelas_id',
+        'prodi_id',
+        'dosen_id',
     ];
 
     public function prodi()
     {
-        return $this->belongsTo(Prodi::class, 'id_prodi');
+        return $this->belongsTo(Prodi::class, 'prodi_id');
     }
     
     public function dosen()
     {
-        return $this->belongsTo(User::class, 'id_dosen');
+        return $this->belongsTo(User::class, 'dosen_id');
     }
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class, 'id_kelas');
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
     
-    public function fakultas()
-    {
-        return $this->belongsTo(Fakultas::class, 'id_fakultas');
-    }
+
 }

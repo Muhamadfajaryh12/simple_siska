@@ -14,7 +14,7 @@ class Prodi extends Model
     protected $fillable = [
         'nama_prodi',
         'kode_prodi',
-        'id_fakultas'
+        'fakultas_id'
     ];
 
     public function fakultas(){

@@ -11,18 +11,14 @@ class KRS extends Model
     protected $table = 'krs';
 
     protected $fillable = [
-        'id_mata_kuliah',
-        'id_user',
-        'nilai_angka',
-        'nilai_huruf',
-        'status_verified'
+        'mahasiswa_id',
+        'status',
+        'semester',
+        'tahun_ajaran'
     ];
 
-    public function mata_kuliah(){
-        return $this->belongsTo(Matakuliah::class,'id_mata_kuliah');
-    }
     public function mahasiswa()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'mahasiswa_id');
     }
 }
