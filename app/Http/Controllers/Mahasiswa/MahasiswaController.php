@@ -10,6 +10,9 @@ use Inertia\Inertia;
 
 class MahasiswaController extends Controller
 {
+    public function index(){
+        
+    }
     public function create_index(){
         $fetch_fakultas = Fakultas::all();
         $fetch_prodi = Prodi::all();
@@ -19,4 +22,5 @@ class MahasiswaController extends Controller
             'data_prodi'=>$fetch_prodi
         ]);
     }
+
 }
