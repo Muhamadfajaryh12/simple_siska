@@ -37,20 +37,16 @@ class FakultasController extends Controller
         ]);
         try{
 
-            Fakultas::create($validation_fakultas);
-            return redirect()->route('fakultas.create')->with([
-                'message' => 'Fakultas berhasil ditambahkan.',
-                'status' => 'success'
-            ]);
+        Fakultas::create($validation_fakultas);
+         return redirect()->back()->with('success', 'Behasil!');
+
         }catch(\Exception $e){
-            return redirect()->back()->with([
-                'message' => 'Terjadi kesalahan saat menambahkan fakultas.',
-                'status' => 'error'
-                ]); 
+         return redirect()->back()->with('error', 'Gagal!');
+
         }
     }
 
-    public function change(Request $request, $id){
+    public function edit(Request $request, $id){
         $validation_fakultas = $request->validate([
             'nama_fakultas' => 'required|string|max:255',
             'kode_fakultas' => 'required|string|max:255|unique:fakultas,kode_fakultas'
@@ -60,13 +56,22 @@ class FakultasController extends Controller
         try {
             $fakultas = Fakultas::findOrFail($id);
             $fakultas->update($validation_fakultas);
+             return redirect()->back()->with('success', 'Berhasil!');
 
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['update_error' => 'Gagal memperbarui fakultas. Silakan coba lagi.']);
+         return redirect()->back()->with('error', 'Gagal!');
         }
-    
     }
 
+    public function destroy($id){
+        try{
+            $fakultas = Fakultas::findOrFail($id);
+            $fakultas->delete();
+            return redirect()->back()->with('success',"Berhasil");
+        }catch(\Exception $e){
+            return redirect()->back()->with('error',"Gagal");
+        }
+    }
 
     
 };

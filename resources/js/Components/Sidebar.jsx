@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 import { CiViewList } from "react-icons/ci";
 
@@ -10,32 +10,32 @@ const Sidebar = ({ auth }) => {
             role: "Dosen",
         },
         {
-            title: " Mahasiswa",
+            title: "Mahasiswa",
             link: "user.mahasiswaIndex",
             role: "Admin",
         },
         {
-            title: " Dosen",
+            title: "Dosen",
             link: "user.dosenIndex",
             role: "Admin",
         },
         {
-            title: " Fakultas",
+            title: "Fakultas",
             link: "fakultas.index",
             role: "Admin",
         },
         {
-            title: " Program Studi",
+            title: "Program Studi",
             link: "prodi.index",
             role: "Admin",
         },
         {
-            title: " Mata Kuliah",
+            title: "Mata Kuliah",
             link: "matakuliah.index",
             role: "Admin",
         },
         {
-            title: " Kelas",
+            title: "Kelas",
             link: "kelas.index",
             role: "Admin",
         },
@@ -46,6 +46,9 @@ const Sidebar = ({ auth }) => {
         },
     ];
 
+    const { url } = usePage();
+    const pathname = url.split("/");
+
     return (
         <div className="w-64 border-r bg-white min-h-screen">
             <h1 className="text-red-600 font-bold text-4xl text-center my-4">
@@ -53,11 +56,13 @@ const Sidebar = ({ auth }) => {
             </h1>
             <ul className="my-4 mx-auto p-2">
                 {list.map((item) =>
-                    item.role == auth?.user?.status ? (
+                    item.role == auth?.user?.role ? (
                         <li
                             key={item.title}
                             className={`hover:bg-gray-200 p-2 rounded-md  flex items-center mt-2 ${
-                                route().current(item.link) ? "bg-gray-200" : ""
+                                pathname.includes(item.title.toLowerCase())
+                                    ? "bg-gray-200"
+                                    : ""
                             }`}
                             style={{ letterSpacing: "1px" }}
                         >

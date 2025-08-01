@@ -14,13 +14,13 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $role)
     {
-        if ($role == "dosen" && auth()->user()->role != "Dosen" ) {
+        if ($role == "Dosen" && auth()->user()->role != "Dosen" ) {
             abort(403);
         }
-        if ($role == "mahasiswa" && auth()->user()->role != "Mahasiswa" ) {
+        if ($role == "Mahasiswa" && auth()->user()->role != "Mahasiswa" ) {
             abort(403);
         }
-        if ($role == "admin" && auth()->user()->role != 'Admin'){
+        if ($role == "Admin" && auth()->user()->role != 'Admin'){
             abort(403);
         }
         return $next($request);

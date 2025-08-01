@@ -41,21 +41,27 @@ use Inertia\Inertia;
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth','checkRole:Dosen'])->group(function(){
-    Route::get('/fakultas',[FakultasController::class,'index'])->name('fakultas.index');
-    Route::get('/fakultas_create',[FakultasController::class,'create'])->name('fakultas.create');
-    Route::get('/fakultas_update/{id}',[FakultasController::class,'update'])->name('fakultas.update');
+Route::middleware(['auth','checkRole:Admin'])->group(function(){
+
+    Route::prefix("/fakultas")->group(function(){
+        Route::get('/',[FakultasController::class,'index'])->name('fakultas.index');
+        Route::get('/form',[FakultasController::class,'create'])->name('fakultas.create');
+        Route::get('/form/{id}',[FakultasController::class,'update'])->name('fakultas.update');
+
+        Route::post('/store',[FakultasController::class,'store'])->name('fakultas.store');
+        Route::put('/edit/{id}',[FakultasController::class,'edit'])->name('fakultas.edit');
+        Route::delete("/{id}",[FakultasController::class,"destroy"])->name("fakultas.destroy");
+    });
     
-    Route::post('/fakultas_store',[FakultasController::class,'store'])->name('fakultas.store');
-    Route::put('/fakultas_change/{id}',[FakultasController::class,'change'])->name('fakultas.change');
-    
-    
-    Route::get('/prodi',[ProdiController::class,'index'])->name('prodi.index');
-    Route::get('/prodi_create',[ProdiController::class,'create'])->name('prodi.create');
-    Route::get('/prodi/form/{id}',[ProdiController::class,'edit_index'])->name("prodi.edit");
-    Route::post('/prodi_store',[ProdiController::class,'store'])->name('prodi.store');
-    Route::put('/prodi_update/{id}',[ProdiController::class,'update'])->name("prodi.update");
-    Route::delete('/prodi/{id}',[ProdiController::class,'delete'])->name("prodi.delete");
+    Route::prefix("prodi")->group(function(){
+        Route::get('/',[ProdiController::class,'index'])->name('prodi.index');
+        Route::get('/form',[ProdiController::class,'create'])->name('prodi.create');
+        Route::get('/form/{id}',[ProdiController::class,'edit_index'])->name("prodi.update");
+        
+        Route::post('/store',[ProdiController::class,'store'])->name('prodi.store');
+        Route::put('/{id}',[ProdiController::class,'edit'])->name("prodi.edit");
+        Route::delete('/{id}',[ProdiController::class,'destroy'])->name("prodi.destroy");
+    });
 
     Route::get('/user_create',[UserController::class,'create'])->name('user.create');
     Route::post('/user_store',[UserController::class,'store'])->name('user.store');

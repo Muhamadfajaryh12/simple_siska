@@ -11,7 +11,7 @@ class ProdiRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class ProdiRequest extends FormRequest
         return [
             'nama_prodi' => 'required|string|max:255|min:0',
             'kode_prodi' => 'required|string|max:255|min:0|unique:prodi,kode_prodi',
-            'id_fakultas'=> 'required|integer'
+            'fakultas_id'=> 'required'
         ];
     }
 }

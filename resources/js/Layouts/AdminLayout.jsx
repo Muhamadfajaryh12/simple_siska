@@ -1,3 +1,4 @@
+import Message from "@/Components/Message";
 import Sidebar from "@/Components/Sidebar";
 import { ModalProvider } from "@/Context/ModalContext";
 import { useForm, usePage } from "@inertiajs/react";
@@ -39,6 +40,7 @@ const AdminLayout = ({ title, children }) => {
                                     </>
                                 ))}
                             </div>
+                            <Message />
                             <div className="bg-white mt-4 overflow-hidden shadow-sm sm:rounded-lg  p-6 ">
                                 {children}
                             </div>

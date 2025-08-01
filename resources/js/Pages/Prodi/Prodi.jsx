@@ -4,6 +4,7 @@ import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/react";
 import { useModal } from "@/Context/ModalContext";
 import DeleteModal from "@/Components/modal/DeleteModal";
+import { FaPencil, FaTrash } from "react-icons/fa6";
 const Prodi = ({ data }) => {
     const { showModal } = useModal();
     let index = 0;
@@ -29,13 +30,15 @@ const Prodi = ({ data }) => {
             selector: (row) => (
                 <div>
                     <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
-                        <Link href={`/prodi/form/${row.id}`}>Update</Link>
+                        <Link href={`/prodi/form/${row.id}`}>
+                            <FaPencil size={15} />
+                        </Link>
                     </button>
                     <button
                         className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
                         onClick={() => showModal(<DeleteModal />)}
                     >
-                        Delete
+                        <FaTrash size={15} />
                     </button>
                 </div>
             ),
@@ -44,7 +47,7 @@ const Prodi = ({ data }) => {
 
     return (
         <>
-            <AdminLayout title={["Program Studi", "Table"]}>
+            <AdminLayout title={["Program Studi", "Daftar"]}>
                 <div className=" text-gray-900">
                     <p className="text-lg">Daftar Program Studi</p>
                     <span className="text-sm font-bold">
@@ -53,8 +56,8 @@ const Prodi = ({ data }) => {
                 </div>
                 <div className="flex justify-end">
                     <Link href={route("prodi.create")}>
-                        <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
-                            Create
+                        <button className="bg-black text-white p-2 rounded-md text-sm font-bold mx-1">
+                            Menambah Program Studi
                         </button>
                     </Link>
                 </div>

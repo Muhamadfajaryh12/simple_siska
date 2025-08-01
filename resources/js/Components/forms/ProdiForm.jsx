@@ -6,11 +6,10 @@ import SelectContent from "../input/SelectContent";
 import PrimaryButton from "../PrimaryButton";
 
 const ProdiForm = ({ data_fakultas, data_prodi }) => {
-    console.log(data_prodi);
     const { data, setData, processing, post, put, errors, reset } = useForm({
         nama_prodi: "",
         kode_prodi: "",
-        id_fakultas: "",
+        fakultas_id: "",
     });
 
     useEffect(() => {
@@ -18,15 +17,20 @@ const ProdiForm = ({ data_fakultas, data_prodi }) => {
             setData({
                 nama_prodi: data_prodi.nama_prodi,
                 kode_prodi: data_prodi.kode_prodi,
-                id_fakultas: data_prodi.id_fakultas,
+                fakultas_id: data_prodi.fakultas_id,
             });
         }
     }, [data_prodi]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        data_prodi ? put(route("prodi.update")) : post(route("prodi.store"));
-        reset();
+        data_prodi
+            ? put(route("prodi.edit", { id: data_prodi.id }))
+            : post(route("prodi.store"), {
+                  onSuccess: () => {
+                      reset();
+                  },
+              });
     };
 
     return (
@@ -50,12 +54,12 @@ const ProdiForm = ({ data_fakultas, data_prodi }) => {
             <SelectContent
                 data={data_fakultas}
                 label={"Fakultas"}
-                name={"id_fakultas"}
+                name={"fakultas_id"}
                 valueField={"id"}
                 labelField={"nama_fakultas"}
-                handleChange={(e) => setData("id_fakultas", e.target.value)}
-                errors={errors.id_fakultas}
-                value={data.id_fakultas}
+                handleChange={(e) => setData("fakultas_id", e.target.value)}
+                errors={errors.fakultas_id}
+                value={data.fakultas_id}
             />
             <PrimaryButton disabled={processing}>Submit </PrimaryButton>
         </form>

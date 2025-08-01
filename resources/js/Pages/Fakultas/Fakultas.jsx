@@ -1,14 +1,22 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/react";
 import { useModal } from "@/Context/ModalContext";
 import DeleteModal from "@/Components/modal/DeleteModal";
-const Fakultas = () => {
-    const { data } = usePage().props;
-    const { showModal } = useModal();
+import { FaPencil, FaTrash } from "react-icons/fa6";
+const Fakultas = ({ data }) => {
+    const { showModal, closeModal } = useModal();
     let index = 0;
+
+    const handleDelete = (id) => {
+        router.delete(route("fakultas.destroy", { id: id }), {
+            onSuccess: () => {
+                closeModal(), data.filter((item) => item.id != id);
+            },
+        });
+    };
 
     const columns = [
         {
@@ -28,13 +36,21 @@ const Fakultas = () => {
             selector: (row) => (
                 <div>
                     <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
-                        <Link href={`/fakultas_update/${row.id}`}>Update</Link>
+                        <Link href={`/fakultas/form/${row.id}`}>
+                            <FaPencil size={15} />
+                        </Link>
                     </button>
                     <button
                         className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
-                        onClick={() => showModal(<DeleteModal />)}
+                        onClick={() =>
+                            showModal(
+                                <DeleteModal
+                                    handleDelete={() => handleDelete(row.id)}
+                                />
+                            )
+                        }
                     >
-                        Delete
+                        <FaTrash size={15} />
                     </button>
                 </div>
             ),
@@ -42,7 +58,7 @@ const Fakultas = () => {
     ];
 
     return (
-        <AdminLayout title={["Fakultas", "Table"]}>
+        <AdminLayout title={["Fakultas", "Daftar"]}>
             <div className=" text-gray-900">
                 <p className="text-lg">Daftar Fakultas</p>
                 <span className="text-sm font-bold">
@@ -51,8 +67,8 @@ const Fakultas = () => {
             </div>
             <div className="flex justify-end">
                 <Link href={route("fakultas.create")}>
-                    <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
-                        Create
+                    <button className="bg-black text-white p-2 rounded-md text-sm font-bold mx-1">
+                        Menambah Fakultas
                     </button>
                 </Link>
             </div>

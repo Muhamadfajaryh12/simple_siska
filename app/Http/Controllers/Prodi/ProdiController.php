@@ -35,17 +35,32 @@ class ProdiController extends Controller
     }
 
     public function store(ProdiRequest $request){
-        Prodi::create($request->validated());
+        try{
+            Prodi::create($request->validated());
+            return redirect()->back()->with("success","Berhasil menambahkan prodi");
+        }catch(\Exception $e){
+            return redirect()->back()->with("error", $e->getMessage());
+        }
     }
 
-    public function update (ProdiRequest $request, $id) {
-        $selectData = Prodi::findOrFail($id);
-        $selectData->update($request->validated());
+    public function edit (ProdiRequest $request, $id) {
+        try{
+            $selectData = Prodi::findOrFail($id);
+            $selectData->update($request->validated());
+            return redirect()->back()->with('success',"Berhasil mengedit prodi");
+        }catch(\Exception $e){
+            return redirect()->back()->with('error',"gagal");
+        }
     }
 
-    public function delete($id){
-        $selectData = Prodi::findOrFail($id);
-        $selectData->delete();
+    public function destroy($id){
+        try{
+            $selectData = Prodi::findOrFail($id);
+            $selectData->delete();           
+            return redirect()->back()->with('success',"Berhasil menghapus prodi");
+        }catch(\Exception $e){
+            return redirect()->back()->with('error',"gagal");
+        }
     }
     
 }

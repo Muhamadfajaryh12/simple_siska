@@ -10,10 +10,16 @@ const FakultasForm = ({ fakultas }) => {
         kode_fakultas: "",
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         fakultas
-            ? put(route("fakultas.update"))
-            : post(route("fakultas.store"));
+            ? put(route(`fakultas.edit`, { id: fakultas.id }))
+            : post(route("fakultas.store"), {
+                  onSuccess: () => {
+                      reset();
+                  },
+              });
+        console.log(fakultas);
     };
 
     useEffect(() => {
@@ -44,7 +50,6 @@ const FakultasForm = ({ fakultas }) => {
                     name={"kode_fakultas"}
                     type={"text"}
                     errors={errors.kode_fakultas}
-                    isFocused={true}
                     value={data.kode_fakultas}
                     onChange={(e) =>
                         setData("kode_fakultas", e.target.value.toUpperCase())
