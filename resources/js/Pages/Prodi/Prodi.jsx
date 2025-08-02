@@ -1,13 +1,27 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { useModal } from "@/Context/ModalContext";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 const Prodi = ({ data }) => {
-    const { showModal } = useModal();
+    const { showModal, closeModal } = useModal();
     let index = 0;
+
+    const handleDelete = (id) => {
+        router.put(
+            "prodi.destroy",
+            { id: id },
+            {
+                onSuccess: () => {
+                    data.filter((item) => item.id != id);
+                    closeModal();
+                },
+            }
+        );
+    };
+
     const columns = [
         {
             name: "No",
@@ -36,7 +50,13 @@ const Prodi = ({ data }) => {
                     </button>
                     <button
                         className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
-                        onClick={() => showModal(<DeleteModal />)}
+                        onClick={() =>
+                            showModal(
+                                <DeleteModal
+                                    handleDelete={() => handleDelete(row.id)}
+                                />
+                            )
+                        }
                     >
                         <FaTrash size={15} />
                     </button>

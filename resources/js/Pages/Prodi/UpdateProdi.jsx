@@ -3,7 +3,6 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
 
 const UpdateProdi = ({ data_fakultas, data_prodi }) => {
-    console.log(data_prodi);
     return (
         <AdminLayout title={["Program Studi", "Form", "Edit"]}>
             <div className=" text-gray-900">

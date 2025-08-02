@@ -76,10 +76,15 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
         Route::get("/form",[DosenController::class,"create_index"])->name("dosen.create");
     });
     
-    
-    Route::get('/mata_kuliah',[MatakuliahController::class,'index'])->name('matakuliah.index');
-    Route::get('/mata_kuliah/form',[MatakuliahController::class,'create'])->name('matakuliah.create');
-    Route::post('/mata_kuliah_store',[MatakuliahController::class,'store'])->name('matakuliah.store');
+
+    Route::prefix("/mata_kuliah")->group(function(){
+        Route::get('/',[MatakuliahController::class,'index'])->name('matakuliah.index');
+        Route::get('/form',[MatakuliahController::class,'create'])->name('matakuliah.create');
+
+        
+
+        Route::post('/store',[MatakuliahController::class,'store'])->name('matakuliah.store');
+    });
     
     Route::get('/kelas',[KelasController::class,'index'])->name('kelas.index');    Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');
     Route::post('/kelas_store',[KelasController::class,'store'])->name('kelas.store');

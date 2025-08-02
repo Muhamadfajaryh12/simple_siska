@@ -22,4 +22,13 @@ class Mahasiswa extends Model
         "prodi_id",
         "user_id",
     ];
+
+    public function fakultas(){
+        return  $this->belongsTo(Fakultas::class,"fakultas_id");
+    }
+
+    public function prodi(){
+        return $this->belongsTo(Prodi::class,"prodi_id");
+    }
+
 }

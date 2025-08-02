@@ -15,7 +15,7 @@ use Inertia\Inertia;
 class MahasiswaController extends Controller
 {
     public function index(){
-        
+        $fetch_mahasiswa = Fakultas::with("fakultas","prodi")->get();
     }
     public function create_index(){
         $fetch_fakultas = Fakultas::all();
@@ -28,23 +28,24 @@ class MahasiswaController extends Controller
     }
 
 
-    public function show(){
-        
-    }
+
     public function store(MahasiswaRequest $mahasiswaRequest){
         try{
             $validation = $mahasiswaRequest->validated();
-            $mahasiswa = Mahasiswa::create($validation);
+            $mahasiswa = Mahasiswa::insert($validation);
+            return redirect()->back()->with("success","Berhasil menambah mahasiswa");
         }catch(QueryException $e){
             Log::error($e->getMessage());
         }
     }
 
     
-    public function update(MahasiswaRequest $mahasiswaRequest){
+    public function update(MahasiswaRequest $mahasiswaRequest,$id){
         try{
             $validation = $mahasiswaRequest->validated();
-            $mahasiswa = Mahasiswa::create($validation);
+            $mahasiswa = Mahasiswa::findOrFail($id);
+            $mahasiswa->update($validation); 
+            return redirect()->back()->with("success","Berhasil mengedit mahasiswa");
         }catch(QueryException $e){
             Log::error($e->getMessage());
         }
@@ -54,6 +55,7 @@ class MahasiswaController extends Controller
         try{
             $mahasiswa = Mahasiswa::findOrFail($id);
             $mahasiswa->delete(); 
+            return redirect()->back()->with("success","Berhasil menghapus mahasiswa");
         }catch(QueryException $e){
             Log::error($e->getMessage());
         }

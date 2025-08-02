@@ -76,7 +76,7 @@ const Mahasiswa = ({ data, data_prodi }) => {
                             <p className="text-xs">{item.nama_prodi}</p>
                         </button>
                     ))}
-                </div>{" "}
+                </div>
                 <div className="flex justify-end">
                     <Link href={route("user.create")}>
                         <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
