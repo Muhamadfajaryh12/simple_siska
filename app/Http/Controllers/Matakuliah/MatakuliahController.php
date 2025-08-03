@@ -50,9 +50,7 @@ class MatakuliahController extends Controller
         foreach ($validatedData['mata_kuliah'] as $item) {
             MataKuliah::create($item);
         }
-
-    
-
-     
     }
+
+    public function edit($id){}
 }

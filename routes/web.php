@@ -69,6 +69,8 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     Route::prefix("mahasiswa")->group(function(){
         Route::get('/',[UserController::class,'mahasiswaIndex'])->name('user.mahasiswaIndex');
         Route::get('/form',[MahasiswaController::class,'create_index'])->name('mahasiswa.create');
+
+        Route::post("/store",[MahasiswaController::class,"store"])->name("mahasiswa.store");
     });
     
     Route::prefix("dosen")->group(function(){
