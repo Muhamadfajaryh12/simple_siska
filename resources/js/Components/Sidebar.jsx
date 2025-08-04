@@ -11,12 +11,12 @@ const Sidebar = ({ auth }) => {
         },
         {
             title: "Mahasiswa",
-            link: "user.mahasiswaIndex",
+            link: "mahasiswa.index",
             role: "Admin",
         },
         {
             title: "Dosen",
-            link: "user.dosenIndex",
+            link: "dosen.index",
             role: "Admin",
         },
         {

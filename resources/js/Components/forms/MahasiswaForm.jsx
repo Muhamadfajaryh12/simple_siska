@@ -7,8 +7,8 @@ import DataTable from "react-data-table-component";
 import PrimaryButton from "../PrimaryButton";
 import DangerButton from "../DangerButton";
 
-const MahasiswaForm = ({ data_fakultas, data_prodi }) => {
-    const { data, setData, reset, processing, post, errors } = useForm({
+const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
+    const { data, setData, reset, processing, post, errors, put } = useForm({
         nama_mahasiswa: "",
         fakultas_id: "",
         prodi_id: "",
@@ -57,6 +57,18 @@ const MahasiswaForm = ({ data_fakultas, data_prodi }) => {
         handleNIM();
     }, [data.angkatan, data.fakultas_id, data.prodi_id]);
 
+    useEffect(() => {
+        if (data_mahasiswa) {
+            setData({
+                nama_mahasiswa: data_mahasiswa.nama_mahasiswa,
+                angkatan: data_mahasiswa.angkatan,
+                fakultas_id: data_mahasiswa.fakultas_id,
+                prodi_id: data_mahasiswa.prodi_id,
+                nim: data_mahasiswa.nim,
+            });
+        }
+    }, [data_mahasiswa]);
+
     const handleSubmit = () => {
         post(
             route("mahasiswa.store", {
@@ -68,6 +80,11 @@ const MahasiswaForm = ({ data_fakultas, data_prodi }) => {
             })
         );
     };
+
+    const handleUpdate = () => {
+        put(route("mahasiswa.edit", { id: data_mahasiswa.id }));
+    };
+
     const columns = [
         {
             name: "Nama Mahasiswa",
@@ -104,7 +121,10 @@ const MahasiswaForm = ({ data_fakultas, data_prodi }) => {
 
     return (
         <>
-            <form className="flex flex-col gap-4" onSubmit={handleAddedTemp}>
+            <form
+                className="flex flex-col gap-4"
+                onSubmit={!data_mahasiswa ? handleAddedTemp : handleUpdate}
+            >
                 <TextInputContent
                     label={"Nama Mahasiswa"}
                     type={"text"}
@@ -154,33 +174,34 @@ const MahasiswaForm = ({ data_fakultas, data_prodi }) => {
                     onChange={(e) => setData("nim", e.target.value)}
                 />
                 <PrimaryButton className="w-32" disabled={processing}>
-                    TAMBAHKAN
+                    {!data_mahasiswa ? "TAMBAHKAN" : "SIMPAN"}
                 </PrimaryButton>
             </form>
-
-            <div className="mt-4 flex flex-col gap-4">
-                <h1>Daftar data yang akan disimpan</h1>
-                <DataTable data={dataTemp} columns={columns} />
-                {dataTemp?.length > 0 && (
-                    <div className="flex gap-4 items-center">
-                        <DangerButton
-                            onClick={() => {
-                                setDataMahasiswaTemp([]);
-                                setDataTemp([]);
-                            }}
-                            disabled={processing}
-                        >
-                            RESET
-                        </DangerButton>
-                        <PrimaryButton
-                            onClick={() => handleSubmit()}
-                            disabled={processing}
-                        >
-                            SUBMIT
-                        </PrimaryButton>
-                    </div>
-                )}
-            </div>
+            {!data_mahasiswa && (
+                <div className="mt-4 flex flex-col gap-4">
+                    <h1>Daftar data yang akan disimpan</h1>
+                    <DataTable data={dataTemp} columns={columns} />
+                    {dataTemp?.length > 0 && (
+                        <div className="flex gap-4 items-center">
+                            <DangerButton
+                                onClick={() => {
+                                    setDataMahasiswaTemp([]);
+                                    setDataTemp([]);
+                                }}
+                                disabled={processing}
+                            >
+                                RESET
+                            </DangerButton>
+                            <PrimaryButton
+                                onClick={() => handleSubmit()}
+                                disabled={processing}
+                            >
+                                SUBMIT
+                            </PrimaryButton>
+                        </div>
+                    )}
+                </div>
+            )}
         </>
     );
 };

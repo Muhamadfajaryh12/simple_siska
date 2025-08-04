@@ -17,7 +17,10 @@ use Inertia\Inertia;
 class MahasiswaController extends Controller
 {
     public function index(){
-        $fetch_mahasiswa = Fakultas::with("fakultas","prodi")->get();
+        $fetch_mahasiswa = Mahasiswa::with("fakultas","prodi")->get();
+        return Inertia::render('User/Mahasiswa/Mahasiswa',[
+            "data"=>$fetch_mahasiswa
+        ]);
     }
     public function create_index(){
         $fetch_fakultas = Fakultas::all();
@@ -30,6 +33,17 @@ class MahasiswaController extends Controller
     }
 
 
+    public function update_index($id){
+        $fetch_fakultas = Fakultas::all();
+        $fetch_prodi = Prodi::all();
+        $fetch_mahasiswa = Mahasiswa::findOrFail($id);
+
+        return Inertia::render('User/Mahasiswa/UpdateMahasiswa',[
+            'data_fakultas'=>$fetch_fakultas,
+            'data_prodi'=>$fetch_prodi,
+            'data_mahasiswa'=>$fetch_mahasiswa
+        ]);
+    }
 
     public function store(Request $request){
         try{
@@ -65,7 +79,7 @@ class MahasiswaController extends Controller
     }
 
     
-    public function update(MahasiswaRequest $mahasiswaRequest,$id){
+    public function edit(MahasiswaRequest $mahasiswaRequest,$id){
         try{
             $validation = $mahasiswaRequest->validated();
             $mahasiswa = Mahasiswa::findOrFail($id);
@@ -79,6 +93,7 @@ class MahasiswaController extends Controller
     public function delete($id){
         try{
             $mahasiswa = Mahasiswa::findOrFail($id);
+            User::where('id', $mahasiswa->user_id)->delete();
             $mahasiswa->delete(); 
             return redirect()->back()->with("success","Berhasil menghapus mahasiswa");
         }catch(QueryException $e){

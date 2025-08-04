@@ -11,7 +11,7 @@ class DosenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class DosenRequest extends FormRequest
             "nip"=>"required",
             "fakultas_id"=>"required",
             "prodi_id"=>"required",   
-            "user_id"=>"required",
+            "user_id"=>"nullable",
         ];
     }
 }

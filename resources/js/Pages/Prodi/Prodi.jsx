@@ -10,7 +10,7 @@ const Prodi = ({ data }) => {
     let index = 0;
 
     const handleDelete = (id) => {
-        router.put(
+        router.delete(
             "prodi.destroy",
             { id: id },
             {

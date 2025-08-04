@@ -35,7 +35,7 @@ class MatakuliahController extends Controller
     }
 
     public function store(Request $request){
-        $validatedData = $request->validate([
+        $validation = $request->validate([
             'mata_kuliah.*.nama_mata_kuliah' => 'required',
             'mata_kuliah.*.jadwal' => 'required',
             'mata_kuliah.*.jam_mulai' => 'required',
@@ -47,9 +47,10 @@ class MatakuliahController extends Controller
             'mata_kuliah.*.id_prodi' => 'required',
             'mata_kuliah.*.id_dosen' => 'required',
         ]);
-        foreach ($validatedData['mata_kuliah'] as $item) {
-            MataKuliah::create($item);
-        }
+        // foreach ($validatedData['mata_kuliah'] as $item) {
+        //     MataKuliah::create($item);
+        // }
+        MataKuliah::insert($validation);
     }
 
     public function edit($id){}

@@ -11,7 +11,7 @@ class MahasiswaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -32,7 +32,7 @@ class MahasiswaRequest extends FormRequest
             "angkatan"=>"nullable",
             "fakultas_id"=>"required",
             "prodi_id"=>"required",   
-            "user_id"=>"required",
+            "user_id"=>"nullable",
         ];
     }
 }

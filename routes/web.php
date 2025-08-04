@@ -67,15 +67,23 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     Route::post('/user_store',[UserController::class,'store'])->name('user.store');
     
     Route::prefix("mahasiswa")->group(function(){
-        Route::get('/',[UserController::class,'mahasiswaIndex'])->name('user.mahasiswaIndex');
+        Route::get('/',[MahasiswaController::class,'index'])->name('mahasiswa.index');
         Route::get('/form',[MahasiswaController::class,'create_index'])->name('mahasiswa.create');
+        Route::get("/form/{id}",[MahasiswaController::class,"update_index"])->name("mahasiswa.update");
 
         Route::post("/store",[MahasiswaController::class,"store"])->name("mahasiswa.store");
+        Route::put('/{id}',[MahasiswaController::class,"edit"])->name("mahasiswa.edit");
+        Route::delete('/{id}',[MahasiswaController::class,"delete"])->name("mahasiswa.delete");
     });
     
     Route::prefix("dosen")->group(function(){
-        Route::get('/',[UserController::class,'dosenIndex'])->name('user.dosenIndex');
+        Route::get('/',[DosenController::class,'index'])->name('dosen.index');
         Route::get("/form",[DosenController::class,"create_index"])->name("dosen.create");
+        Route::get('/form/{id}',[DosenController::class,"update_index"])->name("dosen.update");
+
+        Route::post('/store',[DosenController::class,"store"])->name("dosen.store");
+        Route::put('/{id}',[DosenController::class,"edit"])->name("dosen.edit");
+        Route::delete('/{id}',[DosenController::class,"delete"])->name("dosen.delete");
     });
     
 

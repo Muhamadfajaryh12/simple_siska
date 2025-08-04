@@ -1,7 +1,6 @@
 import DosenForm from "@/Components/forms/DosenForm";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
-import data_gender from "@/static/DataGender.json";
 const CreateDosen = ({ data_fakultas, data_prodi }) => {
     return (
         <AdminLayout title={["Dosen", "Form"]}>
@@ -11,11 +10,7 @@ const CreateDosen = ({ data_fakultas, data_prodi }) => {
                     Silahkan mengisi formulir dengan benar!
                 </span>
             </div>
-            <DosenForm
-                data_fakultas={data_fakultas}
-                data_prodi={data_prodi}
-                data_gender={data_gender}
-            />
+            <DosenForm data_fakultas={data_fakultas} data_prodi={data_prodi} />
         </AdminLayout>
     );
 };
