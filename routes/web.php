@@ -90,10 +90,12 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     Route::prefix("/mata_kuliah")->group(function(){
         Route::get('/',[MatakuliahController::class,'index'])->name('matakuliah.index');
         Route::get('/form',[MatakuliahController::class,'create'])->name('matakuliah.create');
+        Route::get('/form/{id}',[MatakuliahController::class,"update"])->name("mata_kuliah.update");
+    
+        Route::post('/store',[MatakuliahController::class,'store'])->name('mata_kuliah.store');
+        Route::put('/{id}',[MatakuliahController::class,"edit"])->name('mata_kuliah.edit');
+        Route::delete('/{id}',[MatakuliahController::class,"destroy"])->name('mata_kuliah.destroy');
 
-        
-
-        Route::post('/store',[MatakuliahController::class,'store'])->name('matakuliah.store');
     });
     
     Route::get('/kelas',[KelasController::class,'index'])->name('kelas.index');    Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');

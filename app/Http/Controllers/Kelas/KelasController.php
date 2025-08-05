@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Kelas;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dosen;
 use App\Models\Kelas;
+use App\Models\Mahasiswa;
+use App\Models\Prodi;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,14 +20,46 @@ class KelasController extends Controller
         ]);
     }
     public function create (){
-        return Inertia::render('Kelas/FormCreateKelas');
+        $fetch_mahasiswa = Mahasiswa::where("kelas_id",null)->get();
+        $fetch_dosen = Dosen::all();
+        $fetch_prodi = Prodi::all();
+        return Inertia::render('Kelas/FormCreateKelas',
+    [
+        'data_mahasiswa'=>$fetch_mahasiswa,
+        "data_dosen"=>$fetch_dosen,
+        "data_prodi"=>$fetch_prodi
+    ]);
     }
 
     public function store(Request $request){
-        $validation_kelas = $request->validate([
-            'nama_kelas' => 'required|string'
-        ]);
+        try{
 
-        Kelas::create($validation_kelas);
+            $validation = $request->validate([
+                'nama_kelas'=>'required',
+                "dosen_id"=>"required",
+                "prodi_id"=>"required",
+                "data_mahasiswa"=>"required|array",
+                "data_mahasiswa.*.id"=>"required"
+            ]);
+            
+            $kelas = Kelas::create([
+                "nama_kelas"=> $validation["nama_kelas"],
+                "dosen_id"=> $validation['dosen_id'],
+                "prodi_id"=>$validation['prodi_id']
+            ]);
+            
+
+            foreach($validation['data_mahasiswa'] as $item){
+                $mahasiswa = Mahasiswa::findOrFail($item["id"]);
+                $mahasiswa->update([
+                    "kelas_id" => $kelas->id
+                ]);
+            }
+
+            return redirect()->back()->with("success","Berhasil menambahkan kelas");
+
+        }catch(QueryException $e){
+            return redirect()->back()->with("error",value: $e->getMessage());
+        }
     }
 }

@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
             $table->string("kelas");
+            $table->unsignedBigInteger("prodi_id");
+            $table->unsignedBigInteger("dosen_id");
+            $table->foreign("prodi_id")->references(columns: "id")->on("prodi")->onDelete("cascade");
+            $table->foreign("dosen_id")->references(columns: "id")->on("dosen")->onDelete("cascade");
             $table->timestamps();
         });
     }

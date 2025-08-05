@@ -1,57 +1,88 @@
 import Modal from "@/Components/Modal";
+import DeleteModal from "@/Components/modal/DeleteModal";
+import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
+import { FaPencil, FaTrash } from "react-icons/fa6";
 
 const Matakuliah = ({ data }) => {
-    const [showModal, setShowModal] = useState(false);
+    const { showModal, closeModal } = useModal();
 
-    let index = 0;
+    const handleDelete = (id) => {
+        router.delete(route("mata_kuliah.destroy", { id: id }), {
+            onSuccess: () => {
+                data.filter((prev) => prev.id !== id);
+                closeModal();
+            },
+        });
+    };
+
     const columns = [
         {
-            name: "No",
-            selector: (row) => ++index,
+            name: "Kode MK",
+            selector: (row) => row.kode_mata_kuliah,
         },
         {
             name: "Mata Kuliah",
             selector: (row) => row.nama_mata_kuliah,
         },
         {
+            name: "SKS",
+            selector: (row) => row.sks,
+        },
+        {
             name: "Dosen",
-            selector: (row) => row.dosen.nama,
+            selector: (row) => row.dosen.nama_dosen,
         },
         {
             name: "Program Studi",
             selector: (row) => row.prodi.nama_prodi,
         },
         {
+            name: "Jadwal",
+            selector: (row) => (
+                <span>
+                    {row.jadwal} ({row.jam_mulai} - {row.jam_selesai})
+                </span>
+            ),
+        },
+        {
             name: "Kelas",
-            selector: (row) => row.kelas.nama_kelas,
+            selector: (row) => row.kelas,
         },
         {
             name: "Action",
             selector: (row) => (
-                <div>
+                <div className="flex gap-1">
                     <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
-                        <Link href={`/fakultas_update/${row.id}`}>Update</Link>
+                        <Link href={`/mata_kuliah/form/${row.id}`}>
+                            <FaPencil />
+                        </Link>
                     </button>
                     <button
                         className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
-                        onClick={() => setShowModal(true)}
+                        onClick={() =>
+                            showModal(
+                                <DeleteModal
+                                    handleDelete={() => handleDelete(row.id)}
+                                />
+                            )
+                        }
                     >
-                        Delete
+                        <FaTrash />
                     </button>
                 </div>
             ),
         },
     ];
     return (
-        <AdminLayout title={["Mata Kuliah", "Table"]}>
+        <AdminLayout title={["Mata Kuliah", "Data"]}>
             <div className=" text-gray-900">
                 <p className="text-lg">Daftar Mata Kuliah</p>
                 <span className="text-sm font-bold">
-                    Daftar Mata Kuliah yang tersedia
+                    Data Mata Kuliah yang tersedia
                 </span>
             </div>
             <div className="">
@@ -69,20 +100,6 @@ const Matakuliah = ({ data }) => {
                     pagination
                 />
             </div>
-            <Modal show={showModal} onClose={() => setShowModal(false)}>
-                <form action="" className="m-2">
-                    <h2 className="text-lg font-medium text-gray-900">
-                        Are you sure you want to delete your account?
-                    </h2>
-
-                    <p className="mt-1 text-sm text-gray-600">
-                        Once your account is deleted, all of its resources and
-                        data will be permanently deleted. Please enter your
-                        password to confirm you would like to permanently delete
-                        your account.
-                    </p>
-                </form>
-            </Modal>
         </AdminLayout>
     );
 };

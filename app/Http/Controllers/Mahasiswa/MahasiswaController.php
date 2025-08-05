@@ -89,7 +89,7 @@ class MahasiswaController extends Controller
             Log::error($e->getMessage());
         }
     }
-    
+        
     public function delete($id){
         try{
             $mahasiswa = Mahasiswa::findOrFail($id);

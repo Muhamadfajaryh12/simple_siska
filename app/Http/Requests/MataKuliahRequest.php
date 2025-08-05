@@ -11,7 +11,7 @@ class MataKuliahRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,9 +25,11 @@ class MataKuliahRequest extends FormRequest
         'nama_mata_kuliah'=>"required",
         'kode_mata_kuliah'=>"required",
         'jadwal'=>"required",
+        'jam_mulai'=>"required",
+        "jam_selesai"=>"required",
         'sks'=>"required",
         'semester'=>"required",
-        'kelas_id'=>"required",
+        'kelas'=>"required",
         'prodi_id'=>"required",
         'dosen_id'=>"required",
         ];
