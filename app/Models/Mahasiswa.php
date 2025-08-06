@@ -20,6 +20,7 @@ class Mahasiswa extends Model
         "angkatan",
         "fakultas_id",
         "prodi_id",
+        "kelas_id",
         "user_id",
     ];
 

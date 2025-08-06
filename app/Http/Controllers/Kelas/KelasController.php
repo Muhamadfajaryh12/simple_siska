@@ -32,33 +32,36 @@ class KelasController extends Controller
     }
 
     public function store(Request $request){
+   
         try{
-
             $validation = $request->validate([
-                'nama_kelas'=>'required',
+                'kelas'=>'required',
+                "angkatan"=>"required",
                 "dosen_id"=>"required",
                 "prodi_id"=>"required",
                 "data_mahasiswa"=>"required|array",
-                "data_mahasiswa.*.id"=>"required"
+                "data_mahasiswa.*.mahasiswa_id"=>"required"
             ]);
-            
+
             $kelas = Kelas::create([
-                "nama_kelas"=> $validation["nama_kelas"],
+                "kelas"=> $validation["kelas"],
+                "angkatan"=>$validation["angkatan"],
                 "dosen_id"=> $validation['dosen_id'],
                 "prodi_id"=>$validation['prodi_id']
             ]);
             
 
             foreach($validation['data_mahasiswa'] as $item){
-                $mahasiswa = Mahasiswa::findOrFail($item["id"]);
+                $mahasiswa = Mahasiswa::findOrFail($item["mahasiswa_id"]);
                 $mahasiswa->update([
                     "kelas_id" => $kelas->id
                 ]);
             }
-
+ 
             return redirect()->back()->with("success","Berhasil menambahkan kelas");
 
-        }catch(QueryException $e){
+        }catch(\Exception $e){
+            dd($e);
             return redirect()->back()->with("error",value: $e->getMessage());
         }
     }

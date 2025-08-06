@@ -3,16 +3,21 @@ import SelectContent from "../input/SelectContent";
 import { useForm } from "@inertiajs/react";
 import DataTable from "react-data-table-component";
 import PrimaryButton from "../PrimaryButton";
+import TextInputContent from "../input/TextInputContent";
+import DangerButton from "../DangerButton";
+import { FaTrash } from "react-icons/fa6";
 
 const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
     const [temp, setTemp] = useState([]);
     const limit = 20;
 
     const { data, setData, post, errors, reset, processing } = useForm({
-        nama_kelas: "",
+        kelas: "",
+        angkatan: "",
         prodi_id: "",
         dosen_id: "",
-        mahasiswa_id: "id",
+        mahasiswa_id: "",
+        data_mahasiswa: [],
     });
 
     const filterDosen = data.prodi_id
@@ -33,12 +38,27 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
             selector: (row) => row.kelas,
         },
         {
+            name: "Angkatan",
+            selector: (row) => row.angkatan,
+        },
+        {
             name: "Program Studi",
             selector: (row) => row.nama_prodi,
         },
         {
             name: "Dosen Wali",
             selector: (row) => row.nama_dosen,
+        },
+        {
+            name: "Action",
+            selector: (row) => (
+                <DangerButton
+                    key={row.id}
+                    onClick={() => handleRemoveTemp(row.id)}
+                >
+                    <FaTrash />
+                </DangerButton>
+            ),
         },
     ];
 
@@ -56,13 +76,30 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
     };
     const handleAddedTemp = (e) => {
         e.preventDefault();
-        setTemp((prev) => [...prev, payload]);
-        console.log(temp);
+        const updatedTemp = [...temp, payload];
+        setTemp(updatedTemp);
+        setData("data_mahasiswa", updatedTemp);
+    };
+
+    const handleResetTemp = () => {
+        setTemp([]);
+    };
+
+    const handleRemoveTemp = (id) => {
+        setTemp((prev) => prev.filter((item) => item.id != id));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(data);
+        post(route("kelas.store"), {
+            onSuccess: () => {},
+        });
     };
     return (
         <>
             <form className="flex flex-col gap-4" onSubmit={handleAddedTemp}>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                     <SelectContent
                         valueField={"kelas"}
                         data={data_kelas}
@@ -71,6 +108,17 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
                         label={"Kelas"}
                         value={data.kelas}
                         handleChange={(e) => setData("kelas", e.target.value)}
+                    />
+                    <TextInputContent
+                        type="number"
+                        min="1900"
+                        max="2100"
+                        placeholder="2024"
+                        name="angkatan"
+                        label="Angkatan"
+                        value={data.angkatan}
+                        errors={errors.angkatan}
+                        onChange={(e) => setData("angkatan", e.target.value)}
                     />
                     <SelectContent
                         valueField={"id"}
@@ -114,9 +162,21 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
                     Tambahkan
                 </PrimaryButton>
             </form>
-
-            {/* <h1>Jumlah mahasiswa per-kelas tersisa {20 - temp.length}</h1> */}
-            <DataTable data={temp} columns={columns} pagination fixedHeader />
+            <div className="mt-2">
+                {/* <h1>Jumlah mahasiswa per-kelas tersisa {20 - temp.length}</h1> */}
+                <DataTable
+                    data={temp}
+                    columns={columns}
+                    pagination
+                    fixedHeader
+                />
+                <div className="flex gap-2">
+                    <PrimaryButton onClick={handleSubmit} disabled={processing}>
+                        SUBMIT
+                    </PrimaryButton>
+                    <DangerButton>RESET</DangerButton>
+                </div>
+            </div>
         </>
     );
 };

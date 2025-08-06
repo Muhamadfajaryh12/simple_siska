@@ -98,9 +98,12 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
 
     });
     
-    Route::get('/kelas',[KelasController::class,'index'])->name('kelas.index');    Route::get('/kelas_create',[KelasController::class,'create'])->name('kelas.create');
-    Route::post('/kelas_store',[KelasController::class,'store'])->name('kelas.store');
-
+    Route::prefix("/kelas")->group(function(){
+        Route::get('/',[KelasController::class,'index'])->name('kelas.index');   
+        Route::get('/form',[KelasController::class,'create'])->name('kelas.create');
+        Route::post('/store',[KelasController::class,'store'])->name('kelas.store');
+    });
+    
     Route::get('/verifikasi_krs',[KRSController::class,'index_dosen'])->name('krs_dosen.index');
     Route::get('/verifikasi_krs/{id}/{semester}',[KRSController::class,'index_verifikasi'])->name('krs_dosen.verifikasi');
     Route::get('/penilaian_krs/{id}/{semester}',[KRSController::class,'index_penilaian'])->name('krs_dosen.penilaian');
