@@ -74,7 +74,7 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
             route("mahasiswa.store", {
                 data: dataMahasiswaTemp,
                 onSuccess: () => {
-                    setDataTemp();
+                    setDataTemp([]);
                     setDataMahasiswaTemp();
                 },
             })

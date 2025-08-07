@@ -16,4 +16,16 @@ class Kelas extends Model
         "dosen_id",
         "prodi_id",
     ];
+
+    public function dosen(){
+       return $this->belongsTo(Dosen::class,"dosen_id");
+    }
+
+    public function prodi(){
+        return $this->belongsTo(Prodi::class,"prodi_id");
+    }
+
+    public function mahasiswa(){
+        return $this->hasMany(Mahasiswa::class);
+    }
 }

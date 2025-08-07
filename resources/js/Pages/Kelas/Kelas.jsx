@@ -1,10 +1,24 @@
+import DeleteModal from "@/Components/modal/DeleteModal";
+import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import React from "react";
 import DataTable from "react-data-table-component";
+import { FaEye, FaPencil, FaTrash } from "react-icons/fa6";
 
 const Kelas = ({ data_kelas }) => {
     let index = 0;
+
+    const { showModal, closeModal } = useModal();
+
+    const handleDelete = (id) => {
+        router.delete(route("kelas.destroy", { id: id }), {
+            onSuccess: () => {
+                data_kelas.filter((prev) => prev.id != id);
+                closeModal();
+            },
+        });
+    };
 
     const columns = [
         {
@@ -13,21 +27,46 @@ const Kelas = ({ data_kelas }) => {
         },
         {
             name: "kelas",
-            selector: (row) => row.nama_kelas,
+            selector: (row) => row.kelas,
         },
-
+        {
+            name: "Dosen Wali",
+            selector: (row) => row.dosen.nama_dosen,
+        },
+        {
+            name: "Program Studi",
+            selector: (row) => row.prodi.nama_prodi,
+        },
+        {
+            name: "Angkatan",
+            selector: (row) => row.angkatan,
+        },
         {
             name: "Action",
             selector: (row) => (
-                <div>
-                    <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
-                        <Link href={`/fakultas_update/${row.id}`}>Update</Link>
+                <div className="flex gap-2 items-center">
+                    <Link
+                        href={`/kelas/${row.id}`}
+                        className="p-2 rounded-md bg-gray-300"
+                    >
+                        <FaEye />
+                    </Link>
+                    <button className="bg-blue-600 p-2 rounded-md text-white font-bold ">
+                        <Link href={`/kelas/form/${row.id}`}>
+                            <FaPencil />
+                        </Link>
                     </button>
                     <button
-                        className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
-                        onClick={() => setShowModal(true)}
+                        className="bg-red-600 p-2 rounded-md text-white font-bold "
+                        onClick={() =>
+                            showModal(
+                                <DeleteModal
+                                    handleDelete={() => handleDelete(row.id)}
+                                />
+                            )
+                        }
                     >
-                        Delete
+                        <FaTrash />
                     </button>
                 </div>
             ),

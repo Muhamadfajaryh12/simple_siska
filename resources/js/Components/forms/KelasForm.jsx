@@ -7,11 +7,16 @@ import TextInputContent from "../input/TextInputContent";
 import DangerButton from "../DangerButton";
 import { FaTrash } from "react-icons/fa6";
 
-const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
-    const [temp, setTemp] = useState([]);
+const KelasForm = ({
+    data_mahasiswa,
+    data_kelas,
+    data_dosen,
+    data_prodi,
+    data_kelas_detail,
+}) => {
     const limit = 20;
 
-    const { data, setData, post, errors, reset, processing } = useForm({
+    const { data, setData, post, put, errors, reset, processing } = useForm({
         kelas: "",
         angkatan: "",
         prodi_id: "",
@@ -19,6 +24,31 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
         mahasiswa_id: "",
         data_mahasiswa: [],
     });
+
+    useEffect(() => {
+        if (data_kelas_detail && data_dosen && data_prodi) {
+            setData({
+                kelas: data_kelas_detail.kelas,
+                angkatan: data_kelas_detail.angkatan,
+                prodi_id: data_kelas_detail.prodi_id,
+                dosen_id: data_kelas_detail.dosen_id,
+                data_mahasiswa: data_kelas_detail?.mahasiswa?.map((item) => ({
+                    nama_mahasiswa: item.nama_mahasiswa,
+                    angkatan: item.angkatan,
+                    nama_dosen:
+                        data_dosen.find(
+                            (prev) => prev.id == data_kelas_detail.dosen_id
+                        )?.nama_dosen || "",
+                    nama_prodi:
+                        data_prodi.find(
+                            (prev) => prev.id == data_kelas_detail.prodi_id
+                        )?.nama_prodi || "",
+                    kelas: data_kelas_detail.kelas,
+                    mahasiswa_id: item.id.toString(),
+                })),
+            });
+        }
+    }, [data_kelas_detail, data_dosen, data_prodi]);
 
     const filterDosen = data.prodi_id
         ? data_dosen?.filter((prev) => prev.prodi_id == data.prodi_id)
@@ -54,7 +84,7 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
             selector: (row) => (
                 <DangerButton
                     key={row.id}
-                    onClick={() => handleRemoveTemp(row.id)}
+                    onClick={() => handleRemoveTemp(row.mahasiswa_id)}
                 >
                     <FaTrash />
                 </DangerButton>
@@ -73,26 +103,38 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
         nama_prodi:
             data_prodi.find((prev) => prev.id == data.prodi_id)?.nama_prodi ||
             "",
+        mahasiswa_id: data.mahasiswa_id,
     };
+
     const handleAddedTemp = (e) => {
         e.preventDefault();
-        const updatedTemp = [...temp, payload];
-        setTemp(updatedTemp);
+        const updatedTemp = [...data.data_mahasiswa, payload];
         setData("data_mahasiswa", updatedTemp);
     };
 
-    const handleResetTemp = () => {
-        setTemp([]);
+    const handleReset = () => {
+        reset();
     };
 
     const handleRemoveTemp = (id) => {
-        setTemp((prev) => prev.filter((item) => item.id != id));
+        const removeTemp = data.data_mahasiswa.filter(
+            (item) => item.mahasiswa_id != id
+        );
+        setData("data_mahasiswa", removeTemp);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
         post(route("kelas.store"), {
+            onSuccess: () => {
+                handleReset();
+            },
+        });
+    };
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        put(route("kelas.edit", { id: data_kelas_detail.id }), {
             onSuccess: () => {},
         });
     };
@@ -157,21 +199,25 @@ const KelasForm = ({ data_mahasiswa, data_kelas, data_dosen, data_prodi }) => {
                 />
                 <PrimaryButton
                     type="submit"
-                    disabled={processing || temp.length >= 20}
+                    disabled={processing || data.data_mahasiswa.length >= 20}
                 >
                     Tambahkan
                 </PrimaryButton>
             </form>
             <div className="mt-2">
-                {/* <h1>Jumlah mahasiswa per-kelas tersisa {20 - temp.length}</h1> */}
                 <DataTable
-                    data={temp}
+                    data={data.data_mahasiswa}
                     columns={columns}
                     pagination
                     fixedHeader
                 />
                 <div className="flex gap-2">
-                    <PrimaryButton onClick={handleSubmit} disabled={processing}>
+                    <PrimaryButton
+                        onClick={
+                            !data_kelas_detail ? handleSubmit : handleUpdate
+                        }
+                        disabled={processing}
+                    >
                         SUBMIT
                     </PrimaryButton>
                     <DangerButton>RESET</DangerButton>

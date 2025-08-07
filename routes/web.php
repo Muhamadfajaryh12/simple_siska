@@ -100,8 +100,13 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     
     Route::prefix("/kelas")->group(function(){
         Route::get('/',[KelasController::class,'index'])->name('kelas.index');   
+        Route::get("/{id}",[KelasController::class,"detail_index"])->name("kelas.detail");
         Route::get('/form',[KelasController::class,'create'])->name('kelas.create');
+        Route::get("/form/{id}",[KelasController::class,"update"])->name("kelas.update");
+
         Route::post('/store',[KelasController::class,'store'])->name('kelas.store');
+        Route::put("/{id}",[KelasController::class,"edit"])->name("kelas.edit");
+        Route::delete('/{id}',[KelasController::class,"destroy"])->name("kelas.destroy");
     });
     
     Route::get('/verifikasi_krs',[KRSController::class,'index_dosen'])->name('krs_dosen.index');
