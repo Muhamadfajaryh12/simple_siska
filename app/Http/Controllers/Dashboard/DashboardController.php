@@ -30,10 +30,7 @@ class DashboardController extends Controller
     }
 
     public function dashboard_mahasiswa(){
-        $fetch_data = KRS::with('mata_kuliah')
-        ->where('id_user',Auth::user()->id)->get();
-            return Inertia::render('Dashboard/DashboardMahasiswa',[
-            'data_krs'=>$fetch_data
-        ]);
+
+            return Inertia::render('Dashboard/DashboardMahasiswa');
     }
 }
