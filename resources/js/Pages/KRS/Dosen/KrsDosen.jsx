@@ -1,85 +1,51 @@
+import PrimaryButton from "@/Components/PrimaryButton";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DataTable from "react-data-table-component";
 
-const KrsDosen = ({ data }) => {
-    const [datas, setDatas] = useState([]);
-
-    useEffect(() => {
-        setDatas(data.filter((item) => item.status_verified == null));
-    }, []);
-
-    const filterPenilaian = () => {
-        setDatas(
-            data.filter(
-                (item) =>
-                    item.status_verified != null && item.nilai_angka == null
-            )
-        );
-    };
-
-    const filterVerfikasi = () => {
-        setDatas(data.filter((item) => item.status_verified == null));
-    };
+const KrsDosen = ({ data_krs }) => {
     const columns = [
         {
             name: "Nama",
-            selector: (row) => row.nama,
+            selector: (row) => row.mahasiswa.nama_mahasiswa,
         },
         {
             name: "Semester",
             selector: (row) => row.semester,
         },
         {
-            name: "Program Studi",
-            selector: (row) => row.nama_prodi,
+            name: "Total SKS",
+            selector: (row) => row.total_sks,
+        },
+        {
+            name: "Tahun Ajaran",
+            selector: (row) => row.tahun_ajaran,
         },
         {
             name: "Action",
             selector: (row) =>
-                row.status_verified != null ? (
-                    <Link
-                        href={`/penilaian_krs/${row.id_user}/${row.semester}`}
-                    >
-                        <button className="bg-green-400 text-white font-bold p-2 rounded-md">
-                            Lakukan Penilaian
-                        </button>
-                    </Link>
-                ) : (
-                    <Link
-                        href={`/verifikasi_krs/${row.id_user}/${row.semester}`}
-                    >
+                row.status == `Menunggu` ? (
+                    <Link href={`/krs/verifikasi/${row.id}`}>
                         <button className="bg-green-400 text-white font-bold p-2 rounded-md">
                             Lakukan Verifikasi
                         </button>
                     </Link>
+                ) : (
+                    <PrimaryButton>{row.status}</PrimaryButton>
                 ),
         },
     ];
     return (
-        <AdminLayout title={"Kartu Rencana Studi"}>
+        <AdminLayout title={["Kartu Rencana Studi", "Verifikasi"]}>
             <div className=" text-gray-900">
                 <p className="text-lg">Daftar Kartu Rencana Studi</p>
                 <span className="text-sm font-bold">
                     Daftar Kartu Rencana Studi yang tersedia
                 </span>
             </div>
-            <div className="my-2">
-                <button
-                    className="bg-gray-200 p-2 mx-1 rounded-md text-sm font-bold"
-                    onClick={filterVerfikasi}
-                >
-                    Verifikasi
-                </button>
-                <button
-                    className="bg-gray-200 p-2 mx-1 rounded-md text-sm font-bold"
-                    onClick={filterPenilaian}
-                >
-                    Penilaian
-                </button>
-            </div>
-            <DataTable data={datas} columns={columns} />
+
+            <DataTable data={data_krs} columns={columns} pagination />
         </AdminLayout>
     );
 };

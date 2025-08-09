@@ -25,7 +25,8 @@ class KrsRequest extends FormRequest
         'mahasiswa_id'=>"required",
         'status'=>"required",
         'semester'=>"required",
-        'tahun_ajaran'=>"required"
+        'tahun_ajaran'=>"required",
+        'total_sks'=>"required",
         ];
     }
 }

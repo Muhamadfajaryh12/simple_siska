@@ -1,23 +1,18 @@
+import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { useForm } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
-const KrsVerifikasi = ({ data_krs }) => {
-    const { data, setData, processing, post } = useForm({
-        data_verifikasi: [],
+const KrsVerifikasi = ({ data_krs, data_mahasiswa }) => {
+    const { data, setData, processing, put } = useForm({
+        status: "", // default value
     });
 
-    useEffect(() => {
-        setData(
-            "data_verifikasi",
-            data_krs.map((item) => ({ id: item.id }))
-        );
-    }, [data_krs]);
-
-    const submit = () => {
-        post(route("krs.verifikasi"));
+    const submit = (status) => {
+        setData("status", status);
+        put(route("krs.verifikasi", { id: data_mahasiswa.id }));
     };
 
     const columns = [
@@ -31,7 +26,7 @@ const KrsVerifikasi = ({ data_krs }) => {
         },
         {
             name: "Kelas",
-            selector: (row) => row.mata_kuliah.kelas.nama_kelas,
+            selector: (row) => row.mata_kuliah.kelas,
         },
         {
             name: "Jadwal",
@@ -45,7 +40,7 @@ const KrsVerifikasi = ({ data_krs }) => {
         },
         {
             name: "Dosen Pengampu",
-            selector: (row) => row.mata_kuliah.dosen.nama,
+            selector: (row) => row.mata_kuliah.dosen.nama_dosen,
         },
         {
             name: "SKS",
@@ -53,44 +48,36 @@ const KrsVerifikasi = ({ data_krs }) => {
         },
     ];
 
-    let totalSKS = data_krs?.reduce(
-        (acc, item) => acc + item?.mata_kuliah.sks,
-        0
-    );
-
     return (
-        <AdminLayout title={"Verifikasi KRS"}>
-            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-1">
-                    <div className="p-6 text-gray-900">
-                        <div className="flex justify-between">
-                            <p className="text-lg">Kartu Rencana Studi</p>
+        <AdminLayout title={["Kartu Rencana Studi", "Verifikasi"]}>
+            <p>Nama Mahasiswa : {data_mahasiswa.mahasiswa.nama_mahasiswa} </p>
+
+            <DataTable fixedHeader columns={columns} data={data_krs} />
+            <div className="flex justify-end">
+                <div className="my-2">
+                    <h6 className="text-sm font-bold mt-2">
+                        Total SKS : {data_mahasiswa.total_sks || 0}
+                    </h6>
+                    {data_mahasiswa.status == "menunggu" ? (
+                        <div className="flex gap-2">
+                            <DangerButton
+                                disabled={processing}
+                                className="mt-4"
+                                onClick={() => submit("ditolak")}
+                            >
+                                Tolak
+                            </DangerButton>
+                            <PrimaryButton
+                                disabled={processing}
+                                className="mt-4"
+                                onClick={() => submit("disetujui")}
+                            >
+                                Setujui
+                            </PrimaryButton>
                         </div>
-                        <span className="text-sm font-bold">
-                            Berikut adalah Kartu Rencana Studi yang diajukan
-                        </span>
-                        <p>Nama Mahasiswa : {data_krs[0]?.mahasiswa?.nama}</p>
-                    </div>
-                    <div className="p-6">
-                        <DataTable
-                            fixedHeader
-                            columns={columns}
-                            data={data_krs}
-                        />
-                        <div className="flex justify-end">
-                            <div className="my-2">
-                                <h6 className="text-sm font-bold mt-2">
-                                    Total SKS : {totalSKS}
-                                </h6>
-                                <PrimaryButton
-                                    disabled={processing}
-                                    onClick={submit}
-                                >
-                                    Verifikasi
-                                </PrimaryButton>
-                            </div>
-                        </div>
-                    </div>
+                    ) : (
+                        <PrimaryButton>{data_mahasiswa.status}</PrimaryButton>
+                    )}
                 </div>
             </div>
         </AdminLayout>

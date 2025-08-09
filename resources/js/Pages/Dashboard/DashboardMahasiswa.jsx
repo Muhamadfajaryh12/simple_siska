@@ -20,6 +20,7 @@ const dataNav = [
     {
         name: "Kartu Rencana Studi",
         icon: <LuBookText size={30} />,
+        link: "/krs",
     },
     {
         name: "Hasil Study",
@@ -45,7 +46,7 @@ const dataNav = [
 const DashboardMahasiswa = ({ auth }) => {
     return (
         <Authenticated user={auth.user}>
-            <div className="grid grid-cols-3 gap-4 my-4 mx-auto">
+            <div className="grid grid-cols-3 gap-5 w-full  mx-auto">
                 {dataNav.map((item) => (
                     <CardNavigation key={item.name} data={item} />
                 ))}

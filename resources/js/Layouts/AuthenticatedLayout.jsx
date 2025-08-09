@@ -4,6 +4,7 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
+import Message from "@/Components/Message";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -20,47 +21,6 @@ export default function Authenticated({ user, header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
-
-                            {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                >
-                                    Dashboard
-                                </NavLink>{" "}
-                            </div> */}
-                            {/* <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                <div className="ms-3 relative">
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            Akademik
-                                        </Dropdown.Trigger>
-                                        <Dropdown.Content>
-                                            <Dropdown.Link
-                                                href={route(
-                                                    "krs_mahasiswa.index"
-                                                )}
-                                            >
-                                                Mengambil KRS
-                                            </Dropdown.Link>
-                                            <Dropdown.Link
-                                                href={route(
-                                                    "krs_mahasiswa.detail"
-                                                )}
-                                            >
-                                                Melihat KRS
-                                            </Dropdown.Link>
-                                            <Dropdown.Link
-                                                href={route(
-                                                    "krs_mahasiswa.nilai"
-                                                )}
-                                            >
-                                                Melihat Nilai
-                                            </Dropdown.Link>
-                                        </Dropdown.Content>
-                                    </Dropdown>
-                                </div>
-                            </div> */}
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
@@ -199,8 +159,13 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </header>
             )}
+            <main className="max-w-screen-xl mx-auto">
+                <Message />
 
-            <main className="max-w-screen-xl mx-auto">{children}</main>
+                <div className="p-2 my-4 bg-white overflow-hidden shadow-sm sm:rounded-lg ">
+                    {children}
+                </div>
+            </main>
         </div>
     );
 }

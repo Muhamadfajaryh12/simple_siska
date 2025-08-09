@@ -4,11 +4,11 @@ import { CiViewList } from "react-icons/ci";
 
 const Sidebar = ({ auth }) => {
     const list = [
-        {
-            title: "Dashboard",
-            link: "dashboard.dosen",
-            role: "Dosen",
-        },
+        // {
+        //     title: "Dashboard",
+        //     link: "dashboard.dosen",
+        //     role: "Dosen",
+        // },
         {
             title: "Mahasiswa",
             link: "mahasiswa.index",
@@ -41,6 +41,11 @@ const Sidebar = ({ auth }) => {
         },
         {
             title: "Kartu Rencana Studi",
+            link: "krs_dosen.index",
+            role: "Dosen",
+        },
+        {
+            title: "Penilaian",
             link: "krs_dosen.index",
             role: "Dosen",
         },

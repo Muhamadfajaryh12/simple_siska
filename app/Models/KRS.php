@@ -14,11 +14,16 @@ class KRS extends Model
         'mahasiswa_id',
         'status',
         'semester',
-        'tahun_ajaran'
+        'tahun_ajaran',
+        'total_sks',
     ];
 
     public function mahasiswa()
     {
-        return $this->belongsTo(User::class, 'mahasiswa_id');
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');
     }
+
+    
+
+
 }
