@@ -15,14 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string("nama_mata_kuliah",255);
             $table->string("kode_mata_kuliah",255);
-            $table->string("jadwal",255);
             $table->integer("sks");
             $table->integer("semester");
-            $table->string("kelas");
             $table->unsignedBigInteger("prodi_id");
-            $table->unsignedBigInteger("dosen_id");
             $table->foreign("prodi_id")->references("id")->on("prodi")->onDelete("cascade");
-            $table->foreign("dosen_id")->references("id")->on("dosen")->onDelete("cascade");
             $table->timestamps();
         });
     }

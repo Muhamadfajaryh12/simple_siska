@@ -44,9 +44,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
-
     public function mahasiswa(){
         return $this->hasOne(Mahasiswa::class,"user_id","id");
+    }
+
+    public function dosen(){
+        return $this->hasOne(Dosen::class,"user_id","id");
     }
 }

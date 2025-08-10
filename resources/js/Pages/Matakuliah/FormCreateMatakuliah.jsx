@@ -1,10 +1,8 @@
 import MataKuliahForm from "@/Components/forms/MataKuliahForm";
 import AdminLayout from "@/Layouts/AdminLayout";
-import React, { useEffect, useState } from "react";
-import data_jadwal from "@/static/DataJadwal.json";
+import React from "react";
 import data_semester from "@/static/DataSemster.json";
-import data_kelas from "@/static/DataKelas.json";
-const FormCreateMatakuliah = ({ data_fakultas, data_prodi, data_dosen }) => {
+const FormCreateMatakuliah = ({ data_prodi }) => {
     return (
         <AdminLayout title={["Mata Kuliah", "Form"]}>
             <div className=" text-gray-900 mb-2">
@@ -14,11 +12,7 @@ const FormCreateMatakuliah = ({ data_fakultas, data_prodi, data_dosen }) => {
                 </span>
             </div>
             <MataKuliahForm
-                data_fakultas={data_fakultas}
                 data_prodi={data_prodi}
-                data_dosen={data_dosen}
-                data_kelas={data_kelas}
-                data_jadwal={data_jadwal}
                 data_semester={data_semester}
             />
         </AdminLayout>

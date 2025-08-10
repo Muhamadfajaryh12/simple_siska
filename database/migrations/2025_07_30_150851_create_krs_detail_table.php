@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('krs_detail', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("krs_id");
-            $table->unsignedBigInteger("mata_kuliah_id");
-            $table->foreign("krs_id")->references( "id")->on("krs")->onDelete("cascade");
-            $table->foreign("mata_kuliah_id")->references( "id")->on("mata_kuliah")->onDelete("cascade");
+            $table->unsignedBigInteger("kelas_mata_kuliah_id");
+            $table->foreign("kelas_mata_kuliah_id")->references( "id")->on("kelas_mata_kuliah")->onDelete(action: "cascade");
+            $table->foreign("krs_id")->references( "id")->on("krs")->onDelete(action: "cascade");
             $table->timestamps();
         });
     }

@@ -18,4 +18,8 @@ class KrsDetail extends Model
         return $this->belongsTo(Matakuliah::class, 'mata_kuliah_id', 'id');
     }
 
+    public function krs(){
+        return $this->belongsTo(KRS::class,"krs_id","id");
+    }
+
 }

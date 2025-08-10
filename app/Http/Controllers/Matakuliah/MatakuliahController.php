@@ -19,7 +19,7 @@ class MatakuliahController extends Controller
 {
 
     public function index(){
-        $fetch_data = Matakuliah::with([ 'dosen', 'prodi'])->get();
+        $fetch_data = Matakuliah::with(['prodi'])->get();
         return Inertia::render('Matakuliah/Matakuliah',[
             'data'=>$fetch_data
         ]);
@@ -27,24 +27,17 @@ class MatakuliahController extends Controller
     public function create(){
         $fetch_fakultas = Fakultas::all();
         $fetch_prodi = Prodi::all();
-        $fetch_dosen = Dosen::all();
         return Inertia::render('Matakuliah/FormCreateMatakuliah',[
             'data_fakultas' => $fetch_fakultas,
             'data_prodi' => $fetch_prodi,
-            'data_dosen'=> $fetch_dosen,
-    
         ]);
     }
 
     public function update($id){
         $fetch_prodi = Prodi::all();
-        $fetch_dosen = Dosen::all();
-        $fetch_kelas = Kelas::all();
         $fetch_mata_kuliah = Matakuliah::findOrFail($id);
         return Inertia::render( "Matakuliah/UpdateMatakuliah",[
             'data_prodi' => $fetch_prodi,
-            'data_dosen'=> $fetch_dosen,
-            'data_kelas'=> $fetch_kelas,
             'data_mata_kuliah'=> $fetch_mata_kuliah
         ]);
     }
@@ -54,15 +47,10 @@ class MatakuliahController extends Controller
             $validation = $request->validate([
                 'data'=>'required|array',
                 'data.*.nama_mata_kuliah' => 'required',
-                'data.*.jadwal' => 'required',
-                'data.*.jam_mulai'=>'required',
-                'data.*.jam_selesai'=>'required',
+                'data.*.kode_mata_kuliah'=>"required",
                 'data.*.sks' => 'required|integer',
                 'data.*.semester' => 'required',
-                'data.*.kode_mata_kuliah'=>"required",
-                'data.*.kelas' => 'required',
                 'data.*.prodi_id' => 'required',
-                'data.*.dosen_id' => 'required',
             ]);
             
             MataKuliah::insert($validation['data']);

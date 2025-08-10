@@ -16,6 +16,7 @@ return new class extends Migration
             $table->enum("status",["disetujui","menunggu","ditolak"]);
             $table->integer("semester");
             $table->string("tahun_ajaran",255);
+            $table->string("total_sks");
             $table->unsignedBigInteger("mahasiswa_id");
             $table->foreign("mahasiswa_id")->references("id")->on("mahasiswa")->onDelete("cascade");
             $table->timestamps();

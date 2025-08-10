@@ -7,34 +7,19 @@ import SelectContent from "../input/SelectContent";
 import DangerButton from "../DangerButton";
 import { FaTrash } from "react-icons/fa6";
 
-const MataKuliahForm = ({
-    data_prodi,
-    data_dosen,
-    data_kelas,
-    data_jadwal,
-    data_semester,
-    data_mata_kuliah,
-}) => {
+const MataKuliahForm = ({ data_prodi, data_semester, data_mata_kuliah }) => {
     const [temp, setTemp] = useState([]);
     const [dataTemp, setDataTemp] = useState([]);
     const { data, setData, processing, post, put, errors, reset } = useForm({
         nama_mata_kuliah: "",
-        jadwal: "",
-        jam_mulai: "",
-        jam_selesai: "",
         sks: "",
         kode_mata_kuliah: "",
         prodi_id: "",
-        dosen_id: "",
-        kelas: "",
         semester: "",
     });
 
     const payload = {
         ...data,
-        dosen:
-            data_dosen.find((item) => item.id == data?.dosen_id)?.nama_dosen ||
-            "",
         prodi:
             data_prodi.find((item) => item.id == data?.prodi_id)?.nama_prodi ||
             "",
@@ -78,13 +63,8 @@ const MataKuliahForm = ({
                 nama_mata_kuliah: data_mata_kuliah.nama_mata_kuliah,
                 sks: data_mata_kuliah.sks,
                 semester: data_mata_kuliah.semester,
-                dosen_id: data_mata_kuliah.dosen_id,
                 prodi_id: data_mata_kuliah.prodi_id,
-                kelas: data_mata_kuliah.kelas,
                 kode_mata_kuliah: data_mata_kuliah.kode_mata_kuliah,
-                jadwal: data_mata_kuliah.jadwal,
-                jam_mulai: data_mata_kuliah.jam_mulai,
-                jam_selesai: data_mata_kuliah.jam_selesai,
             });
         }
     }, [data_mata_kuliah]);
@@ -95,14 +75,6 @@ const MataKuliahForm = ({
             selector: (row) => row.nama_mata_kuliah,
         },
         {
-            name: "Jadwal",
-            selector: (row) => (
-                <span>
-                    {row.jadwal} ({row.jam_mulai} - {row.jam_selesai})
-                </span>
-            ),
-        },
-        {
             name: "SKS",
             selector: (row) => row.sks,
         },
@@ -111,20 +83,12 @@ const MataKuliahForm = ({
             selector: (row) => row.semester,
         },
         {
-            name: "Kelas",
-            selector: (row) => row.kelas,
-        },
-        {
             name: "Kode MK",
             selector: (row) => row.kode_mata_kuliah,
         },
         {
             name: "Program Studi",
             selector: (row) => row.prodi,
-        },
-        {
-            name: "Dosen",
-            selector: (row) => row.dosen,
         },
         {
             name: "Action",
@@ -152,33 +116,7 @@ const MataKuliahForm = ({
                     value={data.nama_mata_kuliah}
                     errors={errors.mata_kuliah}
                 />
-                <div className="grid grid-cols-3 gap-4">
-                    <SelectContent
-                        label={"Jadwal"}
-                        data={data_jadwal}
-                        valueField={"id"}
-                        labelField={"id"}
-                        name={"jadwal"}
-                        errors={errors.jadwal}
-                        handleChange={(e) => setData("jadwal", e.target.value)}
-                        value={data.jadwal}
-                    />
-                    <TextInputContent
-                        label={"Jam Mulai"}
-                        type={"time"}
-                        name={"jam_mulai"}
-                        onChange={(e) => setData("jam_mulai", e.target.value)}
-                        value={data.jam_mulai}
-                        errors={errors.jam_mulai}
-                    />
-                    <TextInputContent
-                        label={"Jam Selesai"}
-                        type={"time"}
-                        name={"jam_selesai"}
-                        onChange={(e) => setData("jam_selesai", e.target.value)}
-                        value={data.jam_selesai}
-                        errors={errors.jam_selesai}
-                    />
+                <div className="grid grid-cols-2 gap-4">
                     <TextInputContent
                         label={"Satuan Kredit"}
                         type={"number"}
@@ -199,19 +137,9 @@ const MataKuliahForm = ({
                         }
                         value={data.semester}
                     />
-                    <SelectContent
-                        label={"Kelas"}
-                        data={data_kelas}
-                        valueField={"kelas"}
-                        labelField={"kelas"}
-                        name={"kelas"}
-                        errors={errors.kelas}
-                        handleChange={(e) => setData("kelas", e.target.value)}
-                        value={data.kelas}
-                    />
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                     <SelectContent
                         label={"Program Studi"}
                         data={data_prodi}
@@ -223,19 +151,8 @@ const MataKuliahForm = ({
                             setData("prodi_id", e.target.value)
                         }
                         value={data.prodi_id}
-                    />{" "}
-                    <SelectContent
-                        label={"Dosen Pengampu"}
-                        data={data_dosen}
-                        valueField={"id"}
-                        labelField={"nama_dosen"}
-                        name={"dosen_id"}
-                        errors={errors.dosen_id}
-                        handleChange={(e) =>
-                            setData("dosen_id", e.target.value)
-                        }
-                        value={data.dosen_id}
-                    />{" "}
+                    />
+
                     <TextInputContent
                         label={"Kode Mata Kuliah"}
                         type={"text"}

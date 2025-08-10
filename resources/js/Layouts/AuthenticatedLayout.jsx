@@ -162,9 +162,7 @@ export default function Authenticated({ user, header, children }) {
             <main className="max-w-screen-xl mx-auto">
                 <Message />
 
-                <div className="p-2 my-4 bg-white overflow-hidden shadow-sm sm:rounded-lg ">
-                    {children}
-                </div>
+                <div className="p-2 my-4">{children}</div>
             </main>
         </div>
     );

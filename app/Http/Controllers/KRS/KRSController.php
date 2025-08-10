@@ -49,8 +49,9 @@ class KRSController extends Controller
     
     public function index_nilai_krs(){
         $fetch_data = KRS::with('mata_kuliah')    
-        ->where('id_user',Auth::user()->id)
-        ->get();;
+        ->where('user_id',Auth::user()->id)
+        ->get();
+
         return Inertia::render('KRS/Mahasiswa/KrsMahasiswaNilai',[
             'data_krs'=>$fetch_data
         ]);
@@ -98,16 +99,14 @@ class KRSController extends Controller
         }
         redirect('krs_dosen.index');
     }
-    public function detail(){
-        $fetch_data = KRS::with(    
-        'mata_kuliah.prodi',
-        'mata_kuliah.dosen',
-        'mata_kuliah.kelas',
-        'mata_kuliah.fakultas')
-        ->where('id_user',Auth::user()->id)
-        ->get();
+    public function index_krs_history(){
+        
+        $fetch_krs_detail =  KrsDetail::with(['mata_kuliah', 'krs'])
+        ->whereHas('krs', function ($query) {
+            $query->where('mahasiswa_id', Auth::user()->mahasiswa->id);
+        })->get();
         return Inertia::render('KRS/Mahasiswa/KrsMahasiswaDetail',[
-            'datas'=> $fetch_data
+            'data_krs'=> $fetch_krs_detail
         ]);
     }
     public function store (Request $request) {      

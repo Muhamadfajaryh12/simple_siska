@@ -33,25 +33,10 @@ const Matakuliah = ({ data }) => {
             selector: (row) => row.sks,
         },
         {
-            name: "Dosen",
-            selector: (row) => row.dosen.nama_dosen,
-        },
-        {
             name: "Program Studi",
             selector: (row) => row.prodi.nama_prodi,
         },
-        {
-            name: "Jadwal",
-            selector: (row) => (
-                <span>
-                    {row.jadwal} ({row.jam_mulai} - {row.jam_selesai})
-                </span>
-            ),
-        },
-        {
-            name: "Kelas",
-            selector: (row) => row.kelas,
-        },
+
         {
             name: "Action",
             selector: (row) => (

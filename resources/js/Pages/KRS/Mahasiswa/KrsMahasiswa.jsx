@@ -1,5 +1,5 @@
 import PrimaryButton from "@/Components/PrimaryButton";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import KRSLayout from "@/Layouts/KRSLayout";
 import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import DataTable from "react-data-table-component";
@@ -75,16 +75,7 @@ const KrsMahasiswa = ({ auth, data_mata_kuliah }) => {
     ];
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Kartu Rencana Studi
-                </h2>
-            }
-        >
-            <Head title="Kartu Rencana Studi" />
-
+        <KRSLayout auth={auth}>
             <div className="p-6 text-gray-900">
                 <p className="text-lg">Susunan Mata Kuliah</p>
                 <span className="text-sm font-bold">
@@ -107,7 +98,7 @@ const KrsMahasiswa = ({ auth, data_mata_kuliah }) => {
             >
                 DIAMBIL ({data.mata_kuliah.length})
             </PrimaryButton>
-        </AuthenticatedLayout>
+        </KRSLayout>
     );
 };
 

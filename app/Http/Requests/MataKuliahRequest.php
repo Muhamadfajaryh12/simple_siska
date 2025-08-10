@@ -24,14 +24,9 @@ class MataKuliahRequest extends FormRequest
         return [
         'nama_mata_kuliah'=>"required",
         'kode_mata_kuliah'=>"required",
-        'jadwal'=>"required",
-        'jam_mulai'=>"required",
-        "jam_selesai"=>"required",
         'sks'=>"required",
         'semester'=>"required",
-        'kelas'=>"required",
         'prodi_id'=>"required",
-        'dosen_id'=>"required",
         ];
     }
 }
