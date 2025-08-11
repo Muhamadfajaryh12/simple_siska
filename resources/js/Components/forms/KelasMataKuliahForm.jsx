@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SelectContent from "../input/SelectContent";
 import { useForm } from "@inertiajs/react";
 import TextInputContent from "../input/TextInputContent";
@@ -8,8 +8,12 @@ import PrimaryButton from "../PrimaryButton";
 import DataTable from "react-data-table-component";
 import DangerButton from "../DangerButton";
 import { FaTrash } from "react-icons/fa6";
-const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
-    const { setData, data, post, processing, reset } = useForm({
+const KelasMataKuliahForm = ({
+    data_dosen,
+    data_mata_kuliah,
+    detail_kelas_mata_kuliah,
+}) => {
+    const { setData, data, post, put, processing, reset } = useForm({
         data_kelas_mata_kuliah: [],
     });
 
@@ -20,6 +24,20 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
             (item) => item.id == data.mata_kuliah_id
         )?.nama_mata_kuliah,
     };
+
+    useEffect(() => {
+        if (detail_kelas_mata_kuliah) {
+            setData({
+                dosen_id: detail_kelas_mata_kuliah.dosen_id,
+                mata_kuliah_id: detail_kelas_mata_kuliah.mata_kuliah_id,
+                nama_kelas: detail_kelas_mata_kuliah.nama_kelas,
+                jam_mulai: detail_kelas_mata_kuliah.jam_mulai,
+                jam_selesai: detail_kelas_mata_kuliah.jam_selesai,
+                tahun_ajaran: detail_kelas_mata_kuliah.tahun_ajaran,
+                jadwal: detail_kelas_mata_kuliah.jadwal,
+            });
+        }
+    }, [detail_kelas_mata_kuliah]);
     const handleAddedTemp = (e) => {
         e.preventDefault();
         setData("data_kelas_mata_kuliah", [
@@ -46,6 +64,14 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
             },
         });
     };
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        put(
+            route("kelas_mata_kuliah.edit", { id: detail_kelas_mata_kuliah.id })
+        );
+    };
+
     const columns = [
         {
             name: "Dosen",
@@ -74,7 +100,10 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
         {
             name: "Action",
             selector: (row, index) => (
-                <DangerButton onClick={() => handleRemoveTemp(index)}>
+                <DangerButton
+                    onClick={() => handleRemoveTemp(index)}
+                    disabled={processing}
+                >
                     <FaTrash />
                 </DangerButton>
             ),
@@ -82,13 +111,19 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
     ];
     return (
         <div>
-            <form className="flex flex-col gap-4" onSubmit={handleAddedTemp}>
+            <form
+                className="flex flex-col gap-4"
+                onSubmit={
+                    !detail_kelas_mata_kuliah ? handleAddedTemp : handleUpdate
+                }
+            >
                 <SelectContent
                     data={data_dosen}
                     name={"dosen_id"}
                     label={"Dosen"}
                     labelField={"nama_dosen"}
                     valueField={"id"}
+                    value={data.dosen_id}
                     handleChange={(e) => setData("dosen_id", e.target.value)}
                 />
                 <SelectContent
@@ -97,6 +132,7 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
                     label={"Mata Kuliah"}
                     labelField={"nama_mata_kuliah"}
                     valueField={"id"}
+                    value={data.mata_kuliah_id}
                     handleChange={(e) =>
                         setData("mata_kuliah_id", e.target.value)
                     }
@@ -108,6 +144,7 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
                         label={"Kelas"}
                         labelField={"kelas"}
                         valueField={"kelas"}
+                        value={data.nama_kelas}
                         handleChange={(e) =>
                             setData("nama_kelas", e.target.value)
                         }
@@ -120,7 +157,7 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
                             setData("tahun_ajaran", e.target.value)
                         }
                         type={"text"}
-                    />{" "}
+                    />
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                     <TextInputContent
@@ -129,42 +166,52 @@ const KelasMataKuliahForm = ({ data_dosen, data_mata_kuliah }) => {
                         value={data.jam_mulai}
                         onChange={(e) => setData("jam_mulai", e.target.value)}
                         type={"time"}
-                    />{" "}
+                    />
                     <TextInputContent
                         name={"jam_selesai"}
                         label={"Jam Selesai"}
                         value={data.jam_selesai}
                         onChange={(e) => setData("jam_selesai", e.target.value)}
                         type={"time"}
-                    />{" "}
+                    />
                     <SelectContent
                         data={data_jadwal}
                         name={"jadwal"}
                         label={"Jadwal"}
                         labelField={"id"}
                         valueField={"id"}
+                        value={data.jadwal}
                         handleChange={(e) => setData("jadwal", e.target.value)}
                     />
                 </div>
-                <PrimaryButton>TAMBAHKAN</PrimaryButton>
+                <PrimaryButton disabled={processing}>
+                    {!detail_kelas_mata_kuliah ? "Tambahkan" : "Simpan"}
+                </PrimaryButton>
             </form>
-
-            <div className="mt-4">
-                <DataTable
-                    data={data.data_kelas_mata_kuliah}
-                    columns={columns}
-                />
-                {data.data_kelas_mata_kuliah.length > 0 && (
-                    <div className="flex gap-2 my-2">
-                        <PrimaryButton onClick={handleSubmit}>
-                            SIMPAN
-                        </PrimaryButton>
-                        <DangerButton onClick={() => handleReset()}>
-                            RESET
-                        </DangerButton>
-                    </div>
-                )}
-            </div>
+            {!detail_kelas_mata_kuliah && (
+                <div className="mt-4">
+                    <DataTable
+                        data={data?.data_kelas_mata_kuliah}
+                        columns={columns}
+                    />
+                    {data?.data_kelas_mata_kuliah?.length > 0 && (
+                        <div className="flex gap-2 my-2">
+                            <PrimaryButton
+                                onClick={handleSubmit}
+                                disabled={processing}
+                            >
+                                SIMPAN
+                            </PrimaryButton>
+                            <DangerButton
+                                onClick={() => handleReset()}
+                                disabled={processing}
+                            >
+                                RESET
+                            </DangerButton>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

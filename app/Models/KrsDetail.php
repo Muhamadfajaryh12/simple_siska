@@ -11,11 +11,11 @@ class KrsDetail extends Model
     protected $table ="krs_detail";
     protected $fillable = [
         "krs_id",
-        "mata_kuliah_id"
+        "kelas_mata_kuliah_id"
     ];
 
-    public function mata_kuliah(){
-        return $this->belongsTo(Matakuliah::class, 'mata_kuliah_id', 'id');
+    public function kelas_mata_kuliah(){
+        return $this->belongsTo(KelasMataKuliah::class, 'kelas_mata_kuliah_id', 'id');
     }
 
     public function krs(){

@@ -27,6 +27,17 @@ class KelasMataKuliahController extends Controller
         ]);
     }
     
+    public function update_index($id){
+        $fetch_dosen = Dosen::all();
+        $fetch_mata_kuliah = Matakuliah::all();
+        $fetch_kelas_mata_kuliah = KelasMataKuliah::findOrFail($id);
+
+        return Inertia::render("KelasMataKuliah/UpdateKelasMataKuliah",[
+            "data_dosen"=>$fetch_dosen,
+            "data_mata_kuliah"=>$fetch_mata_kuliah,
+            "data_kelas_mata_kuliah"=>$fetch_kelas_mata_kuliah
+        ]);
+    }
 
     public function store(Request $request){
         try{
@@ -49,6 +60,25 @@ class KelasMataKuliahController extends Controller
         }
     }
 
+    public function edit(Request $request,$id){
+    try{
+            $validation = $request->validate([     
+                'nama_kelas' => 'required',
+                'jadwal' => 'required',
+                'jam_mulai' => 'required',
+                'jam_selesai' => 'required',
+                'tahun_ajaran' => 'required',
+                'dosen_id' => 'required',
+                'mata_kuliah_id' => 'required'
+            ]);
+
+            $kelas_mata_kuliah= KelasMataKuliah::findOrFail($id);
+            $kelas_mata_kuliah->update($validation);           
+            return redirect()->back()->with("success","Berhasil mengedit kelas mata kuliah");
+        }catch(\Exception $e){
+            return redirect()->back()->with("error",$e->getMessage());
+        }
+    }
     public function destroy ($id) {
         try{
             $kelas_mata_kuliah = KelasMataKuliah::findOrFail($id);

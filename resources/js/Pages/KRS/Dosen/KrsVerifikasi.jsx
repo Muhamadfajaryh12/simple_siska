@@ -7,10 +7,11 @@ import DataTable from "react-data-table-component";
 
 const KrsVerifikasi = ({ data_krs, data_mahasiswa }) => {
     const { data, setData, processing, put } = useForm({
-        status: "", // default value
+        status: "",
     });
 
     const submit = (status) => {
+        console.log(status);
         setData("status", status);
         put(route("krs.verifikasi", { id: data_mahasiswa.id }));
     };
@@ -18,33 +19,37 @@ const KrsVerifikasi = ({ data_krs, data_mahasiswa }) => {
     const columns = [
         {
             name: "Mata Kuliah",
-            selector: (row) => row.mata_kuliah.nama_mata_kuliah,
+            selector: (row) =>
+                row.kelas_mata_kuliah.mata_kuliah.nama_mata_kuliah,
         },
         {
             name: "Semester",
-            selector: (row) => row.mata_kuliah.semester,
+            selector: (row) => row.kelas_mata_kuliah.mata_kuliah.semester,
         },
         {
             name: "Kelas",
-            selector: (row) => row.mata_kuliah.kelas,
+            selector: (row) => row.kelas_mata_kuliah.nama_kelas,
         },
         {
             name: "Jadwal",
             selector: (row) => (
                 <p>
-                    <span className="font-bold">{row.mata_kuliah.jadwal}</span>{" "}
-                    ({row.mata_kuliah.jam_mulai.replace(/:00$/, "")} - {""}
-                    {row.mata_kuliah.jam_selesai.replace(/:00$/, "")})
+                    <span className="font-bold">
+                        {row.kelas_mata_kuliah.jadwal}
+                    </span>{" "}
+                    ({row.kelas_mata_kuliah.jam_mulai.replace(/:00$/, "")} -{" "}
+                    {""}
+                    {row.kelas_mata_kuliah.jam_selesai.replace(/:00$/, "")})
                 </p>
             ),
         },
         {
             name: "Dosen Pengampu",
-            selector: (row) => row.mata_kuliah.dosen.nama_dosen,
+            selector: (row) => row.kelas_mata_kuliah.dosen.nama_dosen,
         },
         {
             name: "SKS",
-            selector: (row) => row.mata_kuliah.sks,
+            selector: (row) => row.kelas_mata_kuliah.mata_kuliah.sks,
         },
     ];
 

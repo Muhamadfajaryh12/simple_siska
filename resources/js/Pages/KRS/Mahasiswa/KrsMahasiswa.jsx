@@ -13,14 +13,13 @@ const KrsMahasiswa = ({ auth, data_mata_kuliah }) => {
 
     const handleSelect = (state) => {
         const payload = state.selectedRows.map((item) => ({
-            mata_kuliah_id: item.id,
+            kelas_mata_kuliah_id: item.id,
         }));
 
         const countTotalSks = state.selectedRows.reduce(
-            (sum, item) => sum + item.sks,
+            (sum, item) => sum + item.mata_kuliah.sks,
             0
         );
-
         setData({
             mata_kuliah: payload,
             total_sks: countTotalSks,
@@ -30,22 +29,21 @@ const KrsMahasiswa = ({ auth, data_mata_kuliah }) => {
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(data);
         post(route("krs_mahasiswa.store"));
     };
 
     const colums = [
         {
             name: "Mata Kuliah",
-            selector: (row) => row.nama_mata_kuliah,
+            selector: (row) => row.mata_kuliah.nama_mata_kuliah,
         },
         {
             name: "Kode Mata Kuliah",
-            selector: (row) => row.kode_mata_kuliah,
+            selector: (row) => row.mata_kuliah.kode_mata_kuliah,
         },
         {
             name: "SKS",
-            selector: (row) => row.sks,
+            selector: (row) => row.mata_kuliah.sks,
         },
         {
             name: "Jadwal",
@@ -58,15 +56,15 @@ const KrsMahasiswa = ({ auth, data_mata_kuliah }) => {
         },
         {
             name: "Kelas",
-            selector: (row) => row.kelas,
+            selector: (row) => row.nama_kelas,
         },
         {
             name: "Semester",
-            selector: (row) => row.semester,
+            selector: (row) => row.mata_kuliah.semester,
         },
         {
             name: "Program Studi",
-            selector: (row) => row.prodi.nama_prodi,
+            selector: (row) => row.mata_kuliah.prodi.nama_prodi,
         },
         {
             name: "Dosen Pengampu",

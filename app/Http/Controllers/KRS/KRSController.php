@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\KRS;
 
 use App\Http\Controllers\Controller;
+use App\Models\KelasMataKuliah;
 use App\Models\KRS;
 use App\Models\KrsDetail;
 use App\Models\Matakuliah;
@@ -14,8 +15,10 @@ use Inertia\Inertia;
 class KRSController extends Controller
 {
     public function index (){
-        $fetch_data = Matakuliah::with([ 'dosen', 'prodi'])
-        ->where('prodi_id', Auth::user()->mahasiswa->prodi_id)
+        $fetch_data = KelasMataKuliah::with([ 'dosen', 'mata_kuliah',"mata_kuliah.prodi"])
+        ->whereHas('mata_kuliah', function($query) {
+        $query->where('prodi_id', Auth::user()->mahasiswa->prodi_id);
+        })
         ->get();        
 
         return Inertia::render('KRS/Mahasiswa/KrsMahasiswa',[
@@ -31,8 +34,13 @@ class KRSController extends Controller
     }
 
     public function index_verifikasi($id){ 
-        $fetch_data = KrsDetail::with("mata_kuliah","mata_kuliah.dosen")->where("krs_id",$id)->get();
-        $fetch_krs = Krs::with("mahasiswa")->findOrFail($id);
+     $fetch_data = KrsDetail::with([
+        'kelas_mata_kuliah.mata_kuliah',
+        'kelas_mata_kuliah.dosen'
+    ])
+    ->where('krs_id', $id)
+    ->get();
+     $fetch_krs = Krs::with("mahasiswa")->findOrFail($id);
         return Inertia::render('KRS/Dosen/KrsVerifikasi',[
             'data_krs'=>$fetch_data,
             'data_mahasiswa'=>$fetch_krs
@@ -131,7 +139,7 @@ class KRSController extends Controller
             foreach ($validation['mata_kuliah'] as $data ){
                 KrsDetail::create([
                     'krs_id' => $krs->id,   
-                    'mata_kuliah_id' => $data['mata_kuliah_id'],
+                    'kelas_mata_kuliah_id' => $data['kelas_mata_kuliah_id'],
                 ]);
             }
 

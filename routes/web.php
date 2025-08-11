@@ -104,8 +104,10 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     Route::prefix("kelas_mata_kuliah")->group(function(){
         Route::get("/",[KelasMataKuliahController::class,"index"])->name("kelas_mata_kuliah.index");
         Route::get("/form",[KelasMataKuliahController::class,"create_index"])->name("kelas_mata_kuliah.create");
+        Route::get('/form/{id}',[KelasMataKuliahController::class,"update_index"])->name("kelas_mata_kuliah.update");
 
         Route::post("/",[KelasMataKuliahController::class,"store"])->name("kelas_mata_kuliah.store");
+        Route::put('/{id}',[KelasMataKuliahController::class,"edit"])->name("kelas_mata_kuliah.edit");
         Route::delete("/{id}",[KelasMataKuliahController::class,"destroy"])->name("kelas_mata_kuliah.destroy");
 
     });
@@ -137,9 +139,11 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
 
     Route::prefix("/nilai")->group(function(){
         Route::get("/",[NilaiController::class,"index_nilai_dosen"])->name("nilai_dosen.index");
-    
+        Route::get("/{id}",[NilaiController::class,"index_detail_kelas_nilai"])->name("nilai_dosen.detail");
+
         Route::post("/",[NilaiController::class,"store"])->name("nilai.store");
-    });
+    });        Route::put("/",[NilaiController::class,"edit"])->name("nilai.edit");
+
 });
 
 Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){

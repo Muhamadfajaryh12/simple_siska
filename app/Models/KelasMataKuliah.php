@@ -12,7 +12,8 @@ class KelasMataKuliah extends Model
     protected $fillable=[
         "nama_kelas","jadwal",
         "jam_mulai","jam_selesai",
-        "tahun_ajaran","dosen_id",
+        "tahun_ajaran",
+        "dosen_id",
         "mata_kuliah_id"
     ];
 

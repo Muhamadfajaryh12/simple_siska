@@ -1,9 +1,10 @@
 import DangerButton from "@/Components/DangerButton";
 import DeleteModal from "@/Components/modal/DeleteModal";
+import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import React from "react";
 import DataTable from "react-data-table-component";
 import { FaPencil, FaTrash } from "react-icons/fa6";
@@ -39,9 +40,11 @@ const KelasMataKuliah = ({ data_kelas_mata_kuliah }) => {
             name: "Action",
             selector: (row) => (
                 <div className="flex gap-2">
-                    <SecondaryButton>
-                        <FaPencil />
-                    </SecondaryButton>
+                    <Link href={`/kelas_mata_kuliah/form/${row.id}`}>
+                        <SecondaryButton>
+                            <FaPencil />
+                        </SecondaryButton>
+                    </Link>
                     <DangerButton
                         onClick={() =>
                             showModal(
@@ -58,7 +61,10 @@ const KelasMataKuliah = ({ data_kelas_mata_kuliah }) => {
         },
     ];
     return (
-        <AdminLayout title={["Kelas Mata Kuliah"]}>
+        <AdminLayout title={["Kelas Mata Kuliah", "Data"]}>
+            <Link href="/kelas_mata_kuliah/form">
+                <PrimaryButton>Menambahkan Kelas</PrimaryButton>
+            </Link>
             <DataTable
                 data={data_kelas_mata_kuliah}
                 columns={colums}

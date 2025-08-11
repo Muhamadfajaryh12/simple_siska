@@ -35,6 +35,11 @@ const Sidebar = ({ auth }) => {
             role: "Admin",
         },
         {
+            title: "Kelas Mata Kuliah",
+            link: "kelas_mata_kuliah.index",
+            role: "Admin",
+        },
+        {
             title: "Kelas",
             link: "kelas.index",
             role: "Admin",
@@ -46,7 +51,7 @@ const Sidebar = ({ auth }) => {
         },
         {
             title: "Penilaian",
-            link: "krs_dosen.index",
+            link: "nilai_dosen.index",
             role: "Dosen",
         },
     ];
