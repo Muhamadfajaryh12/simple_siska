@@ -19,10 +19,21 @@ class KRSController extends Controller
         ->whereHas('mata_kuliah', function($query) {
         $query->where('prodi_id', Auth::user()->mahasiswa->prodi_id);
         })
-        ->get();        
+        ->get()->groupBy(function ($item) {
+        return $item->mata_kuliah->semester;
+    });
 
+        $fetch_krs_mahasiswa = KrsDetail::with("krs","kelas_mata_kuliah","kelas_mata_kuliah.mata_kuliah")
+        ->whereHas("krs",function($query){
+            $query->where("mahasiswa_id",Auth::user()->mahasiswa->id);
+        })->get()->groupBy(function ($item) {
+        return $item->kelas_mata_kuliah->mata_kuliah->semester;
+         });
+;
+        
         return Inertia::render('KRS/Mahasiswa/KrsMahasiswa',[
-            'data_mata_kuliah'=>$fetch_data
+            'data_mata_kuliah'=>$fetch_data,
+            'data_krs_mahasiswa'=>$fetch_krs_mahasiswa
         ]);
     }
 

@@ -1,102 +1,36 @@
-import PrimaryButton from "@/Components/PrimaryButton";
-import KRSLayout from "@/Layouts/KRSLayout";
-import { Head, useForm } from "@inertiajs/react";
-import React from "react";
-import DataTable from "react-data-table-component";
+import Authenticated from "@/Layouts/AuthenticatedLayout";
+import KrsSection from "@/Section/KrsSection";
+import RekapanKrsSection from "@/Section/RekapanKrsSection";
+import React, { useState } from "react";
 
-const KrsMahasiswa = ({ auth, data_mata_kuliah }) => {
-    const { data, setData, post, processing } = useForm({
-        total_sks: "",
-        semester: "",
-        mata_kuliah: [],
-    });
-
-    const handleSelect = (state) => {
-        const payload = state.selectedRows.map((item) => ({
-            kelas_mata_kuliah_id: item.id,
-        }));
-
-        const countTotalSks = state.selectedRows.reduce(
-            (sum, item) => sum + item.mata_kuliah.sks,
-            0
-        );
-        setData({
-            mata_kuliah: payload,
-            total_sks: countTotalSks,
-            semester: "1",
-        });
-    };
-
-    const submit = (e) => {
-        e.preventDefault();
-        post(route("krs_mahasiswa.store"));
-    };
-
-    const colums = [
-        {
-            name: "Mata Kuliah",
-            selector: (row) => row.mata_kuliah.nama_mata_kuliah,
-        },
-        {
-            name: "Kode Mata Kuliah",
-            selector: (row) => row.mata_kuliah.kode_mata_kuliah,
-        },
-        {
-            name: "SKS",
-            selector: (row) => row.mata_kuliah.sks,
-        },
-        {
-            name: "Jadwal",
-            selector: (row) => (
-                <p>
-                    <span className="font-bold">{row.jadwal}</span> (
-                    {row.jam_mulai}-{row.jam_selesai})
-                </p>
-            ),
-        },
-        {
-            name: "Kelas",
-            selector: (row) => row.nama_kelas,
-        },
-        {
-            name: "Semester",
-            selector: (row) => row.mata_kuliah.semester,
-        },
-        {
-            name: "Program Studi",
-            selector: (row) => row.mata_kuliah.prodi.nama_prodi,
-        },
-        {
-            name: "Dosen Pengampu",
-            selector: (row) => row.dosen.nama_dosen,
-        },
-    ];
-
+const KrsMahasiswa = ({ auth, data_mata_kuliah, data_krs_mahasiswa }) => {
+    const [tab, setTab] = useState("krs");
+    const tabButtonClass = (activeTab) =>
+        `w-full p-2 rounded-md ${
+            tab === activeTab ? "bg-violet-500 text-white" : "bg-white"
+        }`;
     return (
-        <KRSLayout auth={auth}>
-            <div className="p-6 text-gray-900">
-                <p className="text-lg">Susunan Mata Kuliah</p>
-                <span className="text-sm font-bold">
-                    Silahkan pilih Mata Kuliah yang akan diambil!
-                </span>
+        <Authenticated user={auth}>
+            <div className="flex w-full gap-2 my-4">
+                <button
+                    className={tabButtonClass("krs")}
+                    onClick={() => setTab("krs")}
+                >
+                    Kartu Rencana Studi
+                </button>
+                <button
+                    className={tabButtonClass("rekapan")}
+                    onClick={() => setTab("rekapan")}
+                >
+                    Rekapan Kartu Rencana Studi
+                </button>
             </div>
-            <DataTable
-                fixedHeader
-                columns={colums}
-                data={data_mata_kuliah}
-                selectableRows
-                className="my-4"
-                onSelectedRowsChange={handleSelect}
-            />
-
-            <PrimaryButton
-                className="m-2"
-                onClick={submit}
-                disabled={processing}
-            >
-                DIAMBIL ({data.mata_kuliah.length})
-            </PrimaryButton>
-        </KRSLayout>
+            {tab == "krs" ? (
+                <KrsSection data_mata_kuliah={data_mata_kuliah} />
+            ) : (
+                <RekapanKrsSection data_krs_mahasiswa={data_krs_mahasiswa} />
+            )}
+        </Authenticated>
     );
 };
 

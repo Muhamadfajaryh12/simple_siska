@@ -59,12 +59,24 @@ class NilaiController extends Controller
                 ($item['uts'] ?? 0) * 0.3 +
                 ($item['uas'] ?? 0) * 0.4;
 
+                switch (true) {
+                    case $total_nilai >= 85:
+                        $nilai_huruf = "A";
+                        break;
+                    case $total_nilai >= 75:
+                        $nilai_huruf = "B";
+                        break;
+                    default:
+                        $nilai_huruf = "C";
+                }
+                
                  KrsDetail::where('id', $item['krs_detail_id'])->update([
                 'absen' => $item['absen'],
                 'tugas' => $item['tugas'],
                 'uts' => $item['uts'],
                 'uas' => $item['uas'],
                 'nilai_total' => round($total_nilai, 2), 
+                'nilai_huruf'=>$nilai_huruf
             ]);
             }
 
