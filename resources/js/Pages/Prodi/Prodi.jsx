@@ -1,13 +1,19 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link, router } from "@inertiajs/react";
 import { useModal } from "@/Context/ModalContext";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import { FaPencil, FaTrash } from "react-icons/fa6";
-const Prodi = ({ data }) => {
+import PrimaryButton from "@/Components/PrimaryButton";
+import FilterColumn from "@/Components/FilterColumn";
+import DangerButton from "@/Components/DangerButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+const Prodi = ({ data, data_fakultas }) => {
     const { showModal, closeModal } = useModal();
-    let index = 0;
+    const [filters, setFilters] = useState({
+        fakultasId: "",
+    });
 
     const handleDelete = (id) => {
         router.delete(
@@ -24,10 +30,6 @@ const Prodi = ({ data }) => {
 
     const columns = [
         {
-            name: "No",
-            selector: (row) => ++index,
-        },
-        {
             name: "Prodi",
             selector: (row) => row.nama_prodi,
         },
@@ -42,14 +44,13 @@ const Prodi = ({ data }) => {
         {
             name: "Action",
             selector: (row) => (
-                <div>
-                    <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
+                <div className="flex gap-2">
+                    <SecondaryButton>
                         <Link href={`/prodi/form/${row.id}`}>
                             <FaPencil size={15} />
                         </Link>
-                    </button>
-                    <button
-                        className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
+                    </SecondaryButton>
+                    <DangerButton
                         onClick={() =>
                             showModal(
                                 <DeleteModal
@@ -59,32 +60,49 @@ const Prodi = ({ data }) => {
                         }
                     >
                         <FaTrash size={15} />
-                    </button>
+                    </DangerButton>
                 </div>
             ),
         },
     ];
 
+    const filterConfig = [
+        {
+            key: "fakultasId",
+            label: "nama_fakultas",
+            value: "id",
+            data: data_fakultas,
+        },
+    ];
+
+    const updateFilter = (key, value) => {
+        setFilters((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+
+    const filterData = data.filter((item) => {
+        return filters.fakultasId
+            ? item.fakultas_id == filters.fakultasId
+            : true;
+    });
     return (
         <>
             <AdminLayout title={["Program Studi", "Daftar"]}>
-                <div className=" text-gray-900">
-                    <p className="text-lg">Daftar Program Studi</p>
-                    <span className="text-sm font-bold">
-                        Daftar Program Studi yang tersedia
-                    </span>
-                </div>
-                <div className="flex justify-end">
+                <div className="flex justify-between">
+                    <FilterColumn
+                        filterData={filterConfig}
+                        onChange={updateFilter}
+                    />
                     <Link href={route("prodi.create")}>
-                        <button className="bg-black text-white p-2 rounded-md text-sm font-bold mx-1">
-                            Menambah Program Studi
-                        </button>
+                        <PrimaryButton>Buat Program Studi</PrimaryButton>
                     </Link>
                 </div>
 
                 <DataTable
                     columns={columns}
-                    data={data}
+                    data={filterData}
                     fixedHeader
                     pagination
                 />

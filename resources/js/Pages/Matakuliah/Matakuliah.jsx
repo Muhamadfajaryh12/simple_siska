@@ -1,5 +1,9 @@
+import DangerButton from "@/Components/DangerButton";
+import FilterColumn from "@/Components/FilterColumn";
 import Modal from "@/Components/Modal";
 import DeleteModal from "@/Components/modal/DeleteModal";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
@@ -7,9 +11,11 @@ import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 
-const Matakuliah = ({ data }) => {
+const Matakuliah = ({ data, data_prodi }) => {
     const { showModal, closeModal } = useModal();
-
+    const [filters, setFilters] = useState({
+        prodiId: "",
+    });
     const handleDelete = (id) => {
         router.delete(route("mata_kuliah.destroy", { id: id }), {
             onSuccess: () => {
@@ -40,14 +46,13 @@ const Matakuliah = ({ data }) => {
         {
             name: "Action",
             selector: (row) => (
-                <div className="flex gap-1">
-                    <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
+                <div className="flex gap-2">
+                    <SecondaryButton>
                         <Link href={`/mata_kuliah/form/${row.id}`}>
                             <FaPencil />
                         </Link>
-                    </button>
-                    <button
-                        className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
+                    </SecondaryButton>
+                    <DangerButton
                         onClick={() =>
                             showModal(
                                 <DeleteModal
@@ -57,30 +62,47 @@ const Matakuliah = ({ data }) => {
                         }
                     >
                         <FaTrash />
-                    </button>
+                    </DangerButton>
                 </div>
             ),
         },
     ];
+
+    const filterConfig = [
+        {
+            key: "prodiId",
+            label: "nama_prodi",
+            value: "id",
+            data: data_prodi,
+        },
+    ];
+
+    const updateFilter = (key, value) => {
+        setFilters((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+        console.log(filterData);
+    };
+
+    const filterData = data.filter((item) => {
+        return filters.prodiId ? item.prodi_id == filters.prodiId : true;
+    });
     return (
-        <AdminLayout title={["Mata Kuliah", "Data"]}>
-            <div className=" text-gray-900">
-                <p className="text-lg">Daftar Mata Kuliah</p>
-                <span className="text-sm font-bold">
-                    Data Mata Kuliah yang tersedia
-                </span>
-            </div>
+        <AdminLayout title={["Mata Kuliah", "Daftar"]}>
             <div className="">
-                <div className="flex justify-end">
+                <div className="flex justify-between mb-4">
+                    <FilterColumn
+                        filterData={filterConfig}
+                        onChange={updateFilter}
+                    />
                     <Link href={route("matakuliah.create")}>
-                        <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1 ">
-                            Create
-                        </button>
+                        <PrimaryButton>BUAT MATA KULIAH</PrimaryButton>
                     </Link>
                 </div>
                 <DataTable
                     columns={columns}
-                    data={data}
+                    data={filterData}
                     fixedHeader
                     pagination
                 />

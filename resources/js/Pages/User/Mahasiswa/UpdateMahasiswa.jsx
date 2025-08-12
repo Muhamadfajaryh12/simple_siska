@@ -4,7 +4,14 @@ import React from "react";
 
 const UpdateMahasiswa = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
     return (
-        <AdminLayout title={["Mahasiswa", "Form", "Edit"]}>
+        <AdminLayout
+            title={[
+                "Mahasiswa",
+                "Formulir",
+                "Edit",
+                `${data_mahasiswa.nama_mahasiswa}`,
+            ]}
+        >
             <div className=" text-gray-900 mb-4">
                 <p className="text-lg">Formulir Pembuatan Mahasiswa</p>
                 <span className="text-sm font-bold">

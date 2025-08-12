@@ -28,7 +28,7 @@ const AdminLayout = ({ title, children }) => {
                     </div>
                     <div className="py-6">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                            <div className="flex gap-2 text-sm">
+                            <div className="flex gap-2 text-md">
                                 {title?.map((item, index) => (
                                     <>
                                         <span>{item}</span>

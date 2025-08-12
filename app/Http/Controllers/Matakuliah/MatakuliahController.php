@@ -20,8 +20,10 @@ class MatakuliahController extends Controller
 
     public function index(){
         $fetch_data = Matakuliah::with(['prodi'])->get();
+        $fetch_prodi = Prodi::all();
         return Inertia::render('Matakuliah/Matakuliah',[
-            'data'=>$fetch_data
+            'data'=>$fetch_data,
+            "data_prodi"=>$fetch_prodi
         ]);
     }
     public function create(){

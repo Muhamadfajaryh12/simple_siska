@@ -6,9 +6,11 @@ import { Link } from "@inertiajs/react";
 import { useModal } from "@/Context/ModalContext";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import { FaPencil, FaTrash } from "react-icons/fa6";
+import SecondaryButton from "@/Components/SecondaryButton";
+import DangerButton from "@/Components/DangerButton";
+import PrimaryButton from "@/Components/PrimaryButton";
 const Fakultas = ({ data }) => {
     const { showModal, closeModal } = useModal();
-    let index = 0;
 
     const handleDelete = (id) => {
         router.delete(route("fakultas.destroy", { id: id }), {
@@ -20,10 +22,6 @@ const Fakultas = ({ data }) => {
 
     const columns = [
         {
-            name: "No",
-            selector: (row) => ++index,
-        },
-        {
             name: "Fakultas",
             selector: (row) => row.nama_fakultas,
         },
@@ -34,14 +32,13 @@ const Fakultas = ({ data }) => {
         {
             name: "Action",
             selector: (row) => (
-                <div>
-                    <button className="bg-blue-400 p-2 rounded-md text-white font-bold mx-1">
+                <div className="flex gap-2">
+                    <SecondaryButton>
                         <Link href={`/fakultas/form/${row.id}`}>
                             <FaPencil size={15} />
                         </Link>
-                    </button>
-                    <button
-                        className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
+                    </SecondaryButton>
+                    <DangerButton
                         onClick={() =>
                             showModal(
                                 <DeleteModal
@@ -51,7 +48,7 @@ const Fakultas = ({ data }) => {
                         }
                     >
                         <FaTrash size={15} />
-                    </button>
+                    </DangerButton>
                 </div>
             ),
         },
@@ -59,17 +56,9 @@ const Fakultas = ({ data }) => {
 
     return (
         <AdminLayout title={["Fakultas", "Daftar"]}>
-            <div className=" text-gray-900">
-                <p className="text-lg">Daftar Fakultas</p>
-                <span className="text-sm font-bold">
-                    Daftar Fakultas yang tersedia
-                </span>
-            </div>
             <div className="flex justify-end">
                 <Link href={route("fakultas.create")}>
-                    <button className="bg-black text-white p-2 rounded-md text-sm font-bold mx-1">
-                        Menambah Fakultas
-                    </button>
+                    <PrimaryButton>Buat Fakultas</PrimaryButton>
                 </Link>
             </div>
             <DataTable columns={columns} data={data} fixedHeader pagination />

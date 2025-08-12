@@ -14,8 +14,10 @@ class ProdiController extends Controller
 
     public function index(){
         $fetch = Prodi::with('fakultas')->get();
+        $fetch_fakultas = Fakultas::all();
         return Inertia::render('Prodi/Prodi',[
-            'data' =>$fetch
+            'data' =>$fetch,
+            "data_fakultas"=>$fetch_fakultas
         ]);
     }
     public function create(){

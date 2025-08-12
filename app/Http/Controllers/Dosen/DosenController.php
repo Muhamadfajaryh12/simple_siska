@@ -19,8 +19,12 @@ class DosenController extends Controller
 
     public function index(){
         $fetch_dosen = Dosen::with("fakultas","prodi")->get();
+        $fetch_prodi = Prodi::all();
+        $fetch_fakultas = Fakultas::all();
         return Inertia::render("User/Dosen/Dosen",[
-            "data"=>$fetch_dosen
+            "data"=>$fetch_dosen,
+            "data_prodi"=>$fetch_prodi,
+            "data_fakultas"=>$fetch_fakultas
         ]);
     }
     public function create_index(){

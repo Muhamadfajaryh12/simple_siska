@@ -18,8 +18,12 @@ class MahasiswaController extends Controller
 {
     public function index(){
         $fetch_mahasiswa = Mahasiswa::with("fakultas","prodi")->get();
+        $fetch_prodi = Prodi::all();
+        $fetch_fakultas = Fakultas::all();
         return Inertia::render('User/Mahasiswa/Mahasiswa',[
-            "data"=>$fetch_mahasiswa
+            "data"=>$fetch_mahasiswa,
+            "data_prodi"=>$fetch_prodi,
+            "data_fakultas"=>$fetch_fakultas
         ]);
     }
     public function create_index(){

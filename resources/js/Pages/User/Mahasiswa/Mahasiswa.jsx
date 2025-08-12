@@ -1,13 +1,23 @@
+import DangerButton from "@/Components/DangerButton";
+import FilterColumn from "@/Components/FilterColumn";
 import DeleteModal from "@/Components/modal/DeleteModal";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import Select from "@/Components/Select";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 
-const Mahasiswa = ({ data }) => {
+const Mahasiswa = ({ data, data_prodi, data_fakultas }) => {
     const { showModal, closeModal } = useModal();
+    const [filters, setFilters] = useState({
+        prodiId: "",
+        fakultasId: "",
+    });
+
     const handleDelete = (id) => {
         router.delete(route("mahasiswa.delete", { id: id }), {
             onSuccess: () => {
@@ -16,12 +26,8 @@ const Mahasiswa = ({ data }) => {
             },
         });
     };
-    let index = 0;
+
     const columns = [
-        {
-            name: "No",
-            selector: (row) => ++index,
-        },
         {
             name: "Nama",
             selector: (row) => row.nama_mahasiswa,
@@ -45,15 +51,13 @@ const Mahasiswa = ({ data }) => {
         {
             name: "Action",
             selector: (row) => (
-                <div className="flex">
-                    <Link
-                        href={`/mahasiswa/form/${row.id}`}
-                        className="bg-blue-400 p-2 text-center rounded-md text-white font-bold mx-1"
-                    >
-                        <FaPencil />
-                    </Link>
-                    <button
-                        className="bg-red-400 p-2 rounded-md text-white font-bold mx-1"
+                <div className="flex gap-2">
+                    <SecondaryButton>
+                        <Link href={`/mahasiswa/form/${row.id}`}>
+                            <FaPencil />
+                        </Link>
+                    </SecondaryButton>
+                    <DangerButton
                         onClick={() =>
                             showModal(
                                 <DeleteModal
@@ -63,31 +67,58 @@ const Mahasiswa = ({ data }) => {
                         }
                     >
                         <FaTrash />
-                    </button>
+                    </DangerButton>
                 </div>
             ),
         },
     ];
+
+    const updateFilter = (key, value) => {
+        setFilters((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+
+    const filterData = data.filter((item) => {
+        return (
+            (filters.fakultasId
+                ? item.fakultas.id == filters.fakultasId
+                : true) &&
+            (filters.prodiId ? item.prodi.id == filters.prodiId : true)
+        );
+    });
+
+    const filterConfig = [
+        {
+            key: "fakultasId",
+            value: "id",
+            label: "nama_fakultas",
+            data: data_fakultas,
+        },
+        {
+            key: "prodiId",
+            value: "id",
+            label: "nama_prodi",
+            data: data_prodi,
+        },
+    ];
+
     return (
         <div>
-            <AdminLayout title={["Mahasiswa", "Data"]}>
-                <div className=" text-gray-900">
-                    <p className="text-lg">Daftar Mahasiswa</p>
-                    <span className="text-sm font-bold">
-                        Data Mahasiswa yang tersedia
-                    </span>
-                </div>
-
-                <div className="flex justify-end">
+            <AdminLayout title={["Mahasiswa", "Daftar"]}>
+                <div className="flex justify-between mb-4">
+                    <FilterColumn
+                        filterData={filterConfig}
+                        onChange={updateFilter}
+                    />
                     <Link href={route("mahasiswa.create")}>
-                        <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
-                            Create
-                        </button>
+                        <PrimaryButton>BUAT Mahasiswa</PrimaryButton>
                     </Link>
                 </div>
                 <DataTable
                     columns={columns}
-                    data={data}
+                    data={filterData}
                     fixedHeader
                     pagination
                 />

@@ -4,7 +4,7 @@ import React from "react";
 
 const CreateMahasiswa = ({ data_fakultas, data_prodi }) => {
     return (
-        <AdminLayout title={["Mahasiswa", "Form"]}>
+        <AdminLayout title={["Mahasiswa", "Formulir"]}>
             <div className=" text-gray-900 mb-4">
                 <p className="text-lg">Formulir Pembuatan Mahasiswa</p>
                 <span className="text-sm font-bold">

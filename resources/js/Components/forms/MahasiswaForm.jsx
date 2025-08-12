@@ -173,7 +173,7 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
                     errors={errors.nim}
                     onChange={(e) => setData("nim", e.target.value)}
                 />
-                <PrimaryButton className="w-32" disabled={processing}>
+                <PrimaryButton className="text-center" disabled={processing}>
                     {!data_mahasiswa ? "TAMBAHKAN" : "SIMPAN"}
                 </PrimaryButton>
             </form>
