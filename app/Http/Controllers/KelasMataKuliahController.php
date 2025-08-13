@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\KelasMataKuliah;
 use App\Models\Matakuliah;
+use App\Models\Pertemuan;
+use App\Models\Prodi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class KelasMataKuliahController extends Controller
 {
     public function index(){
-        $fetch_kelas_mata_kuliah = KelasMataKuliah::with(['dosen','mata_kuliah'])->get();
+        $fetch_kelas_mata_kuliah = KelasMataKuliah::with(['dosen','mata_kuliah','mata_kuliah.prodi'])->get();
+        $fetch_prodi = Prodi::all();
         return Inertia::render("KelasMataKuliah/KelasMataKuliah",[
-            "data_kelas_mata_kuliah"=>$fetch_kelas_mata_kuliah
+            "data_kelas_mata_kuliah"=>$fetch_kelas_mata_kuliah,
+            "data_prodi"=>$fetch_prodi
         ]);
     }
 
@@ -48,11 +53,23 @@ class KelasMataKuliahController extends Controller
                 'data_kelas_mata_kuliah.*.jam_mulai' => 'required',
                 'data_kelas_mata_kuliah.*.jam_selesai' => 'required',
                 'data_kelas_mata_kuliah.*.tahun_ajaran' => 'required',
+                'data_kelas_mata_kuliah.*.tanggal_mulai'=>"required",
                 'data_kelas_mata_kuliah.*.dosen_id' => 'required',
                 'data_kelas_mata_kuliah.*.mata_kuliah_id' => 'required'
             ]);
 
-            KelasMataKuliah::insert($validation["data_kelas_mata_kuliah"]);           
+            foreach($validation["data_kelas_mata_kuliah"] as $item) {
+                $kelas_mata_kuliah = KelasMataKuliah::create($item);           
+                $tanggal = Carbon::parse($item["tanggal_mulai"]);
+                for($i = 1 ; $i<= 16 ; $i++){
+                    Pertemuan::create([
+                        "kelas_mata_kuliah_id"=> $kelas_mata_kuliah["id"],
+                        "tanggal"=>$tanggal->copy()->format("Y-m-d"),
+                        "pertemuan_ke"=>$i
+                    ]);
+                    $tanggal->addWeek();
+                }
+            }
             return redirect()->back()->with("success","Berhasil membuat kelas mata kuliah");
 
         }catch(\Exception $e){

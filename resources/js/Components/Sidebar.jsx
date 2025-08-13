@@ -1,93 +1,141 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 import { CiViewList } from "react-icons/ci";
+import { PiStudent, PiChalkboardTeacherLight } from "react-icons/pi";
+import { GoDatabase } from "react-icons/go";
 
 const Sidebar = ({ auth }) => {
-    const list = [
-        // {
-        //     title: "Dashboard",
-        //     link: "dashboard.dosen",
-        //     role: "Dosen",
-        // },
-        {
-            title: "Mahasiswa",
-            link: "mahasiswa.index",
-            role: "Admin",
-        },
-        {
-            title: "Dosen",
-            link: "dosen.index",
-            role: "Admin",
-        },
-        {
-            title: "Fakultas",
-            link: "fakultas.index",
-            role: "Admin",
-        },
-        {
-            title: "Program Studi",
-            link: "prodi.index",
-            role: "Admin",
-        },
-        {
-            title: "Mata Kuliah",
-            link: "matakuliah.index",
-            role: "Admin",
-        },
-        {
-            title: "Kelas Mata Kuliah",
-            link: "kelas_mata_kuliah.index",
-            role: "Admin",
-        },
-        {
-            title: "Kelas",
-            link: "kelas.index",
-            role: "Admin",
-        },
-        {
-            title: "Kartu Rencana Studi",
-            link: "krs_dosen.index",
-            role: "Dosen",
-        },
-        {
-            title: "Penilaian",
-            link: "nilai_dosen.index",
-            role: "Dosen",
-        },
-    ];
+    const list = {
+        Pengguna: [
+            {
+                title: "Mahasiswa",
+                link: "mahasiswa.index",
+                role: "Admin",
+                icon: <PiStudent />,
+            },
+            {
+                title: "Dosen",
+                link: "dosen.index",
+                role: "Admin",
+                icon: <PiChalkboardTeacherLight />,
+            },
+        ],
+
+        "Master Data": [
+            {
+                title: "Fakultas",
+                link: "fakultas.index",
+                role: "Admin",
+                icon: <GoDatabase />,
+            },
+            {
+                title: "Program Studi",
+                link: "prodi.index",
+                role: "Admin",
+                icon: <GoDatabase />,
+            },
+        ],
+        "Manajemen Kuliah": [
+            {
+                title: "Mata Kuliah",
+                link: "matakuliah.index",
+                role: "Admin",
+                icon: <GoDatabase />,
+            },
+            {
+                title: "Kelas Mata Kuliah",
+                link: "kelas_mata_kuliah.index",
+                role: "Admin",
+                icon: <GoDatabase />,
+            },
+            {
+                title: "Kelas",
+                link: "kelas.index",
+                role: "Admin",
+                icon: <GoDatabase />,
+            },
+        ],
+        "Kartu Rencana Studi": [
+            {
+                title: "Kartu Rencana Studi",
+                link: "krs_dosen.index",
+                role: "Dosen",
+                icon: <GoDatabase />,
+            },
+            {
+                title: "Penilaian",
+                link: "nilai_dosen.index",
+                role: "Dosen",
+                icon: <GoDatabase />,
+            },
+            {
+                title: "Kartu Rencana Studi",
+                link: "krs_dosen.index",
+                role: "Mahasiswa",
+                icon: <GoDatabase />,
+            },
+        ],
+        "Data Pengguna": [
+            {
+                title: "Profile",
+                link: "krs_dosen.index",
+                role: "Mahasiswa",
+                icon: <GoDatabase />,
+            },
+        ],
+        Perkuliahan: [
+            {
+                title: "Profile",
+                link: "krs_dosen.index",
+                role: "Mahasiswa",
+                icon: <GoDatabase />,
+            },
+        ],
+    };
 
     const { url } = usePage();
-    const pathname = url.split("/");
+    const pathname = url.replace(/_/g, " ").split("/");
 
     return (
-        <div className="w-64 border-r bg-white min-h-screen">
+        <div className="w-72 border-r bg-white min-h-screen">
             <h1 className="text-red-600 font-bold text-4xl text-center my-4">
                 SISKA
             </h1>
-            <ul className="my-4 mx-auto p-2">
-                {list.map((item) =>
-                    item.role == auth?.user?.role ? (
-                        <li
-                            key={item.title}
-                            className={`hover:bg-gray-200 p-2 rounded-md  flex items-center mt-2 ${
-                                pathname.includes(item.title.toLowerCase())
-                                    ? "bg-gray-200"
-                                    : ""
-                            }`}
-                            style={{ letterSpacing: "1px" }}
-                        >
-                            <CiViewList />
-                            <Link
-                                href={route(item.link)}
-                                className="mx-2 text-sm"
-                            >
-                                {item.title}
-                            </Link>
-                        </li>
-                    ) : (
-                        ""
-                    )
-                )}
+            <ul className="my-4 mx-auto p-4">
+                {Object.keys(list).map((group) => {
+                    const filteredList = list[group].filter(
+                        (menu) => menu.role == auth?.user?.role
+                    );
+
+                    if (filteredList.length > 0)
+                        return (
+                            <div className="mb-4">
+                                <h1 className="font-semibold">{group}</h1>
+                                <div className="border-b  my-2"></div>
+                                {list[group].map((items) => (
+                                    <li
+                                        key={items.title}
+                                        className={`hover:bg-gray-100 p-2 rounded-md  flex items-center mt-2 ${
+                                            pathname.includes(
+                                                items.title.toLowerCase()
+                                            )
+                                                ? "bg-gray-100"
+                                                : ""
+                                        }`}
+                                        style={{ letterSpacing: "1px" }}
+                                    >
+                                        {items?.icon}
+                                        <Link
+                                            href={route(items.link)}
+                                            className="mx-2 text-sm "
+                                        >
+                                            {items.title}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </div>
+                        );
+                })}
             </ul>
         </div>
     );

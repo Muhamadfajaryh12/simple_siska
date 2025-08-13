@@ -56,7 +56,7 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
         Route::delete("/{id}",[FakultasController::class,"destroy"])->name("fakultas.destroy");
     });
     
-    Route::prefix("prodi")->group(function(){
+    Route::prefix("program_studi")->group(function(){
         Route::get('/',[ProdiController::class,'index'])->name('prodi.index');
         Route::get('/form',[ProdiController::class,'create'])->name('prodi.create');
         Route::get('/form/{id}',[ProdiController::class,'edit_index'])->name("prodi.update");
@@ -114,10 +114,10 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     
     Route::prefix("/kelas")->group(function(){
         Route::get('/',[KelasController::class,'index'])->name('kelas.index');   
-        Route::get("/{id}",[KelasController::class,"detail_index"])->name("kelas.detail");
         Route::get('/form',[KelasController::class,'create'])->name('kelas.create');
         Route::get("/form/{id}",[KelasController::class,"update"])->name("kelas.update");
-
+        Route::get("/{id}",[KelasController::class,"detail_index"])->name("kelas.detail");
+        
         Route::post('/store',[KelasController::class,'store'])->name('kelas.store');
         Route::put("/{id}",[KelasController::class,"edit"])->name("kelas.edit");
         Route::delete('/{id}',[KelasController::class,"destroy"])->name("kelas.destroy");

@@ -35,6 +35,7 @@ const KelasMataKuliahForm = ({
                 jam_selesai: detail_kelas_mata_kuliah.jam_selesai,
                 tahun_ajaran: detail_kelas_mata_kuliah.tahun_ajaran,
                 jadwal: detail_kelas_mata_kuliah.jadwal,
+                tanggal_mulai: detail_kelas_mata_kuliah.tanggal_mulai,
             });
         }
     }, [detail_kelas_mata_kuliah]);
@@ -98,6 +99,10 @@ const KelasMataKuliahForm = ({
             ),
         },
         {
+            name: "Tanggal Mulai",
+            selector: (row) => row.tanggal_mulai,
+        },
+        {
             name: "Action",
             selector: (row, index) => (
                 <DangerButton
@@ -159,7 +164,7 @@ const KelasMataKuliahForm = ({
                         type={"text"}
                     />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                     <TextInputContent
                         name={"jam_mulai"}
                         label={"Jam Mulai"}
@@ -182,6 +187,15 @@ const KelasMataKuliahForm = ({
                         valueField={"id"}
                         value={data.jadwal}
                         handleChange={(e) => setData("jadwal", e.target.value)}
+                    />{" "}
+                    <TextInputContent
+                        name={"tanggal_mulai"}
+                        label={"Tanggal Mulai"}
+                        value={data.tanggal_mulai}
+                        onChange={(e) =>
+                            setData("tanggal_mulai", e.target.value)
+                        }
+                        type={"date"}
                     />
                 </div>
                 <PrimaryButton disabled={processing}>

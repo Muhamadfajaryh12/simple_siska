@@ -14,7 +14,8 @@ class KelasMataKuliah extends Model
         "jam_mulai","jam_selesai",
         "tahun_ajaran",
         "dosen_id",
-        "mata_kuliah_id"
+        "mata_kuliah_id",
+        "tanggal_mulai"
     ];
 
     public function dosen(){

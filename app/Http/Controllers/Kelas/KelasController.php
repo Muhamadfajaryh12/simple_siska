@@ -15,8 +15,10 @@ class KelasController extends Controller
 {
     public function index(){
         $fetch_data  = Kelas::with("dosen","prodi")->get();
+        $fetch_prodi = Prodi::all();
         return Inertia::render('Kelas/Kelas',[
-            'data_kelas'=> $fetch_data
+            'data_kelas'=> $fetch_data,
+            "data_prodi"=>$fetch_prodi
         ]);
     }
 

@@ -1,16 +1,20 @@
 import DangerButton from "@/Components/DangerButton";
+import FilterColumn from "@/Components/FilterColumn";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 
-const KelasMataKuliah = ({ data_kelas_mata_kuliah }) => {
+const KelasMataKuliah = ({ data_kelas_mata_kuliah, data_prodi }) => {
     const { showModal, closeModal } = useModal();
+    const [filters, setFilters] = useState({
+        prodiId: "",
+    });
     const handleDelete = (id) => [
         router.delete(route("kelas_mata_kuliah.destroy", { id: id }), {
             onSuccess: () => {
@@ -31,6 +35,10 @@ const KelasMataKuliah = ({ data_kelas_mata_kuliah }) => {
         {
             name: "Kelas",
             selector: (row) => row.nama_kelas,
+        },
+        {
+            name: "Program Studi",
+            selector: (row) => row.mata_kuliah.prodi.nama_prodi,
         },
         {
             name: "Tahun Ajaran",
@@ -60,16 +68,39 @@ const KelasMataKuliah = ({ data_kelas_mata_kuliah }) => {
             ),
         },
     ];
+    const filterConfig = [
+        {
+            key: "prodiId",
+            label: "nama_prodi",
+            value: "id",
+            data: data_prodi,
+        },
+    ];
+
+    const updateFilter = (key, value) => {
+        setFilters((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+
+    const filterData = data_kelas_mata_kuliah.filter((prev) => {
+        return filters?.prodiId
+            ? prev.mata_kuliah.prodi.id == filters.prodiId
+            : true;
+    });
     return (
-        <AdminLayout title={["Kelas Mata Kuliah", "Data"]}>
-            <Link href="/kelas_mata_kuliah/form">
-                <PrimaryButton>Menambahkan Kelas</PrimaryButton>
-            </Link>
-            <DataTable
-                data={data_kelas_mata_kuliah}
-                columns={colums}
-                pagination
-            />
+        <AdminLayout title={["Kelas Mata Kuliah", "Daftar"]}>
+            <div className="flex justify-between mb-4">
+                <FilterColumn
+                    filterData={filterConfig}
+                    onChange={updateFilter}
+                />
+                <Link href="/kelas_mata_kuliah/form">
+                    <PrimaryButton>Buat Kelas Perkuliahan</PrimaryButton>
+                </Link>
+            </div>
+            <DataTable data={filterData} columns={colums} pagination />
         </AdminLayout>
     );
 };

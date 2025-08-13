@@ -1,15 +1,20 @@
+import DangerButton from "@/Components/DangerButton";
+import FilterColumn from "@/Components/FilterColumn";
 import DeleteModal from "@/Components/modal/DeleteModal";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { FaEye, FaPencil, FaTrash } from "react-icons/fa6";
 
-const Kelas = ({ data_kelas }) => {
-    let index = 0;
-
+const Kelas = ({ data_kelas, data_prodi }) => {
     const { showModal, closeModal } = useModal();
+    const [filters, setFilters] = useState({
+        prodiId: "",
+    });
 
     const handleDelete = (id) => {
         router.delete(route("kelas.destroy", { id: id }), {
@@ -21,10 +26,6 @@ const Kelas = ({ data_kelas }) => {
     };
 
     const columns = [
-        {
-            name: "No",
-            selector: (row) => ++index,
-        },
         {
             name: "kelas",
             selector: (row) => row.kelas,
@@ -45,19 +46,17 @@ const Kelas = ({ data_kelas }) => {
             name: "Action",
             selector: (row) => (
                 <div className="flex gap-2 items-center">
-                    <Link
-                        href={`/kelas/${row.id}`}
-                        className="p-2 rounded-md bg-gray-300"
-                    >
-                        <FaEye />
-                    </Link>
-                    <button className="bg-blue-600 p-2 rounded-md text-white font-bold ">
+                    <SecondaryButton>
+                        <Link href={`/kelas/${row.id}`}>
+                            <FaEye />
+                        </Link>
+                    </SecondaryButton>
+                    <SecondaryButton>
                         <Link href={`/kelas/form/${row.id}`}>
                             <FaPencil />
                         </Link>
-                    </button>
-                    <button
-                        className="bg-red-600 p-2 rounded-md text-white font-bold "
+                    </SecondaryButton>
+                    <DangerButton
                         onClick={() =>
                             showModal(
                                 <DeleteModal
@@ -67,29 +66,44 @@ const Kelas = ({ data_kelas }) => {
                         }
                     >
                         <FaTrash />
-                    </button>
+                    </DangerButton>
                 </div>
             ),
         },
     ];
+
+    const filterConfig = [
+        {
+            key: "prodiId",
+            label: "nama_prodi",
+            value: "id",
+            data: data_prodi,
+        },
+    ];
+
+    const updateFilter = (key, value) => {
+        setFilters((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+    const filterData = data_kelas.filter((prev) => {
+        return filters?.prodiId ? prev.prodi.id == filters.prodiId : true;
+    });
     return (
-        <AdminLayout>
-            <div className=" text-gray-900">
-                <p className="text-lg">Daftar Kelas</p>
-                <span className="text-sm font-bold">
-                    Daftar Kelas yang tersedia
-                </span>
-            </div>
-            <div className="flex justify-end">
+        <AdminLayout title={["Kelas", "Daftar"]}>
+            <div className="flex justify-between mb-4">
+                <FilterColumn
+                    filterData={filterConfig}
+                    onChange={updateFilter}
+                />
                 <Link href={route("kelas.create")}>
-                    <button className="bg-green-400 text-white p-1 rounded-sm w-24 font-bold mx-1">
-                        Create
-                    </button>
+                    <PrimaryButton>Buat Kelas</PrimaryButton>
                 </Link>
             </div>
             <DataTable
                 columns={columns}
-                data={data_kelas}
+                data={filterData}
                 fixedHeader
                 pagination
             />
