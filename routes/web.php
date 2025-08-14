@@ -160,6 +160,10 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
 Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
     Route::get('/dashboard',[DashboardController::class,'dashboard_mahasiswa'])->name('dashboard');
 
+    Route::prefix("/jadwal_perkuliahan")->group(function(){
+        Route::get('/',[PertemuanController::class,"jadwal_perkuliahan_mahasiswa"])->name("jadwal_perkuliahan_mahasiswa.index");
+    });
+
     Route::prefix("/krs")->group(function(){
         Route::get('/',[KRSController::class,'index'])->name('krs_mahasiswa.index');
         Route::post('/',[KRSController::class,'store'])->name('krs_mahasiswa.store');

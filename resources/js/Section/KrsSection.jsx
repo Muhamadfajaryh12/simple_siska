@@ -3,7 +3,6 @@ import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import DataTable from "react-data-table-component";
 const KrsSection = ({ data_mata_kuliah }) => {
-    console.log(data_mata_kuliah);
     const { data, setData, post, processing } = useForm({
         total_sks: "",
         semester: "",

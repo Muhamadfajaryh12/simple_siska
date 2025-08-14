@@ -16,4 +16,8 @@ class Pertemuan extends Model
     public function absensi(){
         return $this->hasMany(Absensi::class);
     }
+
+    public function kelas_mata_kuliah(){
+        return $this->belongsTo(KelasMataKuliah::class, "id","kelas_mata_kuliah_id");
+    }
 }

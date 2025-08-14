@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KrsDetail;
 use App\Models\Pertemuan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class PertemuanController extends Controller
 {
+    public function jadwal_perkuliahan_mahasiswa(){
+        $fetch_jadwal = KrsDetail::with("krs","kelas_mata_kuliah.dosen","kelas_mata_kuliah.pertemuan")->whereHas("krs", function($query){
+            $query->where("mahasiswa_id",Auth::user()->mahasiswa->id);
+        })
+        ->get();
+        return Inertia::render("JadwalPerkuliahan/JadwalPerkuliahan",[
+            "data_jadwal"=>$fetch_jadwal
+        ]);
+     }
     public function edit(Request $request,$id){
         try{
             $validation = $request->validate([

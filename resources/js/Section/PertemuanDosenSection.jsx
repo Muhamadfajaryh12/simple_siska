@@ -24,6 +24,9 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                 className="flex flex-col gap-4 border rounded-md p-4"
                 onSubmit={handleEdit}
             >
+                <h1 className="block font-medium text-sm text-gray-700">
+                    Tanggal Perkeluliahan : {data_pertemuan.tanggal}
+                </h1>
                 <TextInputContent
                     label={"Materi"}
                     type={"text"}

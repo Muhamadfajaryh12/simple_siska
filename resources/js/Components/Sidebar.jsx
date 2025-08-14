@@ -85,8 +85,8 @@ const Sidebar = ({ auth }) => {
         ],
         Perkuliahan: [
             {
-                title: "Profile",
-                link: "krs_dosen.index",
+                title: "Jadwal Perkuliahan",
+                link: "jadwal_perkuliahan_mahasiswa.index",
                 role: "Mahasiswa",
                 icon: <GoDatabase />,
             },

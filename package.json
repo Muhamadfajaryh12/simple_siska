@@ -21,6 +21,9 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.19",
+        "@fullcalendar/daygrid": "^6.1.19",
+        "@fullcalendar/react": "^6.1.19",
         "chart.js": "^4.4.4",
         "html2canvas": "^1.4.1",
         "jspdf": "^2.5.2",
