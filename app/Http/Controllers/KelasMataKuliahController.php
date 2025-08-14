@@ -9,6 +9,7 @@ use App\Models\Pertemuan;
 use App\Models\Prodi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class KelasMataKuliahController extends Controller
@@ -20,6 +21,32 @@ class KelasMataKuliahController extends Controller
             "data_kelas_mata_kuliah"=>$fetch_kelas_mata_kuliah,
             "data_prodi"=>$fetch_prodi
         ]);
+    }
+
+    public function kelas_mengajar_index(){
+        $fetch_kelas_mata_kuliah = KelasMataKuliah::with(["dosen",'mata_kuliah',"mata_kuliah.prodi"])->where("dosen_id", Auth::user()->dosen->id)->get();
+        return Inertia::render("KelasMengajar/KelasMengajar",[
+            "data_kelas"=>$fetch_kelas_mata_kuliah
+        ]);
+    }
+
+    public function kelas_mengajar_detail($id){
+        $fetch_kelas_mata_kuliah_detail = KelasMataKuliah::with(["dosen","mata_kuliah",
+        "pertemuan"=>function($query){
+            $query->withCount([
+                'absensi as total_hadir'=>function($q){
+                    $q->where("status","hadir");
+                },
+                  'absensi as total_izin'=>function($q){
+                    $q->where("status","izin");
+                }
+            ]);
+        },"pertemuan.absensi.mahasiswa"])->withCount("krs_detail as total_mahasiswa")
+        ->findOrFail($id);
+        return Inertia::render("KelasMengajar/DetailKelasMengajar",[
+            "data_kelas"=>$fetch_kelas_mata_kuliah_detail
+        ]);
+    
     }
 
     public function create_index(){

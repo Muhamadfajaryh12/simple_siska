@@ -10,6 +10,7 @@ use App\Http\Controllers\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Matakuliah\MatakuliahController;
 use App\Http\Controllers\Nilai;
 use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\PertemuanController;
 use App\Http\Controllers\Prodi\ProdiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
@@ -111,7 +112,7 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
         Route::delete("/{id}",[KelasMataKuliahController::class,"destroy"])->name("kelas_mata_kuliah.destroy");
 
     });
-    
+
     Route::prefix("/kelas")->group(function(){
         Route::get('/',[KelasController::class,'index'])->name('kelas.index');   
         Route::get('/form',[KelasController::class,'create'])->name('kelas.create');
@@ -143,6 +144,16 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
 
         Route::post("/",[NilaiController::class,"store"])->name("nilai.store");
     });        Route::put("/",[NilaiController::class,"edit"])->name("nilai.edit");
+
+    
+    Route::prefix("kelas_mengajar")->group(function(){
+        Route::get('/',[KelasMataKuliahController::class,"kelas_mengajar_index"])->name("kelas_mengajar.index");
+        Route::get('/{id}',[KelasMataKuliahController::class,"kelas_mengajar_detail"])->name("kelas_mengajar.detail");
+
+        Route::put('/{id}',[PertemuanController::class,"edit"])->name("pertemuan.edit");
+    });
+
+
 
 });
 

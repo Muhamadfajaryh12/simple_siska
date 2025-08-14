@@ -24,4 +24,12 @@ class KelasMataKuliah extends Model
     public function mata_kuliah(){
         return $this->belongsTo(Matakuliah::class,"mata_kuliah_id","id");
     }
+
+    public function pertemuan(){
+        return $this->hasMany(Pertemuan::class);
+    }
+
+    public function krs_detail(){
+        return $this->hasMany(KrsDetail::class);
+    }
 }

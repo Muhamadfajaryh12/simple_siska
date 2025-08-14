@@ -91,6 +91,14 @@ const Sidebar = ({ auth }) => {
                 icon: <GoDatabase />,
             },
         ],
+        "Kelas Mengajar": [
+            {
+                title: "Kelas",
+                link: "kelas_mengajar.index",
+                role: "Dosen",
+                icon: <GoDatabase />,
+            },
+        ],
     };
 
     const { url } = usePage();

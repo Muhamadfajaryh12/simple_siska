@@ -41,7 +41,7 @@ const AdminLayout = ({ title, children }) => {
                                 ))}
                             </div>
                             <Message />
-                            <div className=" mt-4 overflow-hidden shadow-sm sm:rounded-lg  p-6 ">
+                            <div className=" mt-4 overflow-hidden shadow-sm sm:rounded-lg">
                                 {children}
                             </div>
                         </div>
