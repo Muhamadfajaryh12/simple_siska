@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Fakultas\FakultasController;
@@ -170,6 +171,9 @@ Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
         Route::get('/history',[KRSController::class,'index_krs_history'])->name('krs_mahasiswa.history');
     });
 
+    Route::prefix("absensi")->group(function(){
+        Route::post('/',[AbsenController::class,"store"])->name("absen.store");
+    });
 
 });
 

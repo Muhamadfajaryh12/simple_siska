@@ -11,7 +11,9 @@ use Inertia\Inertia;
 class PertemuanController extends Controller
 {
     public function jadwal_perkuliahan_mahasiswa(){
-        $fetch_jadwal = KrsDetail::with("krs","kelas_mata_kuliah.dosen","kelas_mata_kuliah.pertemuan")->whereHas("krs", function($query){
+        $fetch_jadwal = Pertemuan::with(["kelas_mata_kuliah.krs_detail.krs","kelas_mata_kuliah.dosen","kelas_mata_kuliah.mata_kuliah","absensi_detail"=>function($query){
+            $query->where("mahasiswa_id", Auth::user()->mahasiswa->id);
+        }])->whereHas("kelas_mata_kuliah.krs_detail.krs", function($query){
             $query->where("mahasiswa_id",Auth::user()->mahasiswa->id);
         })
         ->get();
