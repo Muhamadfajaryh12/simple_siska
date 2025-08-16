@@ -18,9 +18,11 @@ class Mahasiswa extends Model
         "alamat",
         "jenis_kelamin",
         "angkatan",
+        "semester",
         "fakultas_id",
         "prodi_id",
         "kelas_id",
+        "golongan_ukt_id",
         "user_id",
     ];
 

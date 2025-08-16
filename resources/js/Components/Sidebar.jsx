@@ -34,6 +34,12 @@ const Sidebar = ({ auth }) => {
                 role: "Admin",
                 icon: <GoDatabase />,
             },
+            {
+                title: "Golongan UKT",
+                link: "golongan_ukt.index",
+                role: "Admin",
+                icon: <GoDatabase />,
+            },
         ],
         "Manajemen Kuliah": [
             {
@@ -70,7 +76,7 @@ const Sidebar = ({ auth }) => {
             },
             {
                 title: "Kartu Rencana Studi",
-                link: "krs_dosen.index",
+                link: "krs_mahasiswa.index",
                 role: "Mahasiswa",
                 icon: <GoDatabase />,
             },
@@ -120,7 +126,7 @@ const Sidebar = ({ auth }) => {
                             <div className="mb-4">
                                 <h1 className="font-semibold">{group}</h1>
                                 <div className="border-b  my-2"></div>
-                                {list[group].map((items) => (
+                                {filteredList.map((items) => (
                                     <li
                                         key={items.title}
                                         className={`hover:bg-gray-100 p-2 rounded-md  flex items-center mt-2 ${

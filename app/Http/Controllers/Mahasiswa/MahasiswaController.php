@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mahasiswa;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MahasiswaRequest;
 use App\Models\Fakultas;
+use App\Models\GolonganUkt;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\User;
@@ -29,10 +30,11 @@ class MahasiswaController extends Controller
     public function create_index(){
         $fetch_fakultas = Fakultas::all();
         $fetch_prodi = Prodi::all();
-
+        $fetch_golongan_ukt = GolonganUkt::with('prodi')->get();
         return Inertia::render('User/Mahasiswa/CreateMahasiswa',[
             'data_fakultas'=>$fetch_fakultas,
-            'data_prodi'=>$fetch_prodi
+            'data_prodi'=>$fetch_prodi,
+            'data_golongan_ukt'=>$fetch_golongan_ukt
         ]);
     }
 
@@ -41,26 +43,29 @@ class MahasiswaController extends Controller
         $fetch_fakultas = Fakultas::all();
         $fetch_prodi = Prodi::all();
         $fetch_mahasiswa = Mahasiswa::findOrFail($id);
+        $fetch_golongan_ukt = GolonganUkt::with('prodi')->get();
 
         return Inertia::render('User/Mahasiswa/UpdateMahasiswa',[
             'data_fakultas'=>$fetch_fakultas,
             'data_prodi'=>$fetch_prodi,
-            'data_mahasiswa'=>$fetch_mahasiswa
+            'data_mahasiswa'=>$fetch_mahasiswa,
+            'data_golongan_ukt'=>$fetch_golongan_ukt
         ]);
     }
 
     public function store(Request $request){
         try{
             $data = $request->validate([
-                'data' => 'required|array',
-                'data.*.nama_mahasiswa' => 'required',
-                'data.*.nim' => 'required',
-                'data.*.fakultas_id' => 'required',
-                'data.*.prodi_id' => 'required',
-                'data.*.angkatan' => 'required',
+                'data_mahasiswa' => 'required|array',
+                'data_mahasiswa.*.nama_mahasiswa' => 'required',
+                'data_mahasiswa.*.nim' => 'required',
+                'data_mahasiswa.*.fakultas_id' => 'required',
+                'data_mahasiswa.*.prodi_id' => 'required',
+                'data_mahasiswa.*.angkatan' => 'required',
+                'data_mahasiswa.*.golongan_ukt_id'=>"required",
             ]);
 
-            foreach($data['data'] as $mahasiswa){
+            foreach($data['data_mahasiswa'] as $mahasiswa){
                $user = User::create([
                     "email"=>$mahasiswa['nim'].'@gmail.com',
                     "password"=>Hash::make($mahasiswa['nim']),
@@ -74,11 +79,14 @@ class MahasiswaController extends Controller
                     'fakultas_id' => $mahasiswa['fakultas_id'],
                     'prodi_id' => $mahasiswa['prodi_id'],
                     'angkatan' => $mahasiswa['angkatan'],
+                    'golongan_ukt_id'=>$mahasiswa['golongan_ukt_id'],
+                    'semester'=> 1
                 ]);
             }
             return redirect()->back()->with("success","Berhasil menambah mahasiswa");
-        }catch(QueryException $e){
-            Log::error($e->getMessage());
+        }catch(\Exception $e){
+                    return redirect()->back()->with("error",$e->getMessage());
+
         }
     }
 

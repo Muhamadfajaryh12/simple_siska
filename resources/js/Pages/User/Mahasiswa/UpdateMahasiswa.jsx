@@ -2,7 +2,12 @@ import MahasiswaForm from "@/Components/forms/MahasiswaForm";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
 
-const UpdateMahasiswa = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
+const UpdateMahasiswa = ({
+    data_fakultas,
+    data_prodi,
+    data_mahasiswa,
+    data_golongan_ukt,
+}) => {
     return (
         <AdminLayout
             title={[
@@ -22,6 +27,7 @@ const UpdateMahasiswa = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
                 data_fakultas={data_fakultas}
                 data_prodi={data_prodi}
                 data_mahasiswa={data_mahasiswa}
+                data_golongan_ukt={data_golongan_ukt}
             />
         </AdminLayout>
     );

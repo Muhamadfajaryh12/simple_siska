@@ -7,17 +7,16 @@ import DataTable from "react-data-table-component";
 import PrimaryButton from "../PrimaryButton";
 import DangerButton from "../DangerButton";
 
-const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
+const MahasiswaForm = ({
+    data_fakultas,
+    data_prodi,
+    data_mahasiswa,
+    data_golongan_ukt,
+}) => {
+    const [filterUkt, setFilterUkt] = useState([]);
     const { data, setData, reset, processing, post, errors, put } = useForm({
-        nama_mahasiswa: "",
-        fakultas_id: "",
-        prodi_id: "",
-        angkatan: "",
-        nim: "",
+        data_mahasiswa: [],
     });
-
-    const [dataTemp, setDataTemp] = useState([]);
-    const [dataMahasiswaTemp, setDataMahasiswaTemp] = useState([]);
 
     const handleNIM = () => {
         const dataAngkatan = data.angkatan?.toString().slice(2, 4);
@@ -32,25 +31,34 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
         }
     };
 
-    const payloadDataTemp = {
+    const payload = {
         ...data,
         fakultas: data_fakultas.find((item) => item.id == data.fakultas_id)
             ?.nama_fakultas,
         prodi: data_prodi.find((item) => item.id == data.prodi_id)?.nama_prodi,
+        golongan_ukt: data_golongan_ukt.find(
+            (item) => item.id == data.golongan_ukt_id
+        )?.golongan,
     };
 
     const handleAddedTemp = (e) => {
         e.preventDefault();
-        setDataTemp((prev) => [...prev, payloadDataTemp]);
-        setDataMahasiswaTemp((prev) => [...prev, data]);
-        reset();
+        setData((prevData) => ({
+            ...prevData,
+            data_mahasiswa: [...prevData.data_mahasiswa, payload],
+            nama_mahasiswa: "",
+            angkatan: "",
+            fakultas_id: "",
+            prodi_id: "",
+            nim: "",
+        }));
     };
 
     const handleRemoveTemp = (param) => {
-        setDataTemp((prev) => prev.filter((_, index) => index != param));
-        setDataMahasiswaTemp((prev) =>
-            prev.filter((_, index) => index != param)
+        const removeData = data.data_mahasiswa.filter(
+            (_, index) => index != param
         );
+        setData("data_mahasiswa", removeData);
     };
 
     useEffect(() => {
@@ -59,12 +67,14 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
 
     useEffect(() => {
         if (data_mahasiswa) {
+            filterGolonganUKT(data_mahasiswa.prodi_id);
             setData({
                 nama_mahasiswa: data_mahasiswa.nama_mahasiswa,
                 angkatan: data_mahasiswa.angkatan,
                 fakultas_id: data_mahasiswa.fakultas_id,
                 prodi_id: data_mahasiswa.prodi_id,
                 nim: data_mahasiswa.nim,
+                golongan_ukt_id: data_mahasiswa.golongan_ukt_id,
             });
         }
     }, [data_mahasiswa]);
@@ -72,10 +82,8 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
     const handleSubmit = () => {
         post(
             route("mahasiswa.store", {
-                data: dataMahasiswaTemp,
                 onSuccess: () => {
-                    setDataTemp([]);
-                    setDataMahasiswaTemp();
+                    reset();
                 },
             })
         );
@@ -107,6 +115,10 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
             selector: (row) => row.angkatan,
         },
         {
+            name: "Golongan UKT",
+            selector: (row) => row.golongan_ukt,
+        },
+        {
             name: "Action",
             selector: (row, index) => (
                 <DangerButton
@@ -119,6 +131,21 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
         },
     ];
 
+    const handleProdiUKT = (value) => {
+        setData("prodi_id", value);
+        filterGolonganUKT(value);
+    };
+
+    const filterGolonganUKT = (id) => {
+        const dataFilterUkt = data_golongan_ukt.filter(
+            (item) => item.prodi_id == id
+        );
+        const formatDataFilterUkt = dataFilterUkt?.map((item) => ({
+            id: item.id,
+            label: `${item.golongan} - ${item.prodi.nama_prodi}`,
+        }));
+        setFilterUkt(formatDataFilterUkt);
+    };
     return (
         <>
             <form
@@ -133,6 +160,7 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
                     onChange={(e) => setData("nama_mahasiswa", e.target.value)}
                     errors={errors.nama_mahasiswa}
                 />
+
                 <TextInputContent
                     label={"Angkatan"}
                     type={"number"}
@@ -141,7 +169,7 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
                     onChange={(e) => setData("angkatan", e.target.value)}
                     errors={errors.angkatan}
                 />
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                     <SelectContent
                         data={data_fakultas}
                         name={"fakultas_id"}
@@ -159,10 +187,20 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
                         label={"Program Studi"}
                         valueField={"id"}
                         labelField={"nama_prodi"}
-                        handleChange={(e) =>
-                            setData("prodi_id", e.target.value)
-                        }
+                        handleChange={(e) => handleProdiUKT(e.target.value)}
                         value={data.prodi_id}
+                    />
+                    <SelectContent
+                        label={"Golongan UKT"}
+                        name={"golongan_ukt_id"}
+                        value={data.golongan_ukt_id}
+                        handleChange={(e) =>
+                            setData("golongan_ukt_id", e.target.value)
+                        }
+                        errors={errors.golongan_ukt_id}
+                        data={filterUkt}
+                        valueField={"id"}
+                        labelField={"label"}
                     />
                 </div>
                 <TextInputContent
@@ -180,14 +218,11 @@ const MahasiswaForm = ({ data_fakultas, data_prodi, data_mahasiswa }) => {
             {!data_mahasiswa && (
                 <div className="mt-4 flex flex-col gap-4">
                     <h1>Daftar data yang akan disimpan</h1>
-                    <DataTable data={dataTemp} columns={columns} />
-                    {dataTemp?.length > 0 && (
+                    <DataTable data={data.data_mahasiswa} columns={columns} />
+                    {data.data_mahasiswa?.length > 0 && (
                         <div className="flex gap-4 items-center">
                             <DangerButton
-                                onClick={() => {
-                                    setDataMahasiswaTemp([]);
-                                    setDataTemp([]);
-                                }}
+                                onClick={() => {}}
                                 disabled={processing}
                             >
                                 RESET

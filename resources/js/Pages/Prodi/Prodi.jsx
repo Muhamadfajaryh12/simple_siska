@@ -90,7 +90,7 @@ const Prodi = ({ data, data_fakultas }) => {
     return (
         <>
             <AdminLayout title={["Program Studi", "Daftar"]}>
-                <div className="flex justify-between">
+                <div className="flex justify-between my-4">
                     <FilterColumn
                         filterData={filterConfig}
                         onChange={updateFilter}

@@ -56,7 +56,7 @@ const Fakultas = ({ data }) => {
 
     return (
         <AdminLayout title={["Fakultas", "Daftar"]}>
-            <div className="flex justify-end">
+            <div className="flex justify-end my-4">
                 <Link href={route("fakultas.create")}>
                     <PrimaryButton>Buat Fakultas</PrimaryButton>
                 </Link>

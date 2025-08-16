@@ -4,6 +4,7 @@ use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Fakultas\FakultasController;
+use App\Http\Controllers\GolonganUktController;
 use App\Http\Controllers\Kelas\KelasController;
 use App\Http\Controllers\KelasMataKuliahController;
 use App\Http\Controllers\KRS\KRSController;
@@ -126,6 +127,12 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     });
     
 
+    Route::prefix("/golongan_ukt")->group(function(){
+        Route::get('/',[GolonganUktController::class,"index"])->name("golongan_ukt.index");
+        Route::get('/form',[GolonganUktController::class,"create"])->name("golongan_ukt.create");
+
+        Route::post('/',[GolonganUktController::class,"store"])->name("golongan_ukt.store");
+    });
 });
 
 Route::middleware(["auth",'checkRole:Dosen'])->group(function(){

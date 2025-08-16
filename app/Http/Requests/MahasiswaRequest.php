@@ -33,6 +33,7 @@ class MahasiswaRequest extends FormRequest
             "fakultas_id"=>"required",
             "prodi_id"=>"required",   
             "user_id"=>"nullable",
+            "golongan_ukt_id"=>"required"
         ];
     }
 }
