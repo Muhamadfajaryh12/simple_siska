@@ -23,4 +23,8 @@ class Pertemuan extends Model
     public function kelas_mata_kuliah(){
         return $this->belongsTo(KelasMataKuliah::class, 'kelas_mata_kuliah_id', 'id');
     }
+
+    public function tugas(){
+        return $this->hasOne(Tugas::class);
+    }
 }

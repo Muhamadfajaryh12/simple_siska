@@ -15,6 +15,7 @@ use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PertemuanController;
 use App\Http\Controllers\Prodi\ProdiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TugasController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,22 +31,6 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     // return Inertia::render('Welcome', [
-//     //     'canLogin' => Route::has('login'),
-//     //     'canRegister' => Route::has('register'),
-//     //     'laravelVersion' => Application::VERSION,
-//     //     'phpVersion' => PHP_VERSION,
-//     // ]);
-
-//     return Inertia::render('login');
-// });
-
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth','checkRole:Admin'])->group(function(){
 
@@ -162,6 +147,9 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
     });
 
 
+    Route::prefix("/tugas")->group(function(){
+        Route::post('/',[TugasController::class,"store"])->name("tugas.store");
+    });
 
 });
 
@@ -182,6 +170,9 @@ Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
         Route::post('/',[AbsenController::class,"store"])->name("absen.store");
     });
 
+    Route::prefix("tugas")->group(function(){
+        Route::get('/',[TugasController::class,"tugas_kuliah_mahasiswa_index"])->name("tugas_kuliah_mahasiswa.index");
+    });
 });
 
 Route::middleware('auth')->group(function () {

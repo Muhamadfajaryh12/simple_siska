@@ -1,14 +1,21 @@
+import DangerButton from "@/Components/DangerButton";
+import TugasForm from "@/Components/forms/TugasForm";
 import TextInputContent from "@/Components/input/TextInputContent";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import { useModal } from "@/Context/ModalContext";
 import { useForm } from "@inertiajs/react";
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
+import { FaPencil, FaTrash } from "react-icons/fa6";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
+    console.log(data_pertemuan);
     const { data, setData, put, processing } = useForm({
         materi: "",
     });
 
+    const { showModal } = useModal();
     useEffect(() => {
         setData("materi", data_pertemuan?.materi || "");
     }, [data_pertemuan.id]);
@@ -16,6 +23,10 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
     const handleEdit = (e) => {
         e.preventDefault();
         put(route("pertemuan.edit", { id: data_pertemuan.id }));
+    };
+
+    const handleModalTugas = () => {
+        showModal(<TugasForm id={data_pertemuan.id} />);
     };
 
     return (
@@ -36,6 +47,37 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                 />
                 <PrimaryButton disabled={processing}>SIMPAN</PrimaryButton>
             </form>
+
+            <div className="border rounded-md p-4 my-4">
+                {data_pertemuan.tugas ? (
+                    <>
+                        <h1>
+                            Judul Tugas : {data_pertemuan.tugas.judul_tugas}
+                        </h1>
+                        <h1>Desksripsi : {data_pertemuan.tugas.deskripsi}</h1>
+                        <h1>Deadline : {data_pertemuan.tugas.deadline}</h1>
+                        <div className="flex justify-end gap-2">
+                            <SecondaryButton>
+                                <FaPencil />
+                            </SecondaryButton>
+                            <DangerButton>
+                                <FaTrash />
+                            </DangerButton>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <h1 className="text-center">
+                            Pertemuan ini belum memiliki tugas
+                        </h1>
+                        <div className="flex justify-center my-2">
+                            <SecondaryButton onClick={handleModalTugas}>
+                                Membuat TUgas
+                            </SecondaryButton>
+                        </div>
+                    </>
+                )}
+            </div>
             <div className="grid grid-cols-3 gap-4 my-4">
                 <div className="border rounded-md h-12 flex justify-between items-center p-4">
                     <h1>Total Mahasiswa</h1>
