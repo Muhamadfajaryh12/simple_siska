@@ -41,7 +41,7 @@ class KelasMataKuliahController extends Controller
                     $q->where("status","izin");
                 }
             ]);
-        },"pertemuan.absensi.mahasiswa","pertemuan.tugas"])->withCount("krs_detail as total_mahasiswa")
+        },"pertemuan.absensi.mahasiswa","pertemuan.tugas.tugas_mahasiswa.mahasiswa"])->withCount("krs_detail as total_mahasiswa")
         ->findOrFail($id);
         return Inertia::render("KelasMengajar/DetailKelasMengajar",[
             "data_kelas"=>$fetch_kelas_mata_kuliah_detail

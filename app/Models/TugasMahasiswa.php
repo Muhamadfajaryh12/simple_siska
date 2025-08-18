@@ -23,4 +23,8 @@ class TugasMahasiswa extends Model
     public function tugas(){
         return $this->belongsTo(Tugas::class,"tugas_id","id");
     }
+
+    public function mahasiswa(){
+        return $this->belongsTo(Mahasiswa::class,"mahasiswa_id","id");
+    }
 }

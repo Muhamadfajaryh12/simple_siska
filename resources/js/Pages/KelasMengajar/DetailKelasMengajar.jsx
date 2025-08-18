@@ -23,7 +23,7 @@ const DetailKelasMengajar = ({ data_kelas }) => {
             ]}
         >
             <div className="bg-white p-4 rounded-md border">
-                <h1 className="my-2 font-semibold">Pertemuan</h1>
+                <h1 className="mb-4 font-semibold">Pertemuan</h1>
                 <div className="flex">
                     {data_kelas.pertemuan.map((item) => (
                         <button
@@ -38,11 +38,11 @@ const DetailKelasMengajar = ({ data_kelas }) => {
                         </button>
                     ))}
                 </div>
-                <PertemuanDosenSection
-                    data_pertemuan={dataPertemuan}
-                    total_mahasiswa={data_kelas.total_mahasiswa}
-                />
             </div>
+            <PertemuanDosenSection
+                data_pertemuan={dataPertemuan}
+                total_mahasiswa={data_kelas.total_mahasiswa}
+            />
         </AdminLayout>
     );
 };

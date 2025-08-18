@@ -5,15 +5,17 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import { useModal } from "@/Context/ModalContext";
 import { useForm } from "@inertiajs/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { FaPencil, FaTrash } from "react-icons/fa6";
+import AbsenDaftarMahasiswaSection from "./AbsenDaftarMahasiswaSection";
+import TugasDaftarSection from "./TugasDaftarSection";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
-    console.log(data_pertemuan);
     const { data, setData, put, processing } = useForm({
         materi: "",
     });
+    const [active, setActive] = useState("absen");
 
     const { showModal } = useModal();
     useEffect(() => {
@@ -29,10 +31,18 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
         showModal(<TugasForm id={data_pertemuan.id} />);
     };
 
+    const tabButtonClass = (activeTab) => {
+        return `w-full p-2 rounded-md ${
+            active == activeTab
+                ? "bg-violet-500 text-white"
+                : "bg-white shadow-sm"
+        }`;
+    };
+
     return (
-        <div className="my-4">
+        <div className="my-4 ">
             <form
-                className="flex flex-col gap-4 border rounded-md p-4"
+                className="flex flex-col gap-4 border rounded-md p-4 bg-white"
                 onSubmit={handleEdit}
             >
                 <h1 className="block font-medium text-sm text-gray-700">
@@ -48,7 +58,7 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                 <PrimaryButton disabled={processing}>SIMPAN</PrimaryButton>
             </form>
 
-            <div className="border rounded-md p-4 my-4">
+            <div className="border rounded-md p-4 my-4 bg-white">
                 {data_pertemuan.tugas ? (
                     <>
                         <h1>
@@ -78,43 +88,30 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                     </>
                 )}
             </div>
-            <div className="grid grid-cols-3 gap-4 my-4">
-                <div className="border rounded-md h-12 flex justify-between items-center p-4">
-                    <h1>Total Mahasiswa</h1>
-                    <h1>{total_mahasiswa}</h1>
-                </div>
-                <div className="border rounded-md h-12 flex justify-between items-center p-4">
-                    <h1>Hadir</h1>
-                    <h1>{data_pertemuan.total_hadir}</h1>
-                </div>
-                <div className="border rounded-md h-12 flex justify-between items-center p-4">
-                    <h1>Izin</h1>
-                    <h1>{data_pertemuan.total_izin}</h1>
-                </div>
+            <div className="flex gap-2 my-4">
+                <button
+                    className={tabButtonClass("absen")}
+                    onClick={() => setActive("absen")}
+                >
+                    Rekap Absen
+                </button>
+                <button
+                    className={tabButtonClass("tugas")}
+                    onClick={() => setActive("tugas")}
+                >
+                    Rekap Tugas
+                </button>
             </div>
-            <h1 className="my-2 font-semibold">Daftar Absensi</h1>
-
-            <DataTable
-                data={data_pertemuan.absensi}
-                columns={[
-                    {
-                        name: "NIM",
-                        selector: (row) => row.mahasiswa.nim,
-                    },
-                    {
-                        name: "Mahasiswa",
-                        selector: (row) => row.mahasiswa.nama_mahasiswa,
-                    },
-                    {
-                        name: "Status",
-                        selector: (row) => (
-                            <p className="uppercase p-2 rounded-md bg-green-500 text-white text-xs">
-                                {row.status}
-                            </p>
-                        ),
-                    },
-                ]}
-            />
+            {active == "absen" ? (
+                <AbsenDaftarMahasiswaSection
+                    data_pertemuan={data_pertemuan}
+                    total_mahasiswa={total_mahasiswa}
+                />
+            ) : (
+                <TugasDaftarSection
+                    data_tugas={data_pertemuan?.tugas?.tugas_mahasiswa || []}
+                />
+            )}
         </div>
     );
 };
