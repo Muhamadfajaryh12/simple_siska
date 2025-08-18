@@ -13,10 +13,11 @@ use Inertia\Inertia;
 class TugasController extends Controller
 {
     public function tugas_kuliah_mahasiswa_index(){
-        $fetch_tugas_kuliah = Tugas::with('pertemuan.kelas_mata_kuliah.krs_detail.krs')->whereHas("pertemuan.kelas_mata_kuliah.krs_detail.krs",function($query){
-            $query->where("mahasiswa_id", Auth::user()->mahasiswa->id);
-        })->get();
+        // $fetch_tugas_kuliah = Tugas::with('pertemuan.kelas_mata_kuliah.krs_detail.krs','tugas_mahasiswa_detail',"kelas_mata_kuliah.mata_kuliah")->whereHas("pertemuan.kelas_mata_kuliah.krs_detail.krs",function($query){
+        //     $query->where("mahasiswa_id", Auth::user()->mahasiswa->id);
+        // })->get();
 
+        $fetch_tugas_kuliah = TugasMahasiswa::with("tugas.pertemuan.kelas_mata_kuliah.mata_kuliah")->where("mahasiswa_id",Auth::user()->mahasiswa->id)->get();
         return Inertia::render("TugasKuliah/TugasKuliah",[
             "data_tugas_kuliah"=>$fetch_tugas_kuliah
         ]);

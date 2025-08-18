@@ -19,4 +19,8 @@ class TugasMahasiswa extends Model
         "submit_date",
         "file_pengumpulan"
     ];
+
+    public function tugas(){
+        return $this->belongsTo(Tugas::class,"tugas_id","id");
+    }
 }

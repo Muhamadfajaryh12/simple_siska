@@ -16,6 +16,7 @@ use App\Http\Controllers\PertemuanController;
 use App\Http\Controllers\Prodi\ProdiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TugasController;
+use App\Http\Controllers\TugasMahasiswaController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -172,6 +173,10 @@ Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
 
     Route::prefix("tugas")->group(function(){
         Route::get('/',[TugasController::class,"tugas_kuliah_mahasiswa_index"])->name("tugas_kuliah_mahasiswa.index");
+    });
+
+    Route::prefix("tugas_mahasiswa")->group(function(){
+        Route::post('/{id}',[TugasMahasiswaController::class,"edit"])->name("tugas_mahasiswa.edit");
     });
 });
 

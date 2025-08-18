@@ -19,4 +19,12 @@ class Tugas extends Model
     public function pertemuan(){
         return $this->belongsTo(Pertemuan::class,"pertemuan_id","id");
     }
+
+    public function tugas_mahasiswa(){
+        return $this->hasMany(TugasMahasiswa::class);
+    }
+
+    public function tugas_mahasiswa_detail(){
+        return $this->hasOne(TugasMahasiswa::class);
+    }
 }

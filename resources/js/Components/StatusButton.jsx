@@ -12,12 +12,17 @@ const StatusButton = ({ children }) => {
         case "ditolak":
             background = "bg-red-500";
             break;
+        case "selesai":
+            background = "bg-green-500";
+            break;
         default:
             break;
     }
 
     return (
-        <div className={`text-white ${background} rounded-md p-2 capitalize`}>
+        <div
+            className={`text-white text-sm ${background} inline-flex justify-center items-center px-4 py-2 text-center border border-gray-300 rounded-md font-semibold text-xs  uppercase tracking-widest shadow-sm  f disabled:opacity-25 transition ease-in-out duration-150 `}
+        >
             {children}
         </div>
     );
