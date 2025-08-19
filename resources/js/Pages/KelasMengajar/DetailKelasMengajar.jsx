@@ -13,6 +13,7 @@ const DetailKelasMengajar = ({ data_kelas }) => {
         setDataPertemuan(data_kelas.pertemuan.find((item) => item.id == id));
         setActive(id);
     };
+
     return (
         <AdminLayout
             title={[
@@ -37,6 +38,9 @@ const DetailKelasMengajar = ({ data_kelas }) => {
                             {item.pertemuan_ke}
                         </button>
                     ))}
+                    <button className="flex-1 text-center  p-1 border rounded-md">
+                        Rekap
+                    </button>
                 </div>
             </div>
             <PertemuanDosenSection

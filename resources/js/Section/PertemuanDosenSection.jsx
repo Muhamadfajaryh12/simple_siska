@@ -6,7 +6,6 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import { useModal } from "@/Context/ModalContext";
 import { useForm } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 import AbsenDaftarMahasiswaSection from "./AbsenDaftarMahasiswaSection";
 import TugasDaftarSection from "./TugasDaftarSection";

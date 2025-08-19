@@ -31,11 +31,11 @@ const KelasMengajar = ({ data_kelas }) => {
                     {
                         name: "Action",
                         selector: (row) => (
-                            <SecondaryButton>
-                                <Link href={`/kelas_mengajar/${row.id}`}>
+                            <Link href={`/kelas_mengajar/${row.id}`}>
+                                <SecondaryButton>
                                     <FaEye />
-                                </Link>
-                            </SecondaryButton>
+                                </SecondaryButton>
+                            </Link>
                         ),
                     },
                 ]}

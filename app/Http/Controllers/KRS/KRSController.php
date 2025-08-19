@@ -82,7 +82,6 @@ class KRSController extends Controller
             $validation = $request->validate([
                 "status"=>"required"
             ]);
-    
             $krs = KRS::findOrFail($id);
             $krs->update([
                 "status"=>$validation["status"]

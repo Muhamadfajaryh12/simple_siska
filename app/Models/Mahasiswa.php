@@ -37,4 +37,8 @@ class Mahasiswa extends Model
     public function kelas(){
         return $this->belongsTo(Kelas::class,"kelas_id","id");
     }
+
+    public function golongan_ukt(){
+        return $this->belongsTo(GolonganUkt::class,"golongan_ukt_id","id");
+    }
 }

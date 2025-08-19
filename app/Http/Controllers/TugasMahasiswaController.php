@@ -39,4 +39,25 @@ class TugasMahasiswaController extends Controller
             return redirect()->back()->with("error",$e->getMessage());
         }
     }
+
+    public function edit_nilai(Request $request){
+        try{
+            $validation = $request->validate([
+                "data_nilai_tugas_mahasiswa" => "required|array",
+                "data_nilai_tugas_mahasiswa.*.id"=>"required",
+                 "data_nilai_tugas_mahasiswa.*.nilai"=>"required",
+            ]);
+
+            foreach($validation["data_nilai_tugas_mahasiswa"] as $item){
+                TugasMahasiswa::where("id",$item["id"])->update([
+                    "nilai"=>$item["nilai"]
+                ]);
+            }
+
+                  return redirect()->back()->with( "success","Berhasil memberikan nilai");
+
+        }catch(\Exception $e){
+            return redirect()->back()->with( "error",$e->getMessage());
+        }
+    }
 }

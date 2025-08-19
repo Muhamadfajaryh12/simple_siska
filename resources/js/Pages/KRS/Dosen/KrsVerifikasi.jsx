@@ -1,21 +1,17 @@
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
+import StatusButton from "@/Components/StatusButton";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
 const KrsVerifikasi = ({ data_krs, data_mahasiswa }) => {
-    const { data, setData, processing, put } = useForm({
-        status: "",
-    });
-
     const submit = (status) => {
-        console.log(status);
-        setData("status", status);
-        put(route("krs.verifikasi", { id: data_mahasiswa.id }));
+        router.put(route("krs.verifikasi", { id: data_mahasiswa.id }), {
+            status: status,
+        });
     };
-
     const columns = [
         {
             name: "Mata Kuliah",
@@ -54,35 +50,43 @@ const KrsVerifikasi = ({ data_krs, data_mahasiswa }) => {
     ];
 
     return (
-        <AdminLayout title={["Kartu Rencana Studi", "Verifikasi"]}>
-            <p>Nama Mahasiswa : {data_mahasiswa.mahasiswa.nama_mahasiswa} </p>
-
-            <DataTable fixedHeader columns={columns} data={data_krs} />
-            <div className="flex justify-end">
-                <div className="my-2">
-                    <h6 className="text-sm font-bold mt-2">
-                        Total SKS : {data_mahasiswa.total_sks || 0}
-                    </h6>
-                    {data_mahasiswa.status == "menunggu" ? (
-                        <div className="flex gap-2">
-                            <DangerButton
-                                disabled={processing}
-                                className="mt-4"
-                                onClick={() => submit("ditolak")}
-                            >
-                                Tolak
-                            </DangerButton>
-                            <PrimaryButton
-                                disabled={processing}
-                                className="mt-4"
-                                onClick={() => submit("disetujui")}
-                            >
-                                Setujui
-                            </PrimaryButton>
-                        </div>
-                    ) : (
-                        <PrimaryButton>{data_mahasiswa.status}</PrimaryButton>
-                    )}
+        <AdminLayout
+            title={[
+                "Kartu Rencana Studi",
+                "Verifikasi",
+                `${data_mahasiswa.mahasiswa.nama_mahasiswa}`,
+            ]}
+        >
+            <div className="bg-white p-4">
+                <DataTable fixedHeader columns={columns} data={data_krs} />
+                <div className="flex justify-end">
+                    <div className="my-2">
+                        <h6 className="text-sm font-bold mt-2">
+                            Total SKS : {data_mahasiswa.total_sks || 0}
+                        </h6>
+                        {data_mahasiswa.status == "menunggu" ? (
+                            <div className="flex gap-2">
+                                <DangerButton
+                                    className="mt-4"
+                                    onClick={() => submit("ditolak")}
+                                >
+                                    Tolak
+                                </DangerButton>
+                                <PrimaryButton
+                                    className="mt-4"
+                                    onClick={() => submit("disetujui")}
+                                >
+                                    Setujui
+                                </PrimaryButton>
+                            </div>
+                        ) : (
+                            <div className="mt-4">
+                                <StatusButton>
+                                    {data_mahasiswa.status}
+                                </StatusButton>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </AdminLayout>

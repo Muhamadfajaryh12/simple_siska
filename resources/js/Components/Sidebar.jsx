@@ -3,9 +3,18 @@ import React, { useState } from "react";
 import { CiViewList } from "react-icons/ci";
 import { PiStudent, PiChalkboardTeacherLight } from "react-icons/pi";
 import { GoDatabase } from "react-icons/go";
+import { FaDashcube } from "react-icons/fa6";
 
 const Sidebar = ({ auth }) => {
     const list = {
+        Dashboard: [
+            {
+                title: "Dashboard",
+                link: "dashboard.admin",
+                role: "Admin",
+                icon: <FaDashcube />,
+            },
+        ],
         Pengguna: [
             {
                 title: "Mahasiswa",
