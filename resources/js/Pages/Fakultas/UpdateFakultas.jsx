@@ -5,13 +5,15 @@ import AdminLayout from "@/Layouts/AdminLayout";
 const UpdateFakultas = ({ fakultas }) => {
     return (
         <AdminLayout title={["Fakultas", "Form", `${fakultas.nama_fakultas}`]}>
-            <div className=" text-gray-900">
-                <p className="text-lg">Formulir Pembuatan Fakultas</p>
-                <span className="text-sm font-bold">
-                    Silahkan mengisi formulir dengan benar!
-                </span>
+            <div className="bg-white rounded-md p-4">
+                <div className=" text-gray-900">
+                    <p className="text-lg">Formulir Pembuatan Fakultas</p>
+                    <span className="text-sm font-bold">
+                        Silahkan mengisi formulir dengan benar!
+                    </span>
+                </div>
+                <FakultasForm fakultas={fakultas} />
             </div>
-            <FakultasForm fakultas={fakultas} />
         </AdminLayout>
     );
 };

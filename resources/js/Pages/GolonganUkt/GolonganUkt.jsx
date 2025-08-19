@@ -2,6 +2,7 @@ import FilterColumn from "@/Components/FilterColumn";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Select from "@/Components/Select";
+import useToIDR from "@/hooks/useToIDR";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link } from "@inertiajs/react";
 import React, { useState } from "react";
@@ -52,7 +53,7 @@ const GolonganUkt = ({ data_golongan_ukt, data_prodi }) => {
                     },
                     {
                         name: "Nominal",
-                        selector: (row) => row.nominal,
+                        selector: (row) => useToIDR(row.nominal),
                     },
                     {
                         name: "Program Studi",

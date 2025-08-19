@@ -90,7 +90,7 @@ const Matakuliah = ({ data, data_prodi }) => {
     });
     return (
         <AdminLayout title={["Mata Kuliah", "Daftar"]}>
-            <div className="">
+            <div className="rounded-md">
                 <div className="flex justify-between mb-4">
                     <FilterColumn
                         filterData={filterConfig}

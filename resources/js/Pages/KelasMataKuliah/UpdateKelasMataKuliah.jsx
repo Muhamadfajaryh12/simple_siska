@@ -9,11 +9,13 @@ const UpdateKelasMataKuliah = ({
 }) => {
     return (
         <AdminLayout title={["Kelas Mata Kuliah", "Form", "Edit"]}>
-            <KelasMataKuliahForm
-                data_dosen={data_dosen}
-                data_mata_kuliah={data_mata_kuliah}
-                detail_kelas_mata_kuliah={data_kelas_mata_kuliah}
-            />
+            <div className="bg-white rounded-md p-4">
+                <KelasMataKuliahForm
+                    data_dosen={data_dosen}
+                    data_mata_kuliah={data_mata_kuliah}
+                    detail_kelas_mata_kuliah={data_kelas_mata_kuliah}
+                />
+            </div>
         </AdminLayout>
     );
 };

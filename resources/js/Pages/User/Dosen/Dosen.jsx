@@ -45,11 +45,11 @@ const Dosen = ({ data, data_prodi, data_fakultas }) => {
             name: "Action",
             selector: (row) => (
                 <div className="flex gap-2">
-                    <SecondaryButton>
-                        <Link href={route("dosen.update", { id: row.id })}>
+                    <Link href={route("dosen.update", { id: row.id })}>
+                        <SecondaryButton>
                             <FaPencil />
-                        </Link>
-                    </SecondaryButton>
+                        </SecondaryButton>
+                    </Link>
                     <DangerButton
                         onClick={() =>
                             showModal(

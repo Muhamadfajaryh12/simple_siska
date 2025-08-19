@@ -17,6 +17,7 @@ const MahasiswaForm = ({
     const { data, setData, reset, processing, post, errors, put } = useForm({
         data_mahasiswa: [],
     });
+    const [edit, setEdit] = useState(false);
 
     const handleNIM = () => {
         const dataAngkatan = data.angkatan?.toString().slice(2, 4);
@@ -62,7 +63,17 @@ const MahasiswaForm = ({
     };
 
     useEffect(() => {
-        handleNIM();
+        if (!edit) {
+            handleNIM();
+        } else {
+            if (
+                data.angkatan !== data_mahasiswa?.angkatan ||
+                data.fakultas_id !== data_mahasiswa?.fakultas_id ||
+                data.prodi_id !== data_mahasiswa?.prodi_id
+            ) {
+                handleNIM();
+            }
+        }
     }, [data.angkatan, data.fakultas_id, data.prodi_id]);
 
     useEffect(() => {
@@ -76,6 +87,7 @@ const MahasiswaForm = ({
                 nim: data_mahasiswa.nim,
                 golongan_ukt_id: data_mahasiswa.golongan_ukt_id,
             });
+            setEdit(true);
         }
     }, [data_mahasiswa]);
 
@@ -89,7 +101,8 @@ const MahasiswaForm = ({
         );
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = (e) => {
+        e.preventDefault();
         put(route("mahasiswa.edit", { id: data_mahasiswa.id }));
     };
 

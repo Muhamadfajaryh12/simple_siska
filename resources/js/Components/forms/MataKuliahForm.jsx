@@ -165,7 +165,7 @@ const MataKuliahForm = ({ data_prodi, data_semester, data_mata_kuliah }) => {
                     />
                 </div>
 
-                <PrimaryButton className="mt-2 w-32" disabled={processing}>
+                <PrimaryButton className="mt-2" disabled={processing}>
                     {!data_mata_kuliah ? "Tambahkan" : "Simpan"}
                 </PrimaryButton>
             </form>

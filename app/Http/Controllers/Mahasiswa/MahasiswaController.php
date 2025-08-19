@@ -65,17 +65,28 @@ class MahasiswaController extends Controller
                 'data_mahasiswa.*.golongan_ukt_id'=>"required",
             ]);
 
+  
+
             foreach($data['data_mahasiswa'] as $mahasiswa){
+              $prefix = substr($mahasiswa['nim'], 0, 8); 
+                $last_mahasiswa = Mahasiswa::where('nim','like',$prefix.'%')
+                ->orderBy('nim','desc')
+                ->first();
+                
+                $last_number = $last_mahasiswa ? intval(substr($last_mahasiswa->nim, -4)) : 0;
+                $new_number = str_pad($last_number + 1, 4, '0', STR_PAD_LEFT);
+                $new_nim = $mahasiswa['nim'] . $new_number;
+                
                $user = User::create([
-                    "email"=>$mahasiswa['nim'].'@gmail.com',
-                    "password"=>Hash::make($mahasiswa['nim']),
+                    "email"=>$new_nim.'@gmail.com',
+                    "password"=>Hash::make($new_nim),
                     "role"=>"Mahasiswa"
                 ]);
 
                   Mahasiswa::create([
                     'user_id' => $user->id,
                     'nama_mahasiswa' => $mahasiswa['nama_mahasiswa'],
-                    'nim' => $mahasiswa['nim'],
+                    'nim' => $new_nim,
                     'fakultas_id' => $mahasiswa['fakultas_id'],
                     'prodi_id' => $mahasiswa['prodi_id'],
                     'angkatan' => $mahasiswa['angkatan'],
@@ -97,8 +108,9 @@ class MahasiswaController extends Controller
             $mahasiswa = Mahasiswa::findOrFail($id);
             $mahasiswa->update($validation); 
             return redirect()->back()->with("success","Berhasil mengedit mahasiswa");
-        }catch(QueryException $e){
-            Log::error($e->getMessage());
+        }catch(\Exception $e){
+         return redirect()->back()->with( "error",$e->getMessage());
+            
         }
     }
         

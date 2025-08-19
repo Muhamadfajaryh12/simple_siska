@@ -27,7 +27,7 @@ const Kelas = ({ data_kelas, data_prodi }) => {
 
     const columns = [
         {
-            name: "kelas",
+            name: "Kelas",
             selector: (row) => row.kelas,
         },
         {

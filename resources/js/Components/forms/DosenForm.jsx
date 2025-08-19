@@ -138,7 +138,7 @@ const DosenForm = ({ data_fakultas, data_prodi, data_dosen }) => {
                         errors={errors.prodi_id}
                     />
                 </div>
-                <PrimaryButton className="w-32" disabled={processing}>
+                <PrimaryButton disabled={processing}>
                     {!data_dosen ? "Tambahkan" : "Simpan"}
                 </PrimaryButton>
             </form>

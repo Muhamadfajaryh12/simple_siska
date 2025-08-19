@@ -26,6 +26,7 @@
         "@fullcalendar/react": "^6.1.19",
         "chart.js": "^4.5.0",
         "html2canvas": "^1.4.1",
+        "intl": "^1.2.5",
         "jspdf": "^2.5.2",
         "jspdf-autotable": "^3.8.3",
         "react-chartjs-2": "^5.3.0",
