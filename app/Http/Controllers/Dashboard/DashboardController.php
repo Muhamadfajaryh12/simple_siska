@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Dosen;
 use App\Models\Fakultas;
+use App\Models\Kelas;
 use App\Models\KelasMataKuliah;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
@@ -28,10 +29,13 @@ class DashboardController extends Controller
         $fetch_pertemuan_kelas_mata_kuliah_dosen = Pertemuan::whereHas("kelas_mata_kuliah", function($query) {
             $query->where("dosen_id", Auth::user()->dosen->id);
         })->with("kelas_mata_kuliah.dosen","kelas_mata_kuliah.mata_kuliah")->get();
+
+        $fetch_mahasiswa_wali = Kelas::where("dosen_id",$dosen_id)->withCount("mahasiswa")->get()->sum("mahasiswa_count");
         return Inertia::render('Dashboard/DashboardDosen',[
             'total_kelas_mata_kuliah' => $fetch_kelas_mata_kuliah_dosen,
             'total_mahasiswa_kelas_mata_kuliah'=>$fetch_mahasiswa_kelas_mata_kuliah_dosen,
             "data_jadwal_kuliah"=>$fetch_pertemuan_kelas_mata_kuliah_dosen,
+            "total_mahasiswa_wali"=>$fetch_mahasiswa_wali
         ]);
     }
 

@@ -7,6 +7,7 @@ const DashboardDosen = ({
     total_kelas_mata_kuliah,
     total_mahasiswa_kelas_mata_kuliah,
     data_jadwal_kuliah,
+    total_mahasiswa_wali,
 }) => {
     const [jadwal, setJadwal] = useState(
         data_jadwal_kuliah?.filter(
@@ -41,7 +42,7 @@ const DashboardDosen = ({
                             <FaUser className="text-white" />
                         </div>
                     }
-                    total={total_mahasiswa_kelas_mata_kuliah}
+                    total={total_mahasiswa_wali}
                 />
             </div>
             <div className="flex gap-2 my-4">
