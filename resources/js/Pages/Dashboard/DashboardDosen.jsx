@@ -1,90 +1,106 @@
-import BarContainer from "@/Components/BarContainer";
-import BoxCount from "@/Components/BoxCount";
 import AdminLayout from "@/Layouts/AdminLayout";
-import React, { useEffect, useState } from "react";
-
+import FullCalendar from "@fullcalendar/react";
+import { FaClapperboard, FaUser } from "react-icons/fa6";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { useState } from "react";
 const DashboardDosen = ({
-    data_mata_kuliah,
-    data_fakultas,
-    data_prodi,
-    data_dosen,
-    data_mahasiswa,
+    total_kelas_mata_kuliah,
+    total_mahasiswa_kelas_mata_kuliah,
+    data_jadwal_kuliah,
 }) => {
-    const [dosen, setDosen] = useState([]);
-    const [mahasiswa, setMahasiswa] = useState([]);
-    useEffect(() => {
-        const groupByGenderDosen = data_dosen.reduce((acc, item) => {
-            if (!acc[item.jenis_kelamin]) {
-                acc[item.jenis_kelamin] = [];
-            }
-            acc[item.jenis_kelamin].push(item);
-            return acc;
-        }, {});
-        const createArrayDosen = Object.keys(groupByGenderDosen).map((item) => {
-            const total = groupByGenderDosen[item].length;
-            return {
-                jenis_kelamin: item,
-                total: total,
-            };
-        });
-
-        const groupByGenderMahasiswa = data_mahasiswa.reduce((acc, item) => {
-            if (!acc[item.jenis_kelamin]) {
-                acc[item.jenis_kelamin] = [];
-            }
-            acc[item.jenis_kelamin].push(item);
-            return acc;
-        }, {});
-        const createArrayMahasiswa = Object.keys(groupByGenderMahasiswa).map(
-            (item) => {
-                const total = groupByGenderMahasiswa[item].length;
-                return {
-                    jenis_kelamin: item,
-                    total: total,
-                };
-            }
-        );
-        setMahasiswa(createArrayMahasiswa);
-        setDosen(createArrayDosen);
-    }, []);
-
+    const [jadwal, setJadwal] = useState(
+        data_jadwal_kuliah?.filter(
+            (item) => item.tanggal == new Date().toLocaleDateString("en-CA")
+        ) || []
+    );
     return (
-        <AdminLayout title={"Dashboard"}>
-            <div className="flex gap-2">
-                <BoxCount title={" Mata Kuliah"} count={data_mata_kuliah} />
-                <BoxCount title={" Fakultas"} count={data_fakultas} />
-                <BoxCount title={" Program Studi"} count={data_prodi} />
+        <AdminLayout title={["Dashboard", "Dosen"]}>
+            <div className="grid grid-cols-3 gap-4">
+                <CardDashboardDosen
+                    title={"Jumlah Kelas Mata Kuliah"}
+                    icon={
+                        <div className="bg-blue-500 p-4 rounded-md ">
+                            <FaUser className="text-white" />
+                        </div>
+                    }
+                    total={total_kelas_mata_kuliah}
+                />
+                <CardDashboardDosen
+                    title={"Jumlah Mahasiswa diajar"}
+                    icon={
+                        <div className="bg-blue-500 p-4 rounded-md ">
+                            <FaUser className="text-white" />
+                        </div>
+                    }
+                    total={total_mahasiswa_kelas_mata_kuliah}
+                />{" "}
+                <CardDashboardDosen
+                    title={"Jumlah Mahasiswa per-Walian"}
+                    icon={
+                        <div className="bg-blue-500 p-4 rounded-md ">
+                            <FaUser className="text-white" />
+                        </div>
+                    }
+                    total={total_mahasiswa_kelas_mata_kuliah}
+                />
             </div>
-            <div className="grid grid-cols-2 gap-2 mt-4">
-                <div className="h-96">
-                    <BarContainer
-                        datas={dosen}
-                        labelKey={"jenis_kelamin"}
-                        dataKey={"total"}
-                        chartTitle={"Grafik Keseluruhan Dosen"}
-                        backgroundColor={[
-                            "rgba(255, 99, 132, 0.6)",
-                            "rgba(54, 162, 235, 0.6)",
-                        ]}
-                        chartBackgroundColor="rgba(255, 255, 255, 0.8)"
+            <div className="flex gap-2 my-4">
+                <div className="w-full bg-white p-4 rounded-md border shadow-sm">
+                    <FullCalendar
+                        plugins={[dayGridPlugin]}
+                        initialView="dayGridMonth"
+                        events={data_jadwal_kuliah.map((item) => ({
+                            start: item.tanggal,
+                            display: "background",
+                        }))}
+                        height={500}
+                        eventClick={(info) => {
+                            const date =
+                                info.event.start.toLocaleDateString("en-CA");
+
+                            const filter = data_jadwal_kuliah.filter(
+                                (item) => item.tanggal == date
+                            );
+                            setJadwal(filter);
+                        }}
                     />
                 </div>
-                <div className="h-96">
-                    <BarContainer
-                        datas={mahasiswa}
-                        labelKey={"jenis_kelamin"}
-                        dataKey={"total"}
-                        chartTitle={"Grafik Keseluruhan Mahasiswa"}
-                        backgroundColor={[
-                            "rgba(54, 162, 235, 0.6)",
-                            "rgba(255, 99, 132, 0.6)",
-                        ]}
-                        chartBackgroundColor="rgba(255, 255, 255, 0.8)"
-                    />
+                <div className="w-full">
+                    {jadwal?.map((item) => (
+                        <div className="bg-white rounded-md border p-2">
+                            <h1>{item.tanggal}</h1>
+                            <h1>
+                                {
+                                    item.kelas_mata_kuliah.mata_kuliah
+                                        .nama_mata_kuliah
+                                }
+                            </h1>
+                            <h1>
+                                Jam ( {item.kelas_mata_kuliah.jam_mulai}
+                                {" - "}
+                                {item.kelas_mata_kuliah.jam_selesai})
+                            </h1>
+                            <h1>
+                                Dosen Pengampu :
+                                {item.kelas_mata_kuliah.dosen.nama_dosen}
+                            </h1>
+                        </div>
+                    ))}
                 </div>
             </div>
         </AdminLayout>
     );
 };
 
+const CardDashboardDosen = ({ title, total, icon }) => {
+    return (
+        <div className="bg-white rounded-md border p-4">
+            <h1>{title}</h1>
+            <div className="flex justify-between my-4 items-center">
+                {icon}
+                <h1 className="font-bold text-2xl">{total}</h1>
+            </div>
+        </div>
+    );
+};
 export default DashboardDosen;

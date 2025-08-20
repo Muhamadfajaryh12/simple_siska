@@ -39,10 +39,12 @@ class AuthenticatedSessionController extends Controller
     protected function redirectBasedOnRole($user)
     {
 
-        if ($user->role == 'Dosen' || $user->role == "Admin") {
+        if($user->role == 'Dosen') {
             return redirect()->route('dashboard.dosen'); 
         } elseif ($user->role == 'Mahasiswa') {
-            return redirect()->route('dashboard'); 
+            return redirect()->route('dashboard.mahasiswa'); 
+        }else{
+            return redirect()->route("dashboard.admin");
         }
 
         // Default redirect jika role tidak cocok

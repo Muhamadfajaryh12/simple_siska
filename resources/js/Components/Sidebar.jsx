@@ -15,6 +15,14 @@ const Sidebar = ({ auth }) => {
                 icon: <FaDashcube />,
             },
         ],
+        Dashboard: [
+            {
+                title: "Dashboard",
+                link: "dashboard.dosen",
+                role: "Dosen",
+                icon: <FaDashcube />,
+            },
+        ],
         Pengguna: [
             {
                 title: "Mahasiswa",

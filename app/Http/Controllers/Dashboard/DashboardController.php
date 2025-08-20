@@ -9,6 +9,7 @@ use App\Models\KelasMataKuliah;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
+use App\Models\Pertemuan;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -17,18 +18,20 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     public function dashboard_dosen(){
-        $fetch_mata_kuliah = Matakuliah::count();
-        $fetch_fakultas = Fakultas::count();
-        $fetch_prodi = Prodi::count();
-        $fetch_dosen = User::where('status','dosen')->get();
-        $fetch_mahasiswa = User::where('status','mahasiswa')->get();
-
+        $dosen_id = Auth::user()->dosen->id;
+        $fetch_kelas_mata_kuliah_dosen = KelasMataKuliah::where("dosen_id",$dosen_id)
+        ->count();
+        $fetch_mahasiswa_kelas_mata_kuliah_dosen = KelasMataKuliah::where("dosen_id",$dosen_id)
+        ->withCount("krs_detail")
+        ->get()
+        ->sum("krs_detail_count");
+        $fetch_pertemuan_kelas_mata_kuliah_dosen = Pertemuan::whereHas("kelas_mata_kuliah", function($query) {
+            $query->where("dosen_id", Auth::user()->dosen->id);
+        })->with("kelas_mata_kuliah.dosen","kelas_mata_kuliah.mata_kuliah")->get();
         return Inertia::render('Dashboard/DashboardDosen',[
-            'data_mata_kuliah'=>$fetch_mata_kuliah,
-            'data_fakultas'=>$fetch_fakultas,
-            'data_prodi'=>$fetch_prodi,
-            'data_dosen'=>$fetch_dosen,
-            'data_mahasiswa'=>$fetch_mahasiswa
+            'total_kelas_mata_kuliah' => $fetch_kelas_mata_kuliah_dosen,
+            'total_mahasiswa_kelas_mata_kuliah'=>$fetch_mahasiswa_kelas_mata_kuliah_dosen,
+            "data_jadwal_kuliah"=>$fetch_pertemuan_kelas_mata_kuliah_dosen,
         ]);
     }
 

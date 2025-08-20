@@ -49,7 +49,6 @@ const JadwalPerkuliahan = ({ data_jadwal }) => {
                                     (item) => item.tanggal == date
                                 )
                             );
-                            console.log(jadwal);
                         }}
                     />
                 </div>
