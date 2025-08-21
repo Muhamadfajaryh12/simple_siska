@@ -187,12 +187,18 @@ Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
     Route::prefix("tugas_mahasiswa")->group(function(){
         Route::post('/{id}',[TugasMahasiswaController::class,"edit"])->name("tugas_mahasiswa.edit");
     });
+
+    Route::prefix("profile")->group(function(){
+        Route::get('/',[MahasiswaController::class,"profile_index"])->name("profile.index");
+        Route::put('/{id}',[MahasiswaController::class,"edit"])->name("profile.edit");
+
+    });
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__.'/auth.php';

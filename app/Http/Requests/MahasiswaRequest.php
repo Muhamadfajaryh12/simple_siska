@@ -22,18 +22,18 @@ class MahasiswaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nama_mahasiswa"=>"required",
-            "nim"=>"required",
-            "jenis_kelamin"=>"nullable",
-            "alamat"=>"nullable",
-            "contact"=>"nullable",
-            "tempat_lahir" =>"nullable",
-            "tanggal_lahir"=>"nullable",
-            "angkatan"=>"nullable",
-            "fakultas_id"=>"required",
-            "prodi_id"=>"required",   
-            "user_id"=>"nullable",
-            "golongan_ukt_id"=>"required"
+            "nama_mahasiswa"=>"sometimes|required",
+            "nim"=>"sometimes|required",
+            "jenis_kelamin"=>"sometimes|nullable",
+            "alamat"=>"sometimes|nullable",
+            "contact"=>"sometimes|nullable",
+            "tempat_lahir" =>"sometimes|nullable",
+            "tanggal_lahir"=>"sometimes|nullable",
+            "angkatan"=>"sometimes|nullable",
+            "fakultas_id"=>"sometimes|required",
+            "prodi_id"=>"sometimes|required",   
+            "user_id"=>"sometimes|nullable",
+            "golongan_ukt_id"=>"sometimes|required"
         ];
     }
 }

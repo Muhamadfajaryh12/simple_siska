@@ -11,6 +11,7 @@ use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -38,6 +39,16 @@ class MahasiswaController extends Controller
         ]);
     }
 
+    public function profile_index(){
+        try{
+            $fetch_mahasiswa = Mahasiswa::with(["fakultas","prodi"])->findOrFail(Auth::user()->mahasiswa->id);
+            return Inertia::render("Profile/Profile",[
+                "data_mahasiswa"=>$fetch_mahasiswa
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with("error",$e->getMessage());
+        }
+    }
 
     public function update_index($id){
         $fetch_fakultas = Fakultas::all();
@@ -109,8 +120,7 @@ class MahasiswaController extends Controller
             $mahasiswa->update($validation); 
             return redirect()->back()->with("success","Berhasil mengedit mahasiswa");
         }catch(\Exception $e){
-         return redirect()->back()->with( "error",$e->getMessage());
-            
+         return redirect()->back()->with( "error",$e->getMessage()); 
         }
     }
         
