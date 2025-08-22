@@ -3,7 +3,14 @@ import React, { useState } from "react";
 import { CiBookmark, CiCalendar, CiUser, CiViewList } from "react-icons/ci";
 import { PiStudent, PiChalkboardTeacherLight } from "react-icons/pi";
 import { GoBook, GoDatabase } from "react-icons/go";
-import { FaBook, FaCalendar, FaDashcube, FaUser } from "react-icons/fa6";
+import {
+    FaBook,
+    FaCalendar,
+    FaChartBar,
+    FaChartColumn,
+    FaDashcube,
+    FaUser,
+} from "react-icons/fa6";
 
 const Sidebar = ({ auth, open }) => {
     const list = {
@@ -12,10 +19,8 @@ const Sidebar = ({ auth, open }) => {
                 title: "Dashboard",
                 link: "dashboard.admin",
                 role: "Admin",
-                icon: <FaDashcube />,
+                icon: <FaChartColumn />,
             },
-        ],
-        Dashboard: [
             {
                 title: "Dashboard",
                 link: "dashboard.dosen",
@@ -23,6 +28,7 @@ const Sidebar = ({ auth, open }) => {
                 icon: <FaDashcube />,
             },
         ],
+
         Pengguna: [
             {
                 title: "Mahasiswa",

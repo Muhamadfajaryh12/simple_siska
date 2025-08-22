@@ -21,7 +21,7 @@ const AdminLayout = ({ title, children }) => {
                             <button onClick={() => setOpen(!open)}>
                                 <FaBars />
                             </button>
-                            <h6>{auth.user.mahasiswa.nama_mahasiswa}</h6>
+                            <h6>{"Hello"}</h6>
                         </div>
                         <button
                             className="mr-10 text-sm"

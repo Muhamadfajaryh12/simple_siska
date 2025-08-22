@@ -1,6 +1,7 @@
 import DangerButton from "@/Components/DangerButton";
 import TandaTugasForm from "@/Components/forms/TandaTugasForm";
 import UploadTugasForm from "@/Components/forms/UploadTugasForm";
+import PreviewTugasModal from "@/Components/modal/PreviewTugasModal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import StatusButton from "@/Components/StatusButton";
@@ -20,6 +21,9 @@ const TugasKuliah = ({ data_tugas_kuliah }) => {
         showModal(<TandaTugasForm id={id} />);
     };
 
+    const handlePreviewTugasModal = (preview) => {
+        showModal(<PreviewTugasModal preview={preview} />);
+    };
     return (
         <AdminLayout title={["Tugas Kuliah"]}>
             <div className="flex flex-col gap-4">
@@ -63,6 +67,15 @@ const TugasKuliah = ({ data_tugas_kuliah }) => {
                                     Upload tugas
                                 </SecondaryButton>
                             )}
+                            <SecondaryButton
+                                onClick={() =>
+                                    handlePreviewTugasModal(
+                                        item.file_pengumpulan
+                                    )
+                                }
+                            >
+                                Lihat
+                            </SecondaryButton>
                             <StatusButton>{item.status}</StatusButton>
                         </div>
                     </div>

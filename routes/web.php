@@ -120,7 +120,7 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
         Route::post('/',[GolonganUktController::class,"store"])->name("golongan_ukt.store");
     });
     
-    Route::get('/dashboard',[DashboardController::class,"dashboard_admin"])->name("dashboard.admin");
+    Route::get('admin/dashboard',[DashboardController::class,"dashboard_admin"])->name("dashboard.admin");
 });
 //DOSEN
 Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
@@ -163,10 +163,10 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
     // });
 });
 
-Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
+Route::prefix("mahasiswa")->middleware(['auth','checkRole:Mahasiswa'])->group(function(){
     // Route::get('/dashboard',[DashboardController::class,'dashboard_mahasiswa'])->name('dashboard');
 
-    Route::prefix("/jadwal_perkuliahan")->group(function(){
+    Route::prefix("/jadwal")->group(function(){
         Route::get('/',[PertemuanController::class,"jadwal_perkuliahan_mahasiswa"])->name("jadwal_perkuliahan_mahasiswa.index");
     });
 
@@ -182,10 +182,8 @@ Route::middleware(['auth','checkRole:Mahasiswa'])->group(function(){
 
     Route::prefix("tugas")->group(function(){
         Route::get('/',[TugasController::class,"tugas_kuliah_mahasiswa_index"])->name("tugas_kuliah_mahasiswa.index");
-    });
-
-    Route::prefix("tugas_mahasiswa")->group(function(){
         Route::post('/{id}',[TugasMahasiswaController::class,"edit"])->name("tugas_mahasiswa.edit");
+
     });
 
     Route::prefix("profile")->group(function(){
