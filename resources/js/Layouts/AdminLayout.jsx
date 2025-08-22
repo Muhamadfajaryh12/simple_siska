@@ -2,23 +2,27 @@ import Message from "@/Components/Message";
 import Sidebar from "@/Components/Sidebar";
 import { ModalProvider } from "@/Context/ModalContext";
 import { useForm, usePage } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
+import { FaBars } from "react-icons/fa6";
+import { PiHamburger } from "react-icons/pi";
 
 const AdminLayout = ({ title, children }) => {
     const { auth } = usePage().props;
     const { post } = useForm();
+    const [open, setOpen] = useState(true);
+
     return (
         <div className="w-full min-h-screen bg-gray-100">
             <div className="flex">
-                <Sidebar auth={auth} />
+                <Sidebar auth={auth} open={open} />
                 <div className="w-full">
                     <div className="flex justify-between text-md mb-2 p-3 shadow bg-white">
-                        <h6
-                            className="font-bold"
-                            style={{ letterSpacing: "2px" }}
-                        >
-                            Hello, Admin
-                        </h6>
+                        <div className="flex justify-center gap-4 items-center">
+                            <button onClick={() => setOpen(!open)}>
+                                <FaBars />
+                            </button>
+                            <h6>{auth.user.mahasiswa.nama_mahasiswa}</h6>
+                        </div>
                         <button
                             className="mr-10 text-sm"
                             onClick={() => post(route("logout"))}

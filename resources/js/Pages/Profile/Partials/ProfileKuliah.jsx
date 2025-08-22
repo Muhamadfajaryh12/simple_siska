@@ -1,8 +1,10 @@
 import TextInputContent from "@/Components/input/TextInputContent";
+import useToIDR from "@/hooks/useToIDR";
 
 import React from "react";
 
 const ProfileKuliah = ({ data_mahasiswa }) => {
+    console.log(data_mahasiswa);
     return (
         <div className="flex flex-col gap-4">
             <TextInputContent
@@ -28,7 +30,10 @@ const ProfileKuliah = ({ data_mahasiswa }) => {
             <TextInputContent
                 disabled
                 label={"Golongan UKT"}
-                value={data_mahasiswa.angkatan}
+                value={
+                    `Golongan ${data_mahasiswa.golongan_ukt.golongan} - ` +
+                    `${useToIDR(data_mahasiswa.golongan_ukt.nominal)}`
+                }
             />
         </div>
     );

@@ -1,11 +1,11 @@
 import { Link, router, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
-import { CiViewList } from "react-icons/ci";
+import { CiBookmark, CiCalendar, CiUser, CiViewList } from "react-icons/ci";
 import { PiStudent, PiChalkboardTeacherLight } from "react-icons/pi";
-import { GoDatabase } from "react-icons/go";
-import { FaDashcube } from "react-icons/fa6";
+import { GoBook, GoDatabase } from "react-icons/go";
+import { FaBook, FaCalendar, FaDashcube, FaUser } from "react-icons/fa6";
 
-const Sidebar = ({ auth }) => {
+const Sidebar = ({ auth, open }) => {
     const list = {
         Dashboard: [
             {
@@ -101,17 +101,23 @@ const Sidebar = ({ auth }) => {
         "Data Pengguna": [
             {
                 title: "Profile",
-                link: "krs_dosen.index",
+                link: "profile.index",
                 role: "Mahasiswa",
-                icon: <GoDatabase />,
+                icon: <CiUser />,
             },
         ],
         Perkuliahan: [
             {
-                title: "Jadwal Perkuliahan",
+                title: "Jadwal",
                 link: "jadwal_perkuliahan_mahasiswa.index",
                 role: "Mahasiswa",
-                icon: <GoDatabase />,
+                icon: <CiCalendar />,
+            },
+            {
+                title: "Tugas",
+                link: "tugas_kuliah_mahasiswa.index",
+                role: "Mahasiswa",
+                icon: <GoBook />,
             },
         ],
         "Kelas Mengajar": [
@@ -128,7 +134,11 @@ const Sidebar = ({ auth }) => {
     const pathname = url.replace(/_/g, " ").split("/");
 
     return (
-        <div className="w-72 border-r bg-white min-h-screen">
+        <div
+            className={`${
+                open ? "block" : "hidden"
+            } border-r bg-white min-h-screen w-72`}
+        >
             <h1 className="text-red-600 font-bold text-4xl text-center my-4">
                 SISKA
             </h1>

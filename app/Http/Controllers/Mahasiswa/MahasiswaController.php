@@ -41,7 +41,7 @@ class MahasiswaController extends Controller
 
     public function profile_index(){
         try{
-            $fetch_mahasiswa = Mahasiswa::with(["fakultas","prodi"])->findOrFail(Auth::user()->mahasiswa->id);
+            $fetch_mahasiswa = Mahasiswa::with(["fakultas","prodi","golongan_ukt"])->findOrFail(Auth::user()->mahasiswa->id);
             return Inertia::render("Profile/Profile",[
                 "data_mahasiswa"=>$fetch_mahasiswa
             ]);

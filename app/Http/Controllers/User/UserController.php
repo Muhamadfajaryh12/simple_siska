@@ -7,6 +7,7 @@ use App\Models\Fakultas;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -21,29 +22,6 @@ class UserController extends Controller
         ]);
     }
 
-    public function mahasiswaIndex () {
-        $fetch_mahasiswa = User::with('prodi') 
-        ->where('status', 'Mahasiswa') 
-        ->get(); 
-        $fetch_prodi = Prodi::all();
-
-        return Inertia::render('User/Mahasiswa/Mahasiswa', [
-        'data' => $fetch_mahasiswa,
-        'data_prodi'=>$fetch_prodi
-        ]);
-    }
-
-    public function dosenIndex () {
-        $fetch_dosen = User::with('prodi') 
-        ->where('status', 'Dosen') 
-        ->get(); 
-        $fetch_prodi = Prodi::all();
-
-        return Inertia::render('User/Dosen/Dosen', [
-        'data' => $fetch_dosen,
-        'data_prodi'=>$fetch_prodi
-        ]);
-    }
     public function store(Request $request){
         $request->validate([
             'nama'=>'required|string|max:255',
@@ -74,6 +52,28 @@ class UserController extends Controller
             'message' => 'Terjadi kesalahan saat menambahkan user.',
             'status' => 'error'
             ]);       
+        }
+    }
+
+    public function change_password(Request $request){
+        try{
+            $validation = $request->validate([
+                "password_new" => "required",
+                "password_old"=>"required"
+            ]);
+
+            $user = User::findOrFail(Auth::user()->id);
+
+            if (!Hash::check($validation["password_old"], $user->password)) {
+                return redirect()->back()->with("error", "Password lama tidak sesuai");
+            }   
+
+            $user->update([
+                "password"=>Hash::make($validation["password_new"])
+            ]);
+            return redirect()->back()->with("success","Berhasil mengganti password");
+        }catch(\Exception $e){
+            return redirect()->back()->with("error",$e->getMessage());
         }
     }
 }
