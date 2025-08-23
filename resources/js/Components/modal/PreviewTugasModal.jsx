@@ -1,7 +1,6 @@
 import React from "react";
 
 const PreviewTugasModal = ({ preview }) => {
-    console.log(preview);
     return (
         <div style={{ width: "100%", height: "600px" }}>
             <iframe
