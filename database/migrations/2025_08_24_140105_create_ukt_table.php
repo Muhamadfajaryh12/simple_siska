@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('ukt', function (Blueprint $table) {
             $table->id();
-            $table->string("semester");
-            $table->date("tanggal_pembayaran");
-            $table->string("nominal_pembayaran");
+            $table->date("tanggal_pembayaran")->nullable();
+            $table->string("nominal_pembayaran")->nullable();
             $table->unsignedBigInteger("mahasiswa_id");
+            $table->unsignedBigInteger("semester_ajaran_id");
             $table->enum("status",["lunas","belum lunas"])->default("belum lunas");
             $table->foreign("mahasiswa_id")->references("id")->on("mahasiswa")->onDelete("cascade");
+            $table->foreign("semester_ajaran_id")->references("id")->on("semester_ajaran")->onDelete("cascade");
             $table->timestamps();
         });
     }

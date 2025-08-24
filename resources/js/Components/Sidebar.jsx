@@ -11,6 +11,7 @@ import {
     FaDashcube,
     FaUser,
 } from "react-icons/fa6";
+import { MdPayment } from "react-icons/md";
 
 const Sidebar = ({ auth, open }) => {
     const list = {
@@ -65,6 +66,12 @@ const Sidebar = ({ auth, open }) => {
             },
         ],
         "Manajemen Kuliah": [
+            {
+                title: "Tahun Ajaran",
+                link: "tahun_ajaran.index",
+                role: "Admin",
+                icon: <GoDatabase />,
+            },
             {
                 title: "Mata Kuliah",
                 link: "matakuliah.index",
@@ -132,6 +139,14 @@ const Sidebar = ({ auth, open }) => {
                 link: "kelas_mengajar.index",
                 role: "Dosen",
                 icon: <GoDatabase />,
+            },
+        ],
+        "Tagihan & Pembayaran": [
+            {
+                title: "Tagihan UKT",
+                link: "tagihan_ukt.mahasiswa_index",
+                role: "Mahasiswa",
+                icon: <MdPayment />,
             },
         ],
     };

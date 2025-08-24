@@ -14,7 +14,8 @@ use App\Http\Controllers\Nilai;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PertemuanController;
 use App\Http\Controllers\Prodi\ProdiController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SemesterAjaranController;
+use App\Http\Controllers\UktController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\TugasMahasiswaController;
 use App\Http\Controllers\User\UserController;
@@ -121,6 +122,16 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     });
     
     Route::get('admin/dashboard',[DashboardController::class,"dashboard_admin"])->name("dashboard.admin");
+
+    Route::prefix("/tahun_ajaran")->group(function(){
+        Route::get("/",[SemesterAjaranController::class,"index"])->name("tahun_ajaran.index");
+        Route::post('/',[SemesterAjaranController::class,"store"])->name("tahun_ajaran.store");
+        Route::put('/{id}',[SemesterAjaranController::class,"edit"])->name("tahun_ajaran.edit");
+    });
+
+    Route::prefix("/ukt")->group(function(){
+        Route::get("/",[UktController::class,"admin_index"])->name("ukt.admin_index");
+    });
 });
 //DOSEN
 Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
@@ -191,6 +202,9 @@ Route::prefix("mahasiswa")->middleware(['auth','checkRole:Mahasiswa'])->group(fu
         Route::put('/{id}',[MahasiswaController::class,"edit"])->name("profile.edit");
     });
 
+    Route::prefix("tagihan_ukt")->group(function(){
+        Route::get("/",[UktController::class,"mahasiswa_index"])->name("tagihan_ukt.mahasiswa_index");
+    });
     Route::put("/change_password",[UserController::class,"change_password"])->name("change_password");
 });
 
