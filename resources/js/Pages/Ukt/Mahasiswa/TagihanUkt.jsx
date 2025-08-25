@@ -1,3 +1,4 @@
+import PaymentButton from "@/Components/PaymentButton";
 import StatusButton from "@/Components/StatusButton";
 import useToIDR from "@/hooks/useToIDR";
 import AdminLayout from "@/Layouts/AdminLayout";
@@ -26,9 +27,16 @@ const TagihanUkt = ({ data_tagihan_ukt }) => {
                             </h1>
                         </div>
                         <div className="flex flex-col gap-4">
-                            <button className="bg-blue-500 p-2 hover:bg-blue-600  text-white rounded-md text-xs uppercase">
-                                Generate VA
-                            </button>
+                            {!item.status == "lunas" ? (
+                                <PaymentButton
+                                    name={item.mahasiswa.nama_mahasiswa}
+                                    amount={item.mahasiswa.golongan_ukt.nominal}
+                                    email="123@gmail.com"
+                                    id={item.id}
+                                />
+                            ) : (
+                                ""
+                            )}
                             <StatusButton>{item.status}</StatusButton>
                         </div>
                     </div>

@@ -10,7 +10,7 @@ use App\Http\Controllers\KelasMataKuliahController;
 use App\Http\Controllers\KRS\KRSController;
 use App\Http\Controllers\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Matakuliah\MatakuliahController;
-use App\Http\Controllers\Nilai;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PertemuanController;
 use App\Http\Controllers\Prodi\ProdiController;
@@ -207,6 +207,12 @@ Route::prefix("mahasiswa")->middleware(['auth','checkRole:Mahasiswa'])->group(fu
     });
     Route::put("/change_password",[UserController::class,"change_password"])->name("change_password");
 });
+
+    Route::prefix("/payment")->group(function(){
+        Route::post('/',[PaymentController::class,"payment"])->name("payment.store");
+        Route::post('/callback', [PaymentController::class, 'callback'])->name("payment.callback");
+
+    });
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
