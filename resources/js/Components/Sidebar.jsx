@@ -149,6 +149,14 @@ const Sidebar = ({ auth, open }) => {
                 icon: <MdPayment />,
             },
         ],
+        Keuangan: [
+            {
+                title: "UKT",
+                link: "ukt.admin_index",
+                role: "Admin",
+                icon: <MdPayment />,
+            },
+        ],
     };
 
     const { url } = usePage();

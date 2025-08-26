@@ -12,21 +12,7 @@ const JadwalPerkuliahan = ({ data_jadwal }) => {
             (item) => item.tanggal == new Date().toLocaleDateString("en-CA")
         ) || []
     );
-    const { showModal, closeModal } = useModal();
-
-    const handleAbsen = (id) => {
-        router.post(
-            route("absen.store", {
-                pertemuan_id: id,
-            }),
-            {
-                onSuccess: () => {
-                    closeModal();
-                },
-            }
-        );
-        console.log(id);
-    };
+    const { showModal } = useModal();
 
     return (
         <AdminLayout title={["Jadwal Perkuliahan"]}>
@@ -89,11 +75,7 @@ const JadwalPerkuliahan = ({ data_jadwal }) => {
                                             className="mt-4"
                                             onClick={() =>
                                                 showModal(
-                                                    <AbsenModal
-                                                        handleAbsen={() =>
-                                                            handleAbsen(item.id)
-                                                        }
-                                                    />
+                                                    <AbsenModal id={item.id} />
                                                 )
                                             }
                                         >

@@ -11,12 +11,17 @@ class AbsenController extends Controller
     public function store (Request $request){
         try{
             $validation = $request->validate([
-                "pertemuan_id"=>"required"
+                "pertemuan_id"=>"required",
+                "file_foto" => "required"
             ]);
             
+         
+            $path = $request->file("file_foto")->store("absen","public");
+     
             Absensi::create([
                 "pertemuan_id" => $validation["pertemuan_id"],
-                "mahasiswa_id"=> Auth::user()->mahasiswa->id
+                "mahasiswa_id"=> Auth::user()->mahasiswa->id,
+                "foto_absen"=>$path
             ]);
             
             return redirect()->back()->with("success","Berhasil absen");

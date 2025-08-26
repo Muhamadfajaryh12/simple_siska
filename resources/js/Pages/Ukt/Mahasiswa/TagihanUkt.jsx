@@ -27,7 +27,7 @@ const TagihanUkt = ({ data_tagihan_ukt }) => {
                             </h1>
                         </div>
                         <div className="flex flex-col gap-4">
-                            {!item.status == "lunas" ? (
+                            {item.status != "lunas" ? (
                                 <PaymentButton
                                     name={item.mahasiswa.nama_mahasiswa}
                                     amount={item.mahasiswa.golongan_ukt.nominal}

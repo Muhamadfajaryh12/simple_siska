@@ -4,20 +4,48 @@ import PrimaryButton from "../PrimaryButton";
 import DangerButton from "../DangerButton";
 import Webcam from "react-webcam";
 import SecondaryButton from "../SecondaryButton";
+import { router, useForm } from "@inertiajs/react";
 
-const AbsenModal = ({ handleAbsen }) => {
+const AbsenModal = ({ id }) => {
     const { closeModal } = useModal();
     const webRef = useRef();
     const [image, setImage] = useState(null);
+    const { post, data, setData, processing } = useForm({
+        file_foto: "",
+    });
 
-    const capturePhoto = () => {
+    const Base64toFile = async (base64, filename) => {
+        const res = await fetch(base64);
+        const blob = await res.blob();
+        return new File([blob], filename, { type: blob.type });
+    };
+    const capturePhoto = async () => {
         const imgSrc = webRef.current.getScreenshot();
+        let path = await Base64toFile(imgSrc, "absen.jpg");
+        setData("file_foto", path);
         setImage(imgSrc);
     };
 
     const removePhoto = () => {
         setImage(null);
+        setData("file_foto", "");
     };
+
+    const handleAbsen = (e) => {
+        e.preventDefault();
+        post(
+            route("absen.store", {
+                pertemuan_id: id,
+            }),
+            {
+                forceFormData: true,
+                onSuccess: () => {
+                    closeModal();
+                },
+            }
+        );
+    };
+
     return (
         <div className="p-4">
             {!image ? (

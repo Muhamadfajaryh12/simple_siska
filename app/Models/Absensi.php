@@ -11,7 +11,7 @@ class Absensi extends Model
     protected $table="absensi";
 
     protected $fillable=[
-        "mahasiswa_id", "pertemuan_id","status"
+        "mahasiswa_id", "pertemuan_id","status","foto_absen"
     ];
 
        public function mahasiswa()
