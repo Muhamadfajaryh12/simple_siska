@@ -3,19 +3,42 @@ import TextInputContent from "../input/TextInputContent";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "../PrimaryButton";
 import { useModal } from "@/Context/ModalContext";
+import SelectContent from "../input/SelectContent";
 
-const TugasForm = ({ id }) => {
-    const { post, data, setData, processing } = useForm({
-        judul_tugas: "",
-        deskripsi_tugas: "",
-        deadline: "",
-        pertemuan_id: id,
+const tugasData = [
+    {
+        id: "tugas",
+    },
+    {
+        id: "uts",
+    },
+    {
+        id: "uas",
+    },
+];
+
+const TugasForm = ({ id, data_tugas }) => {
+    const { post, data, setData, processing, reset, put } = useForm({
+        judul_tugas: data_tugas?.judul_tugas || "",
+        deskripsi_tugas: data_tugas?.deskripsi_tugas || "",
+        deadline: data_tugas?.deadline || "",
+        pertemuan_id: data_tugas?.pertemuan_id || id,
+        type: data_tugas?.type || "",
     });
 
     const { closeModal } = useModal();
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("tugas.store"));
+        if (data_tugas) {
+            put(route("tugas.edit", { id: data_tugas.id }));
+        } else {
+            post(route("tugas.store"), {
+                onSuccess: () => {
+                    reset();
+                    closeModal();
+                },
+            });
+        }
     };
 
     return (
@@ -45,6 +68,15 @@ const TugasForm = ({ id }) => {
                     value={data.deadline}
                     type={"date"}
                     onChange={(e) => setData("deadline", e.target.value)}
+                />
+                <SelectContent
+                    data={tugasData}
+                    label={"Tipe"}
+                    name={"type"}
+                    value={data.type}
+                    valueField={"id"}
+                    labelField={"id"}
+                    handleChange={(e) => setData("type", e.target.value)}
                 />
                 <PrimaryButton disabled={processing}>Simpan</PrimaryButton>
             </form>

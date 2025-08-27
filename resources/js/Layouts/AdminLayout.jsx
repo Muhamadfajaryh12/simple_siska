@@ -12,7 +12,7 @@ const AdminLayout = ({ title, children }) => {
     const [open, setOpen] = useState(true);
 
     return (
-        <div className="w-full min-h-screen bg-gray-100">
+        <div className="w-full min-h-screen bg-gray-200">
             <div className="flex">
                 <Sidebar auth={auth} open={open} />
                 <div className="w-full">

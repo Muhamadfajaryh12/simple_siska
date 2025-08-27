@@ -163,15 +163,17 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
 
     Route::prefix("/tugas")->group(function(){
         Route::post('/',[TugasController::class,"store"])->name("tugas.store");
+        Route::put('/{id}',[TugasController::class,"edit"])->name("tugas.edit");
+        Route::delete('/{id}',[TugasController::class,"destroy"])->name("tugas.destroy");
     });
 
     Route::prefix("/tugas_nilai")->group(function(){
         Route::put('/',[TugasMahasiswaController::class,"edit_nilai"])->name("tugas_mahasiswa_nilai.edit");
     });
 
-    // Route::prefix('/dashboard')->group(function(){
-    //     Route::get('/',[DashboardController::class,"dashboard_dosen"])->name("dashboard.dosen");
-    // });
+    Route::prefix('/dashboard')->group(function(){
+        Route::get('/',[DashboardController::class,"dashboard_dosen"])->name("dashboard.dosen");
+    });
 });
 
 Route::prefix("mahasiswa")->middleware(['auth','checkRole:Mahasiswa'])->group(function(){

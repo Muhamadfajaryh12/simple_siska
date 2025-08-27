@@ -13,7 +13,8 @@ class Tugas extends Model
         "judul_tugas",
         "deskripsi_tugas",
         "deadline",
-        "pertemuan_id"
+        "pertemuan_id",
+        "type"
     ];
 
     public function pertemuan(){

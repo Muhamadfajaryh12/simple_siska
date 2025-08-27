@@ -1,9 +1,10 @@
 import SecondaryButton from "@/Components/SecondaryButton";
 import AdminLayout from "@/Layouts/AdminLayout";
 import PertemuanDosenSection from "@/Section/PertemuanDosenSection";
+import RekapNilaiSection from "@/Section/RekapNilaiSection";
 import React, { useState } from "react";
 
-const DetailKelasMengajar = ({ data_kelas }) => {
+const DetailKelasMengajar = ({ data_kelas, data_rekap }) => {
     const [dataPertemuan, setDataPertemuan] = useState(
         data_kelas.pertemuan[0] || []
     );
@@ -38,15 +39,22 @@ const DetailKelasMengajar = ({ data_kelas }) => {
                             {item.pertemuan_ke}
                         </button>
                     ))}
-                    <button className="flex-1 text-center  p-1 border rounded-md">
+                    <button
+                        className="flex-1 text-center  p-1 border rounded-md"
+                        onClick={() => handleClick("rekap")}
+                    >
                         Rekap
                     </button>
                 </div>
             </div>
-            <PertemuanDosenSection
-                data_pertemuan={dataPertemuan}
-                total_mahasiswa={data_kelas.total_mahasiswa}
-            />
+            {active == "rekap" ? (
+                <RekapNilaiSection data_rekap={data_rekap} />
+            ) : (
+                <PertemuanDosenSection
+                    data_pertemuan={dataPertemuan}
+                    total_mahasiswa={data_kelas.total_mahasiswa}
+                />
+            )}
         </AdminLayout>
     );
 };

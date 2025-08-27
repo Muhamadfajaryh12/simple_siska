@@ -29,7 +29,8 @@ class TugasController extends Controller
                 "judul_tugas"=>"required",
                 "deskripsi_tugas"=>"nullable",
                 "deadline"=>"required",
-                "pertemuan_id"=>"required"
+                "pertemuan_id"=>"required",
+                "type"=>"required"
             ]);
 
 
@@ -54,6 +55,38 @@ class TugasController extends Controller
             return redirect()->back()->with("success","Berhasil membuat tugas");
         }catch(\Exception $e){
             return redirect()->back()->with("error",$e->getMessage());
+        }
+    }
+
+
+    public function edit($id, Request $request){
+        try{
+            $validation = $request->validate([
+                "judul_tugas"=>"required",
+                "deskripsi_tugas"=>"nullable",
+                "deadline"=>"required",
+                "pertemuan_id"=>"required",
+                "type"=>"required"
+            ]);
+
+            $tugas = Tugas::findOrFail($id);
+            $tugas->update($validation);
+
+            return redirect()->back()->with("success","Berhasil mengedit tugas");
+        }catch(\Exception $e){
+            return redirect()->back()->with('error',$e->getMessage());
+        }
+    }
+
+    public function destroy ($id){
+        try{
+            TugasMahasiswa::where("tugas_id",$id)->delete();
+            $tugas = Tugas::findOrFail($id);
+            $tugas->delete();
+            return redirect()->back()->with("success","Berhasil menghapus tugas");
+            
+        }catch(\Exception $e){
+            return redirect()->back()->with('error',$e->getMessage());
         }
     }
 }

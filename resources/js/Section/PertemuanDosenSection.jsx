@@ -4,11 +4,12 @@ import TextInputContent from "@/Components/input/TextInputContent";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import { useModal } from "@/Context/ModalContext";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 import AbsenDaftarMahasiswaSection from "./AbsenDaftarMahasiswaSection";
 import TugasDaftarSection from "./TugasDaftarSection";
+import DeleteModal from "@/Components/modal/DeleteModal";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
     const { data, setData, put, processing } = useForm({
@@ -16,7 +17,7 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
     });
     const [active, setActive] = useState("absen");
 
-    const { showModal } = useModal();
+    const { showModal, closeModal } = useModal();
     useEffect(() => {
         setData("materi", data_pertemuan?.materi || "");
     }, [data_pertemuan.id]);
@@ -30,6 +31,22 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
         showModal(<TugasForm id={data_pertemuan.id} />);
     };
 
+    const handleEditModalTugas = () => {
+        showModal(
+            <TugasForm id={data_pertemuan} data_tugas={data_pertemuan.tugas} />
+        );
+    };
+
+    const handleDelete = () => {
+        router.delete(route("tugas.destroy", { id: data_pertemuan.tugas.id }), {
+            onSuccess: () => {
+                closeModal();
+            },
+        });
+    };
+    const handleDeleteModalTugas = () => {
+        showModal(<DeleteModal handleDelete={handleDelete} />);
+    };
     const tabButtonClass = (activeTab) => {
         return `w-full p-2 rounded-md ${
             active == activeTab
@@ -63,13 +80,16 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                         <h1>
                             Judul Tugas : {data_pertemuan.tugas.judul_tugas}
                         </h1>
-                        <h1>Desksripsi : {data_pertemuan.tugas.deskripsi}</h1>
+                        <h1>
+                            Desksripsi : {data_pertemuan.tugas.deskripsi_tugas}
+                        </h1>
                         <h1>Deadline : {data_pertemuan.tugas.deadline}</h1>
+                        <h1>Tipe : {data_pertemuan.tugas.type}</h1>
                         <div className="flex justify-end gap-2">
-                            <SecondaryButton>
+                            <SecondaryButton onClick={handleEditModalTugas}>
                                 <FaPencil />
                             </SecondaryButton>
-                            <DangerButton>
+                            <DangerButton onClick={handleDeleteModalTugas}>
                                 <FaTrash />
                             </DangerButton>
                         </div>
@@ -81,7 +101,7 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                         </h1>
                         <div className="flex justify-center my-2">
                             <SecondaryButton onClick={handleModalTugas}>
-                                Membuat TUgas
+                                Membuat Tugas
                             </SecondaryButton>
                         </div>
                     </>
