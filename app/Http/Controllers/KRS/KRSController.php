@@ -23,17 +23,85 @@ class KRSController extends Controller
         return $item->mata_kuliah->semester;
     });
 
-        $fetch_krs_mahasiswa = KrsDetail::with("krs","kelas_mata_kuliah","kelas_mata_kuliah.mata_kuliah")
-        ->whereHas("krs",function($query){
-            $query->where("mahasiswa_id",Auth::user()->mahasiswa->id);
-        })->get()->groupBy(function ($item) {
-        return $item->kelas_mata_kuliah->mata_kuliah->semester;
-         });
-;
-        
+        $fetch_krs_mahasiswa = DB::table("krs_detail")
+        ->join('krs',"krs_detail.krs_id","=","krs.id")
+        ->join('kelas_mata_kuliah',"krs_detail.kelas_mata_kuliah_id","=","kelas_mata_kuliah.id")
+        ->join("mata_kuliah","kelas_mata_kuliah.mata_kuliah_id",'=',"mata_kuliah.id")
+        ->join('mahasiswa','krs.mahasiswa_id','=','mahasiswa.id')
+        ->where("mahasiswa.id",'=',Auth::user()->mahasiswa->id)
+        ->select(
+       'mata_kuliah.nama_mata_kuliah',
+                "krs.semester",
+                "mata_kuliah.sks",
+                "krs.status",
+                "krs_detail.nilai_total",
+                "krs_detail.nilai_huruf",
+        )
+        ->get();
+         
+        $fetch_ips = DB::table("krs_detail")
+        ->join('krs',"krs_detail.krs_id","=","krs.id")
+        ->join('kelas_mata_kuliah',"krs_detail.kelas_mata_kuliah_id","=","kelas_mata_kuliah.id")
+        ->join("mata_kuliah","kelas_mata_kuliah.mata_kuliah_id",'=',"mata_kuliah.id")
+        ->join('mahasiswa','krs.mahasiswa_id','=','mahasiswa.id')
+        ->where("mahasiswa.id",'=',Auth::user()->mahasiswa->id)
+        ->groupBy("krs.semester")
+        ->select(
+            "krs.semester",
+            DB::raw("ROUND(SUM(
+                CASE 
+                    WHEN krs_detail.nilai_huruf = 'A' THEN 4 
+                    WHEN krs_detail.nilai_huruf = 'B' THEN 3 
+                    WHEN krs_detail.nilai_huruf = 'C' THEN 2 
+                    WHEN krs_detail.nilai_huruf = 'D' THEN 1 
+                    ELSE 0 
+                END * mata_kuliah.sks
+            ) / SUM(mata_kuliah.sks), 2) as ips")
+    
+        )
+        ->get();
+
+      
+
+         $result = $fetch_ips->map(function($item) use ($fetch_krs_mahasiswa) {
+            return [
+                "semester" => $item->semester,
+                "ips" => $item->ips,
+                "daftar_mata_kuliah" => $fetch_krs_mahasiswa->where("semester", $item->semester)->map(function($mk){
+                    return [
+                        "nama_mata_kuliah" => $mk->nama_mata_kuliah,
+                        "sks" => $mk->sks,
+                        "nilai_total" => $mk->nilai_total,
+                        "nilai_huruf" => $mk->nilai_huruf,
+                        "status"=>$mk->status
+                    ];
+                })->values()
+            ];
+        });
+
+        $fetch_sks_total = DB::table("krs")
+        ->select(
+            DB::raw("SUM(total_sks) as total_sks_ditempuh"),
+            DB::raw("ROUND(SUM(
+                CASE 
+                    WHEN krs_detail.nilai_huruf = 'A' THEN 4 
+                    WHEN krs_detail.nilai_huruf = 'B' THEN 3 
+                    WHEN krs_detail.nilai_huruf = 'C' THEN 2 
+                    WHEN krs_detail.nilai_huruf = 'D' THEN 1 
+                    ELSE 0 
+                END * mata_kuliah.sks
+            ) / SUM(total_sks), 2) as ipk")
+        )
+        ->join("krs_detail", "krs.id","krs_detail.krs_id")
+        ->join("kelas_mata_kuliah","krs_detail.kelas_mata_kuliah_id","kelas_mata_kuliah.id")
+        ->join("mata_kuliah","kelas_mata_kuliah.mata_kuliah_id","mata_kuliah.id")
+        ->where("krs.mahasiswa_id","=",Auth::user()->mahasiswa->id )
+        ->first();
+
         return Inertia::render('KRS/Mahasiswa/KrsMahasiswa',[
             'data_mata_kuliah'=>$fetch_data,
-            'data_krs_mahasiswa'=>$fetch_krs_mahasiswa
+            'data_krs_mahasiswa'=>$result,
+            "data_total_sks"=>$fetch_sks_total
         ]);
     }
 

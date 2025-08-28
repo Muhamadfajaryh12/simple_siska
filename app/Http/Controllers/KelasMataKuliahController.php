@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NilaiMahasiswaDosenResource;
 use App\Models\Dosen;
 use App\Models\KelasMataKuliah;
 use App\Models\KrsDetail;
 use App\Models\Matakuliah;
+use App\Models\Nilai;
 use App\Models\Pertemuan;
 use App\Models\Prodi;
 use Carbon\Carbon;
@@ -45,8 +47,17 @@ class KelasMataKuliahController extends Controller
             ]);
         },"pertemuan.absensi.mahasiswa","pertemuan.tugas.tugas_mahasiswa.mahasiswa"])->withCount("krs_detail as total_mahasiswa")
         ->findOrFail($id);
-
+       
+        $fetch_data_rekap = KrsDetail::with(["krs.mahasiswa","kelas_mata_kuliah.mata_kuliah"])->where("kelas_mata_kuliah_id",$id)->get();
+        return Inertia::render("KelasMengajar/DetailKelasMengajar",[
+            "data_kelas"=>$fetch_kelas_mata_kuliah_detail,
+            "data_rekap"=>NilaiMahasiswaDosenResource::collection($fetch_data_rekap)
+        ]);
     
+    }
+
+    public function generate_nilai($id){
+        try{
         $fetch_data_rekap = DB::table("krs_detail")
         ->join("krs","krs_detail.krs_id","=","krs.id")
         ->join("mahasiswa", "krs.mahasiswa_id", "=", "mahasiswa.id")
@@ -58,26 +69,57 @@ class KelasMataKuliahController extends Controller
                 ->on("absensi.pertemuan_id", "=", "pertemuan.id");
         })
         ->where("krs_detail.kelas_mata_kuliah_id", $id)
-        ->groupBy("mahasiswa.id", "mahasiswa.nama_mahasiswa", "mahasiswa.nim")
+        ->groupBy("mahasiswa.id", "mahasiswa.nama_mahasiswa", "mahasiswa.nim","krs_detail.id")
         ->select(
             "mahasiswa.id",
             "mahasiswa.nama_mahasiswa",
-            "mahasiswa.nim",
+            "mahasiswa.nim","krs_detail.id as krs_detail_id",
             DB::raw("ROUND(AVG(CASE WHEN tugas.type = 'tugas' THEN tugas_mahasiswa.nilai END)) as tugas"),
             DB::raw("ROUND(MAX(CASE WHEN tugas.type = 'uts' THEN tugas_mahasiswa.nilai END)) as uts"),
             DB::raw("ROUND(MAX(CASE WHEN tugas.type = 'uas' THEN tugas_mahasiswa.nilai END)) as uas"),
             DB::raw("ROUND((SUM(CASE WHEN absensi.status = 'hadir' THEN 1 ELSE 0 END) / COUNT(DISTINCT pertemuan.id) )* 100,2 ) as absen"),
-   
-            )
+            DB::raw("ROUND(( (AVG(CASE WHEN tugas.type = 'tugas' THEN tugas_mahasiswa.nilai END) * 0.2 )
+                        + ((SUM(CASE WHEN absensi.status = 'hadir' THEN 1 ELSE 0 END) / COUNT(DISTINCT pertemuan.id))*100 * 0.1)
+                        + (MAX(CASE WHEN tugas.type = 'uts' THEN tugas_mahasiswa.nilai END) * 0.3)
+                        + (MAX(CASE WHEN tugas.type = 'uas' THEN tugas_mahasiswa.nilai END) * 0.4)
+                    )) as nilai_akhir"))
         ->get();
-       
 
+        foreach ($fetch_data_rekap as $item) {
        
-        return Inertia::render("KelasMengajar/DetailKelasMengajar",[
-            "data_kelas"=>$fetch_kelas_mata_kuliah_detail,
-            "data_rekap"=>$fetch_data_rekap
-        ]);
-    
+            $huruf = $this->konversiHuruf($item->nilai_akhir);
+
+            KrsDetail::updateOrInsert(
+                ['id' => $item->krs_detail_id], 
+                [
+                    'absen'=>$item->absen,
+                    'tugas'=>$item->tugas,
+                    'uts'=>$item->uts,
+                    'uas'=>$item->uas,
+                    'nilai_total' => $item->nilai_akhir,
+                    'nilai_huruf' => $huruf,
+                    'updated_at' => now(),
+                    'created_at' => now()
+                ]
+            );
+        }
+
+        return response()->json([
+            "data" => $fetch_data_rekap
+        ]);        
+        
+        }catch(\Exception $e){
+            return response()->json($e->getMessage());
+        }
+    }
+
+    private function konversiHuruf($angka)
+    {
+        if ($angka >= 85) return "A";
+        if ($angka >= 75) return "B";
+        if ($angka >= 65) return "C";
+        if ($angka >= 50) return "D";
+        return "E";
     }
 
     public function create_index(){

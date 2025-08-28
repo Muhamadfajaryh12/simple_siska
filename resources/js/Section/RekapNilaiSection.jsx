@@ -1,10 +1,29 @@
+import SecondaryButton from "@/Components/SecondaryButton";
 import AdminLayout from "@/Layouts/AdminLayout";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
-const RekapNilaiSection = ({ data_rekap }) => {
-    console.log(data_rekap);
+const RekapNilaiSection = ({ id, data_rekap }) => {
+    const [data, setData] = useState(data_rekap.data || []);
+
+    const handleGenerateNilai = async () => {
+        try {
+            const response = await axios.post(`/generate/${id}`);
+            setData(response.data.data);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className="bg-white rounded-md p-4 border my-4">
+            <SecondaryButton
+                className="mb-4"
+                onClick={() => handleGenerateNilai()}
+            >
+                ASYNC NILAI
+            </SecondaryButton>
             <table className="table-bordered w-full">
                 <thead>
                     <tr>
@@ -18,7 +37,7 @@ const RekapNilaiSection = ({ data_rekap }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data_rekap.map((item) => (
+                    {data?.map((item) => (
                         <tr>
                             <td className="border p-2">{item.nim}</td>
                             <td className="border p-2">
@@ -36,7 +55,9 @@ const RekapNilaiSection = ({ data_rekap }) => {
                             <td className="border p-2 text-center">
                                 {item.uas || 0}
                             </td>
-                            <td className="border p-2 text-center">{0}</td>
+                            <td className="border p-2 text-center">
+                                {item.nilai_total || 0}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

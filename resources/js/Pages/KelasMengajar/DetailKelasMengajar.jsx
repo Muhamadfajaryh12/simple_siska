@@ -8,6 +8,7 @@ const DetailKelasMengajar = ({ data_kelas, data_rekap }) => {
     const [dataPertemuan, setDataPertemuan] = useState(
         data_kelas.pertemuan[0] || []
     );
+    console.log(data_rekap);
     const [active, setActive] = useState(data_kelas.pertemuan[0].id || false);
 
     const handleClick = (id) => {
@@ -48,7 +49,7 @@ const DetailKelasMengajar = ({ data_kelas, data_rekap }) => {
                 </div>
             </div>
             {active == "rekap" ? (
-                <RekapNilaiSection data_rekap={data_rekap} />
+                <RekapNilaiSection id={data_kelas.id} data_rekap={data_rekap} />
             ) : (
                 <PertemuanDosenSection
                     data_pertemuan={dataPertemuan}

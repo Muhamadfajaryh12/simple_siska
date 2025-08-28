@@ -3,7 +3,12 @@ import KrsSection from "@/Section/KrsSection";
 import RekapanKrsSection from "@/Section/RekapanKrsSection";
 import React, { useState } from "react";
 
-const KrsMahasiswa = ({ auth, data_mata_kuliah, data_krs_mahasiswa }) => {
+const KrsMahasiswa = ({
+    auth,
+    data_mata_kuliah,
+    data_krs_mahasiswa,
+    data_total_sks,
+}) => {
     const [tab, setTab] = useState("krs");
     const tabButtonClass = (activeTab) =>
         `w-full p-2 rounded-md ${
@@ -30,7 +35,10 @@ const KrsMahasiswa = ({ auth, data_mata_kuliah, data_krs_mahasiswa }) => {
             {tab == "krs" ? (
                 <KrsSection data_mata_kuliah={data_mata_kuliah} />
             ) : (
-                <RekapanKrsSection data_krs_mahasiswa={data_krs_mahasiswa} />
+                <RekapanKrsSection
+                    data_krs_mahasiswa={data_krs_mahasiswa}
+                    data_total_sks={data_total_sks}
+                />
             )}
         </AdminLayout>
     );

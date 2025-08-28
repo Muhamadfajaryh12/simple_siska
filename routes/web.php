@@ -174,6 +174,8 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
     Route::prefix('/dashboard')->group(function(){
         Route::get('/',[DashboardController::class,"dashboard_dosen"])->name("dashboard.dosen");
     });
+
+    Route::post("/generate/{id}",[KelasMataKuliahController::class,"generate_nilai"])->name("generate_nilai");
 });
 
 Route::prefix("mahasiswa")->middleware(['auth','checkRole:Mahasiswa'])->group(function(){
