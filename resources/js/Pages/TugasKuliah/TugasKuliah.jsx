@@ -28,7 +28,7 @@ const TugasKuliah = ({ data_tugas_kuliah }) => {
         <AdminLayout title={["Tugas Kuliah"]}>
             <div className="flex flex-col gap-4">
                 {data_tugas_kuliah.map((item) => (
-                    <div className="bg-white rounded-md p-2 border shadow-sm flex justify-between px-4">
+                    <div className="bg-white rounded-md p-3 border shadow-sm flex justify-between px-4">
                         <div className="flex flex-col gap-1 ">
                             <h1 className="font-semibold">
                                 {

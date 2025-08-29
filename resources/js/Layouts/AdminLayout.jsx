@@ -2,7 +2,7 @@ import Message from "@/Components/Message";
 import Sidebar from "@/Components/Sidebar";
 import { ModalProvider } from "@/Context/ModalContext";
 import { useForm, usePage } from "@inertiajs/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { PiHamburger } from "react-icons/pi";
 
@@ -10,7 +10,18 @@ const AdminLayout = ({ title, children }) => {
     const { auth } = usePage().props;
     const { post } = useForm();
     const [open, setOpen] = useState(true);
+    const [name, setName] = useState("Admin");
 
+    useEffect(() => {
+        switch (auth.user.role) {
+            case "Dosen":
+                return setName(auth.user.dosen.nama_dosen);
+            case "Mahasiswa":
+                return setName(auth.user.mahasiswa.nama_mahasiswa);
+            default:
+                break;
+        }
+    }, []);
     return (
         <div className="w-full min-h-screen bg-gray-200">
             <div className="flex">
@@ -21,7 +32,7 @@ const AdminLayout = ({ title, children }) => {
                             <button onClick={() => setOpen(!open)}>
                                 <FaBars />
                             </button>
-                            <h6>{"Hello"}</h6>
+                            <h6>{name}</h6>
                         </div>
                         <button
                             className="mr-10 text-sm"
