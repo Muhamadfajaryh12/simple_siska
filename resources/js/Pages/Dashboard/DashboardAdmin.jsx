@@ -1,7 +1,8 @@
 import BarChartComponent from "@/Components/chart/BarChartComponent";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
-import { FaUser } from "react-icons/fa6";
+import { FaAustralSign, FaBook, FaBuilding, FaUser } from "react-icons/fa6";
+import { MdAssignment, MdClass } from "react-icons/md";
 
 const DashboardAdmin = ({
     data_total_mahasiswa,
@@ -22,31 +23,37 @@ const DashboardAdmin = ({
                     title={"Jumlah total Mahasiswa/i aktif"}
                     icon={<FaUser size={30} />}
                     value={data_total_mahasiswa}
+                    color={"bg-blue-500 text-white"}
                 />
                 <CardDashboard
                     title={"Jumlah total Dosen aktif"}
                     icon={<FaUser size={30} />}
                     value={data_total_dosen}
+                    color={"bg-orange-500 text-white"}
                 />
                 <CardDashboard
                     title={"Jumlah total Mata Kuliah berjalan"}
-                    icon={<FaUser size={30} />}
+                    icon={<FaBook size={30} />}
                     value={data_total_mata_kuliah}
-                />{" "}
+                    color={"bg-red-500 text-white"}
+                />
                 <CardDashboard
                     title={"Jumlah total Fakultas"}
-                    icon={<FaUser size={30} />}
+                    icon={<FaBuilding size={30} />}
                     value={data_total_fakultas}
+                    color={"bg-green-500 text-white"}
                 />
                 <CardDashboard
                     title={"Jumlah total Program Studi"}
-                    icon={<FaUser size={30} />}
+                    icon={<MdClass size={30} />}
                     value={data_total_prodi}
+                    color={"bg-yellow-500 text-white"}
                 />
                 <CardDashboard
                     title={"Jumlah total KRS"}
-                    icon={<FaUser size={30} />}
+                    icon={<MdAssignment size={30} />}
                     value={data_total_krs}
+                    color={"bg-violet-500 text-white"}
                 />
             </div>
             <div className="h-96 bg-white rounded-md border w-full mt-4 p-4">
@@ -117,14 +124,19 @@ const DashboardAdmin = ({
     );
 };
 
-const CardDashboard = ({ title, icon, value }) => {
+const CardDashboard = ({ title, icon, value, color }) => {
     return (
-        <div className="p-4 bg-white rounded border shadow-sm">
-            <h1>{title}</h1>
-
-            <div className="flex justify-between items-center my-4">
-                {icon}
-                <h1 className="text-2xl">{value}</h1>
+        <div className="border rounded-lg bg-white">
+            <div className="flex justify-between items-center">
+                <div
+                    className={`h-24 w-24 flex justify-center items-center rounded-l-lg ${color}`}
+                >
+                    {icon}
+                </div>
+                <div className="p-4">
+                    <h1>{title}</h1>
+                    <h1 className="text-2xl text-end">{value}</h1>
+                </div>
             </div>
         </div>
     );

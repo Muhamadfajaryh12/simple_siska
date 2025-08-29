@@ -4,6 +4,8 @@ import { ModalProvider } from "@/Context/ModalContext";
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa6";
+import { IoLogOut } from "react-icons/io5";
+import { LuLogOut } from "react-icons/lu";
 import { PiHamburger } from "react-icons/pi";
 
 const AdminLayout = ({ title, children }) => {
@@ -21,6 +23,7 @@ const AdminLayout = ({ title, children }) => {
             default:
                 break;
         }
+        console.log(auth);
     }, []);
     return (
         <div className="w-full min-h-screen bg-gray-200">
@@ -34,12 +37,17 @@ const AdminLayout = ({ title, children }) => {
                             </button>
                             <h6>{name}</h6>
                         </div>
-                        <button
-                            className="mr-10 text-sm"
-                            onClick={() => post(route("logout"))}
-                        >
-                            Logout
-                        </button>
+                        <div className="flex gap-4 items-center">
+                            <div className="\ text-sm rounded-md">
+                                <h1>Tahun Ajaran {auth.tahun_ajaran}</h1>
+                            </div>
+                            <button
+                                className="mr-10 text-sm bg-black text-white p-2 rounded-md"
+                                onClick={() => post(route("logout"))}
+                            >
+                                <LuLogOut size={20} />
+                            </button>
+                        </div>
                     </div>
                     <div className="py-6">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

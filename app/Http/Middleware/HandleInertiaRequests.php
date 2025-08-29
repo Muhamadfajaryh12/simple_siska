@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SemesterAjaran;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -29,10 +30,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $tahunAjaranAktif = SemesterAjaran::where("status","aktif")->first();
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'tahun_ajaran'=>$tahunAjaranAktif->semester_ajaran
             ],    
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
