@@ -45,7 +45,7 @@ class KelasMataKuliahController extends Controller
                     $q->where("status","izin");
                 }
             ]);
-        },"pertemuan.absensi.mahasiswa","pertemuan.tugas.tugas_mahasiswa.mahasiswa"])->withCount("krs_detail as total_mahasiswa")
+        },"pertemuan.absensi.mahasiswa","pertemuan.tugas.tugas_mahasiswa.mahasiswa","pertemuan.absen_dosen"])->withCount("krs_detail as total_mahasiswa")
         ->findOrFail($id);
        
         $fetch_data_rekap = KrsDetail::with(["krs.mahasiswa","kelas_mata_kuliah.mata_kuliah"])->where("kelas_mata_kuliah_id",$id)->get();

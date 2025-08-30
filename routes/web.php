@@ -19,6 +19,7 @@ use App\Http\Controllers\UktController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\TugasMahasiswaController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\AbsenDosenController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -176,6 +177,9 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
     });
 
     Route::post("/generate/{id}",[KelasMataKuliahController::class,"generate_nilai"])->name("generate_nilai");
+    Route::prefix("/dosen/absen")->group(function(){
+        Route::post("/",[AbsenDosenController::class,"store"])->name("absen_dosen.store");
+    });
 });
 
 Route::prefix("mahasiswa")->middleware(['auth','checkRole:Mahasiswa'])->group(function(){

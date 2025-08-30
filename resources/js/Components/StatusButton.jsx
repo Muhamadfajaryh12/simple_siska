@@ -9,6 +9,12 @@ const StatusButton = ({ children }) => {
         case "disetujui":
             background = "bg-green-500";
             break;
+        case "hadir":
+            background = "bg-green-500";
+            break;
+        case "izin":
+            background = "bg-blue-500";
+            break;
         case "ditolak":
             background = "bg-red-500";
             break;

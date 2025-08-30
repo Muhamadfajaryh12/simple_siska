@@ -10,8 +10,11 @@ import { FaPencil, FaTrash } from "react-icons/fa6";
 import AbsenDaftarMahasiswaSection from "./AbsenDaftarMahasiswaSection";
 import TugasDaftarSection from "./TugasDaftarSection";
 import DeleteModal from "@/Components/modal/DeleteModal";
+import AbsenDosenModal from "@/Components/modal/AbsenDosenModal";
+import StatusButton from "@/Components/StatusButton";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
+    console.log(data_pertemuan);
     const { data, setData, put, processing } = useForm({
         materi: "",
     });
@@ -44,9 +47,15 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
             },
         });
     };
+
+    const handleAbsenDosenModal = () => {
+        showModal(<AbsenDosenModal pertemuan_id={data_pertemuan.id} />);
+    };
+
     const handleDeleteModalTugas = () => {
         showModal(<DeleteModal handleDelete={handleDelete} />);
     };
+
     const tabButtonClass = (activeTab) => {
         return `w-full p-2 rounded-md ${
             active == activeTab
@@ -63,6 +72,18 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
             >
                 <h1 className="block font-medium text-sm text-gray-700">
                     Tanggal Perkeluliahan : {data_pertemuan.tanggal}
+                </h1>
+                <h1 className="block font-medium text-sm text-gray-700">
+                    Status kehadiran dosen :{" "}
+                    {data_pertemuan?.absen_dosen ? (
+                        <StatusButton>
+                            {data_pertemuan?.absen_dosen?.status}
+                        </StatusButton>
+                    ) : (
+                        <SecondaryButton onClick={handleAbsenDosenModal}>
+                            Lakukan Absen
+                        </SecondaryButton>
+                    )}
                 </h1>
                 <TextInputContent
                     label={"Materi"}

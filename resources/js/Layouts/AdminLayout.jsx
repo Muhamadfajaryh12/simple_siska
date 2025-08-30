@@ -17,14 +17,15 @@ const AdminLayout = ({ title, children }) => {
     useEffect(() => {
         switch (auth.user.role) {
             case "Dosen":
-                return setName(auth.user.dosen.nama_dosen);
+                return setName(auth.user?.dosen?.nama_dosen);
             case "Mahasiswa":
-                return setName(auth.user.mahasiswa.nama_mahasiswa);
+                return setName(auth.user?.mahasiswa?.nama_mahasiswa);
             default:
                 break;
         }
         console.log(auth);
     }, []);
+    console.log(auth);
     return (
         <div className="w-full min-h-screen bg-gray-200">
             <div className="flex">

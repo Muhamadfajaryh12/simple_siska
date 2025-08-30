@@ -27,4 +27,8 @@ class Pertemuan extends Model
     public function tugas(){
         return $this->hasOne(Tugas::class);
     }
+
+    public function absen_dosen(){
+        return $this->hasOne(AbsenDosen::class);
+    }
 }
