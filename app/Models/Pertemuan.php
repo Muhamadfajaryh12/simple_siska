@@ -10,7 +10,7 @@ class Pertemuan extends Model
     use HasFactory;
     protected $table="pertemuan";
     protected $fillable = [
-        "pertemuan_ke","kelas_mata_kuliah_id","tanggal","materi"
+        "pertemuan_ke","kelas_mata_kuliah_id","tanggal","materi","file_materi"
     ];
 
     public function absensi(){

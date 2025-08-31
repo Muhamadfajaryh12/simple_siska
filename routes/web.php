@@ -158,7 +158,7 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
         Route::get('/',[KelasMataKuliahController::class,"kelas_mengajar_index"])->name("kelas_mengajar.index");
         Route::get('/{id}',[KelasMataKuliahController::class,"kelas_mengajar_detail"])->name("kelas_mengajar.detail");
 
-        Route::put('/{id}',[PertemuanController::class,"edit"])->name("pertemuan.edit");
+        Route::post('/{id}',[PertemuanController::class,"edit"])->name("pertemuan.edit");
     });
 
 

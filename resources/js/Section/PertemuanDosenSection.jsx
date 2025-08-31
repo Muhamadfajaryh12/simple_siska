@@ -15,19 +15,18 @@ import StatusButton from "@/Components/StatusButton";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
     console.log(data_pertemuan);
-    const { data, setData, put, processing } = useForm({
-        materi: "",
+    const { data, setData, post, processing } = useForm({
+        materi: data_pertemuan?.materi || "",
+        file_materi: "",
     });
     const [active, setActive] = useState("absen");
 
     const { showModal, closeModal } = useModal();
-    useEffect(() => {
-        setData("materi", data_pertemuan?.materi || "");
-    }, [data_pertemuan.id]);
-
     const handleEdit = (e) => {
         e.preventDefault();
-        put(route("pertemuan.edit", { id: data_pertemuan.id }));
+        post(route("pertemuan.edit", { id: data_pertemuan.id }), {
+            forceFormData: true,
+        });
     };
 
     const handleModalTugas = () => {
@@ -69,6 +68,7 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
             <form
                 className="flex flex-col gap-4 border rounded-md p-4 bg-white"
                 onSubmit={handleEdit}
+                encType="multipart/form-data"
             >
                 <h1 className="block font-medium text-sm text-gray-700">
                     Tanggal Perkeluliahan : {data_pertemuan.tanggal}
@@ -91,6 +91,12 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                     name={"materi"}
                     value={data.materi}
                     onChange={(e) => setData("materi", e.target.value)}
+                />
+                <TextInputContent
+                    label="File Materi"
+                    type="file"
+                    name="file_materi"
+                    onChange={(e) => setData("file_materi", e.target.files[0])}
                 />
                 <PrimaryButton disabled={processing}>SIMPAN</PrimaryButton>
             </form>

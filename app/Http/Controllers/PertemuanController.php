@@ -24,10 +24,21 @@ class PertemuanController extends Controller
     public function edit(Request $request,$id){
         try{
             $validation = $request->validate([
-                "materi"=>"required"
+                "materi"=>"required",
+                "file_materi" => "sometimes"
             ]);
+            $path = "";
+            if($request->hasFile("file_materi")){
+                $path = $request->file("file_materi")->store("file_materi","public");
+            }
+            
             $pertemuan = Pertemuan::findOrFail($id);
-            $pertemuan->update($validation);
+            
+            $pertemuan->update([
+                "materi" => $validation["materi"],
+                "file_materi"=>$path
+            ]);
+            
             return redirect()->back()->with("success","Berhasil menambahkan materi");
         }catch(\Exception $e){
             return redirect()->back()->with("error",$e->getMessage());
