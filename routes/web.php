@@ -157,10 +157,13 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
     Route::prefix("kelas_mengajar")->group(function(){
         Route::get('/',[KelasMataKuliahController::class,"kelas_mengajar_index"])->name("kelas_mengajar.index");
         Route::get('/{id}',[KelasMataKuliahController::class,"kelas_mengajar_detail"])->name("kelas_mengajar.detail");
-
         Route::post('/{id}',[PertemuanController::class,"edit"])->name("pertemuan.edit");
     });
 
+    Route::prefix("/perwalian/kelas")->group(function(){
+        Route::get('/',[KelasController::class,"kelas_perwalian_dosen_index"])->name("kelas_perwalian.index");
+        Route::get('/{id}',[KelasController::class,"kelas_perwalian_dosen_detail_index"])->name("detail_kelas_perwalian.index");
+    });
 
     Route::prefix("/tugas")->group(function(){
         Route::post('/',[TugasController::class,"store"])->name("tugas.store");

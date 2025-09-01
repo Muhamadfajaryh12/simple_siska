@@ -1,3 +1,4 @@
+import SubText from "@/Components/SubText";
 import React from "react";
 import DataTable from "react-data-table-component";
 
@@ -19,8 +20,8 @@ const AbsenDaftarMahasiswaSection = ({ data_pertemuan, total_mahasiswa }) => {
                     <h1>{data_pertemuan.total_izin}</h1>
                 </div>
             </div>
-            <div className="bg-white rounded-md ">
-                <h1 className="my-2 font-semibold p-4">Daftar Absensi</h1>
+            <div className="bg-white rounded-md p-4 ">
+                <SubText text={"Daftar Kehadiran"} />
 
                 <DataTable
                     data={data_pertemuan.absensi}

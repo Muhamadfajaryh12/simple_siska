@@ -95,12 +95,17 @@ const DashboardDosen = ({
 
 const CardDashboardDosen = ({ title, total, icon }) => {
     return (
-        <div className="bg-white rounded-md border p-4">
-            <h1>{title}</h1>
-            <div className="flex justify-between my-4 items-center">
-                {icon}
-                <h1 className="font-bold text-2xl">{total}</h1>
+        <div className=" rounded-lg bg-white p-4">
+            <div className="flex gap-4 items-center">
+                <div className={`bg-green-600 h-6 w-6`}></div>
+                <h1 className="text-blue-900 text-lg font-extrabold tracking-wide">
+                    {title}
+                </h1>
             </div>
+
+            <h1 className="text-5xl text-blue-900 font-extrabold my-4">
+                {total}
+            </h1>
         </div>
     );
 };

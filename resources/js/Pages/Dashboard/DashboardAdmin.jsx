@@ -20,40 +20,40 @@ const DashboardAdmin = ({
         <AdminLayout title={["Dashboard"]}>
             <div className="grid grid-cols-3 gap-4">
                 <CardDashboard
-                    title={"Jumlah total Mahasiswa/i aktif"}
+                    title={"Total Mahasiswa/i aktif"}
                     icon={<FaUser size={30} />}
                     value={data_total_mahasiswa}
-                    color={"bg-blue-500 text-white"}
+                    color={"bg-blue-500 "}
                 />
                 <CardDashboard
-                    title={"Jumlah total Dosen aktif"}
+                    title={"Total Dosen aktif"}
                     icon={<FaUser size={30} />}
                     value={data_total_dosen}
-                    color={"bg-orange-500 text-white"}
+                    color={"bg-orange-500 "}
                 />
                 <CardDashboard
-                    title={"Jumlah total Mata Kuliah berjalan"}
+                    title={"Total Mata Kuliah berjalan"}
                     icon={<FaBook size={30} />}
                     value={data_total_mata_kuliah}
-                    color={"bg-red-500 text-white"}
+                    color={"bg-red-500 "}
                 />
                 <CardDashboard
-                    title={"Jumlah total Fakultas"}
+                    title={"Total Fakultas"}
                     icon={<FaBuilding size={30} />}
                     value={data_total_fakultas}
-                    color={"bg-green-500 text-white"}
+                    color={"bg-green-500 "}
                 />
                 <CardDashboard
-                    title={"Jumlah total Program Studi"}
+                    title={"Total Program Studi"}
                     icon={<MdClass size={30} />}
                     value={data_total_prodi}
                     color={"bg-yellow-500 text-white"}
                 />
                 <CardDashboard
-                    title={"Jumlah total KRS"}
+                    title={"Total KRS"}
                     icon={<MdAssignment size={30} />}
                     value={data_total_krs}
-                    color={"bg-violet-500 text-white"}
+                    color={"bg-violet-500 "}
                 />
             </div>
             <div className="h-96 bg-white rounded-md border w-full mt-4 p-4">
@@ -126,17 +126,17 @@ const DashboardAdmin = ({
 
 const CardDashboard = ({ title, icon, value, color }) => {
     return (
-        <div className="border rounded-lg bg-white">
-            <div className="flex justify-between items-center">
-                <div
-                    className={`h-24 w-24 flex justify-center items-center rounded-l-lg ${color}`}
-                >
-                    {icon}
-                </div>
-                <div className="p-4">
-                    <h1>{title}</h1>
-                    <h1 className="text-2xl text-end">{value}</h1>
-                </div>
+        <div className=" rounded-lg bg-white p-4">
+            <div className="flex gap-4 items-center">
+                <div className={`${color} h-6 w-6`}></div>
+                <h1 className="text-blue-900 text-lg font-extrabold">
+                    {title}
+                </h1>
+            </div>
+            <div className="p-4">
+                <h1 className="text-5xl text-blue-900 font-extrabold">
+                    {value}
+                </h1>
             </div>
         </div>
     );

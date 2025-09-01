@@ -1,4 +1,5 @@
 import SecondaryButton from "@/Components/SecondaryButton";
+import SubText from "@/Components/SubText";
 import AdminLayout from "@/Layouts/AdminLayout";
 import axios from "axios";
 import React, { useState } from "react";
@@ -18,6 +19,7 @@ const RekapNilaiSection = ({ id, data_rekap }) => {
 
     return (
         <div className="bg-white rounded-md p-4 border my-4">
+            <SubText text={"Rekapitulasi"} />
             <SecondaryButton
                 className="mb-4"
                 onClick={() => handleGenerateNilai()}

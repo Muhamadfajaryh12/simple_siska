@@ -1,4 +1,5 @@
 import SecondaryButton from "@/Components/SecondaryButton";
+import SubText from "@/Components/SubText";
 import AdminLayout from "@/Layouts/AdminLayout";
 import PertemuanDosenSection from "@/Section/PertemuanDosenSection";
 import RekapNilaiSection from "@/Section/RekapNilaiSection";
@@ -26,13 +27,13 @@ const DetailKelasMengajar = ({ data_kelas, data_rekap }) => {
             ]}
         >
             <div className="bg-white p-4 rounded-md border">
-                <h1 className="mb-4 font-semibold">Pertemuan</h1>
+                <SubText text={"Pertemuan"} />
                 <div className="flex">
                     {data_kelas.pertemuan.map((item) => (
                         <button
                             className={`flex-1 text-center  p-1 border rounded-md ${
                                 item.id == active
-                                    ? "bg-violet-500 text-white"
+                                    ? "bg-green-600 text-white"
                                     : ""
                             }`}
                             onClick={() => handleClick(item.id)}

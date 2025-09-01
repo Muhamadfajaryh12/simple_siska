@@ -11,7 +11,7 @@ import {
     FaDashcube,
     FaUser,
 } from "react-icons/fa6";
-import { MdPayment } from "react-icons/md";
+import { MdClass, MdPayment } from "react-icons/md";
 
 const Sidebar = ({ auth, open }) => {
     const list = {
@@ -155,6 +155,14 @@ const Sidebar = ({ auth, open }) => {
                 link: "ukt.admin_index",
                 role: "Admin",
                 icon: <MdPayment />,
+            },
+        ],
+        Pewalian: [
+            {
+                title: "Kelas",
+                link: "kelas_perwalian.index",
+                role: "Dosen",
+                icon: <MdClass />,
             },
         ],
     };

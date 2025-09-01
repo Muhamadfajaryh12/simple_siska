@@ -12,6 +12,7 @@ import TugasDaftarSection from "./TugasDaftarSection";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import AbsenDosenModal from "@/Components/modal/AbsenDosenModal";
 import StatusButton from "@/Components/StatusButton";
+import SubText from "@/Components/SubText";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
     console.log(data_pertemuan);
@@ -65,45 +66,50 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
 
     return (
         <div className="my-4 ">
-            <form
-                className="flex flex-col gap-4 border rounded-md p-4 bg-white"
-                onSubmit={handleEdit}
-                encType="multipart/form-data"
-            >
-                <h1 className="block font-medium text-sm text-gray-700">
-                    Tanggal Perkeluliahan : {data_pertemuan.tanggal}
-                </h1>
-                <h1 className="block font-medium text-sm text-gray-700">
-                    Status kehadiran dosen :{" "}
-                    {data_pertemuan?.absen_dosen ? (
-                        <StatusButton>
-                            {data_pertemuan?.absen_dosen?.status}
-                        </StatusButton>
-                    ) : (
-                        <SecondaryButton onClick={handleAbsenDosenModal}>
-                            Lakukan Absen
-                        </SecondaryButton>
-                    )}
-                </h1>
-                <TextInputContent
-                    label={"Materi"}
-                    type={"text"}
-                    name={"materi"}
-                    value={data.materi}
-                    onChange={(e) => setData("materi", e.target.value)}
-                />
-                <TextInputContent
-                    label="File Materi"
-                    type="file"
-                    name="file_materi"
-                    onChange={(e) => setData("file_materi", e.target.files[0])}
-                />
-                <PrimaryButton disabled={processing}>SIMPAN</PrimaryButton>
-            </form>
-
+            <div className=" border rounded-md p-4 bg-white">
+                <SubText text={"Informasi Pertemuan"} />
+                <form
+                    className="flex flex-col gap-4"
+                    onSubmit={handleEdit}
+                    encType="multipart/form-data"
+                >
+                    <h1 className="block font-medium text-sm text-gray-700">
+                        Tanggal Perkeluliahan : {data_pertemuan.tanggal}
+                    </h1>
+                    <h1 className="block font-medium text-sm text-gray-700">
+                        Status kehadiran dosen :{" "}
+                        {data_pertemuan?.absen_dosen ? (
+                            <StatusButton>
+                                {data_pertemuan?.absen_dosen?.status}
+                            </StatusButton>
+                        ) : (
+                            <SecondaryButton onClick={handleAbsenDosenModal}>
+                                Lakukan Absen
+                            </SecondaryButton>
+                        )}
+                    </h1>
+                    <TextInputContent
+                        label={"Materi"}
+                        type={"text"}
+                        name={"materi"}
+                        value={data.materi}
+                        onChange={(e) => setData("materi", e.target.value)}
+                    />
+                    <TextInputContent
+                        label="File Materi"
+                        type="file"
+                        name="file_materi"
+                        onChange={(e) =>
+                            setData("file_materi", e.target.files[0])
+                        }
+                    />
+                    <PrimaryButton disabled={processing}>SIMPAN</PrimaryButton>
+                </form>
+            </div>
             <div className="border rounded-md p-4 my-4 bg-white">
                 {data_pertemuan.tugas ? (
                     <>
+                        <SubText text={"Tugas Perkuliahan"} />
                         <h1>
                             Judul Tugas : {data_pertemuan.tugas.judul_tugas}
                         </h1>
@@ -123,6 +129,7 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                     </>
                 ) : (
                     <>
+                        <SubText text={"Tugas Perkuliahan"} />
                         <h1 className="text-center">
                             Pertemuan ini belum memiliki tugas
                         </h1>

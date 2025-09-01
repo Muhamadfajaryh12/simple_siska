@@ -1,6 +1,7 @@
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import StatusButton from "@/Components/StatusButton";
+import SubText from "@/Components/SubText";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link } from "@inertiajs/react";
 import React from "react";
@@ -42,7 +43,10 @@ const KrsDosen = ({ data_krs }) => {
     ];
     return (
         <AdminLayout title={["Kartu Rencana Studi", "Daftar"]}>
-            <DataTable data={data_krs} columns={columns} pagination />
+            <div className="bg-white p-4 rounded-md">
+                <SubText text={"Table"} />
+                <DataTable data={data_krs} columns={columns} pagination />
+            </div>
         </AdminLayout>
     );
 };

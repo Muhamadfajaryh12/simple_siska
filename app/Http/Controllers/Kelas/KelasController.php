@@ -9,6 +9,8 @@ use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class KelasController extends Controller
@@ -28,6 +30,79 @@ class KelasController extends Controller
         return Inertia::render('Kelas/DetailKelas',[
             'data_kelas'=> $fetch_kelas,
             'data_mahasiswa'=>$fetch_mahasiswa,
+        ]);
+    }
+
+    public function kelas_perwalian_dosen_index(){
+        $fetch_kelas_perwalian = Kelas::where("dosen_id",Auth::user()->dosen->id)->get();
+        return Inertia::render("KelasPerwalian/KelasPerwalian",[
+            "data_kelas"=>$fetch_kelas_perwalian
+        ]);
+    }
+
+    public function kelas_perwalian_dosen_detail_index($id){
+        $fetch_mahasiswa = DB::table("Kelas")
+        ->join("mahasiswa","mahasiswa.kelas_id", '=' ,"kelas.id")
+        ->leftJoin("krs","krs.mahasiswa_id" ,"=", "mahasiswa.id")
+        ->where("kelas.dosen_id",'=',Auth::user()->dosen->id)
+        ->groupBy("mahasiswa.nama_mahasiswa","mahasiswa.nim","total_sks","mahasiswa.semester",     "mahasiswa.status")
+        ->select(
+            "mahasiswa.nama_mahasiswa",
+            "mahasiswa.nim",
+            "mahasiswa.semester",
+            "mahasiswa.status",
+            DB::raw("COALESCE(SUM(krs.total_sks),0) as total_sks")
+        )
+        ->orderBy("mahasiswa.nim","ASC")
+        ->get();
+
+        $fetch_mahasiswa_krs = DB::table("Kelas")
+        ->join("mahasiswa","mahasiswa.kelas_id", '=' ,"kelas.id")
+        ->leftJoin("krs","krs.mahasiswa_id" ,"=", "mahasiswa.id")
+        ->where("kelas.dosen_id",'=',Auth::user()->dosen->id)
+        ->select(
+            "mahasiswa.nama_mahasiswa",
+            "mahasiswa.nim",
+            "krs.semester",
+            "krs.status"
+        )
+        ->orderBy("mahasiswa.nim","ASC")
+        ->get()
+        ->groupBy("nama_mahasiswa")
+        ->map(function ($items) {
+            return $items->map(function ($row) {
+                return [
+                    "semester" => $row->semester,
+                    "status"   => $row->status,
+                ];
+            });
+        });
+
+        $fetch_mahasiswa_ukt = DB::table("kelas")
+        ->join("mahasiswa","mahasiswa.kelas_id","=","kelas.id")
+        ->join("ukt","ukt.mahasiswa_id",'=',"mahasiswa.id")
+        ->join("semester_ajaran","semester_ajaran.id" , '=' ,'ukt.semester_ajaran_id')
+        ->select("mahasiswa.nama_mahasiswa","semester_ajaran.semester_ajaran","ukt.status")
+        ->orderBy("mahasiswa.nim","ASC")
+        ->get()
+        ->groupBy("nama_mahasiswa")
+        ->map(function($items){
+            return $items->map(function($row){
+                return [
+                    "semester_ajaran"=>$row->semester_ajaran,
+                    "status"=>$row->status
+                ];
+            });
+        });
+        
+
+        $fetch_data_detail = Kelas::withCount("mahasiswa")->with("dosen")->first();
+  
+        return Inertia::render("KelasPerwalian/DetailKelasPerwalian",[
+            "data_mahasiswa"=>$fetch_mahasiswa,
+            "data_detail"=>$fetch_data_detail,
+            "data_krs"=>$fetch_mahasiswa_krs,
+            "data_ukt"=>$fetch_mahasiswa_ukt
         ]);
     }
     public function create (){

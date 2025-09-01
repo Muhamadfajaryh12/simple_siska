@@ -27,11 +27,12 @@ const AdminLayout = ({ title, children }) => {
     }, []);
     console.log(auth);
     return (
-        <div className="w-full min-h-screen bg-gray-200">
+        <div className="w-full min-h-screen bg-gray-300">
             <div className="flex">
                 <Sidebar auth={auth} open={open} />
-                <div className="w-full">
-                    <div className="flex justify-between text-md mb-2 p-3 shadow bg-white">
+                <div className="w-full relative">
+                    <div className="absolute -z-1 bg-blue-900 h-64 w-full rounded-b-2xl"></div>
+                    <div className="flex justify-between text-md mb-2 px-6 py-4 z-10 relative  text-white font-semibold">
                         <div className="flex justify-center gap-4 items-center">
                             <button onClick={() => setOpen(!open)}>
                                 <FaBars />
@@ -39,20 +40,20 @@ const AdminLayout = ({ title, children }) => {
                             <h6>{name}</h6>
                         </div>
                         <div className="flex gap-4 items-center">
-                            <div className="\ text-sm rounded-md">
+                            <div className="text-sm rounded-md">
                                 <h1>Tahun Ajaran {auth.tahun_ajaran}</h1>
                             </div>
                             <button
-                                className="mr-10 text-sm bg-black text-white p-2 rounded-md"
+                                className="mr-10 text-sm text-white p-2 rounded-md"
                                 onClick={() => post(route("logout"))}
                             >
                                 <LuLogOut size={20} />
                             </button>
                         </div>
                     </div>
-                    <div className="py-6">
+                    <div className=" relative z-10">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                            <div className="flex gap-2 text-md">
+                            <div className="flex gap-2 text-md text-white font-bold">
                                 {title?.map((item, index) => (
                                     <>
                                         <span>{item}</span>
