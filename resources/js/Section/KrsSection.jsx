@@ -1,4 +1,5 @@
 import PrimaryButton from "@/Components/PrimaryButton";
+import SubText from "@/Components/SubText";
 import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import DataTable from "react-data-table-component";
@@ -70,13 +71,8 @@ const KrsSection = ({ data_mata_kuliah }) => {
         },
     ];
     return (
-        <div className="bg-white rounded-md">
-            <div className="p-6 text-gray-900">
-                <p className="text-lg">Susunan Mata Kuliah</p>
-                <span className="text-sm font-bold">
-                    Silahkan pilih Mata Kuliah yang akan diambil!
-                </span>
-            </div>
+        <div className="bg-white rounded-md p-4">
+            <SubText text={"Daftar Kartu Rencana Studi"} />
             {Object.keys(data_mata_kuliah).map((semesterKey) => (
                 <div key={semesterKey} className="my-2 p-4">
                     <h2 className="text-lg font-bold mb-2">

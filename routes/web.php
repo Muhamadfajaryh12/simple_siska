@@ -187,7 +187,7 @@ Route::prefix("/dosen")->middleware(["auth",'checkRole:Dosen'])->group(function(
 });
 
 Route::prefix("mahasiswa")->middleware(['auth','checkRole:Mahasiswa'])->group(function(){
-    // Route::get('/dashboard',[DashboardController::class,'dashboard_mahasiswa'])->name('dashboard');
+    Route::get('/dashboard',[DashboardController::class,'dashboard_mahasiswa'])->name('dashboard');
 
     Route::prefix("/jadwal")->group(function(){
         Route::get('/',[PertemuanController::class,"jadwal_perkuliahan_mahasiswa"])->name("jadwal_perkuliahan_mahasiswa.index");

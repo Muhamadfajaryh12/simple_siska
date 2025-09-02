@@ -14,6 +14,7 @@ use App\Models\Pertemuan;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -40,8 +41,63 @@ class DashboardController extends Controller
     }
 
     public function dashboard_mahasiswa(){
+            $fetch_total_sks_ipk = DB::table("krs")
+            ->join("krs_detail","krs_detail.krs_id",'=',"krs.id")
+            ->join("kelas_mata_kuliah","krs_detail.kelas_mata_kuliah_id","kelas_mata_kuliah.id")
+            ->join("mata_kuliah","kelas_mata_kuliah.mata_kuliah_id","mata_kuliah.id")
+            ->where("krs.mahasiswa_id" ,'=',Auth::user()->mahasiswa->id)
+            ->select(
+                DB::raw("SUM(krs.total_sks) as total_krs"),
+                DB::raw("ROUND(SUM(
+                CASE
+                    WHEN krs_detail.nilai_huruf = 'A' THEN 4 
+                    WHEN krs_detail.nilai_huruf = 'B' THEN 3 
+                    WHEN krs_detail.nilai_huruf = 'C' THEN 2 
+                    WHEN krs_detail.nilai_huruf = 'D' THEN 1
+                    ELSE 0
+                    END * mata_kuliah.sks
+                ) / SUM(total_sks), 2) as ipk")
+                )
+            ->first();
 
-            return Inertia::render('Dashboard/DashboardMahasiswa');
+            $fetch_ips = DB::table("krs")
+            ->join("krs_detail","krs_detail.krs_id",'=',"krs.id")
+            ->join("kelas_mata_kuliah","krs_detail.kelas_mata_kuliah_id","kelas_mata_kuliah.id")
+            ->join("mata_kuliah","kelas_mata_kuliah.mata_kuliah_id","mata_kuliah.id")
+            ->where("krs.mahasiswa_id" ,'=',Auth::user()->mahasiswa->id)
+            ->select(
+                         "krs.semester",
+                DB::raw("ROUND(SUM(
+                CASE
+                    WHEN krs_detail.nilai_huruf = 'A' THEN 4 
+                    WHEN krs_detail.nilai_huruf = 'B' THEN 3 
+                    WHEN krs_detail.nilai_huruf = 'C' THEN 2 
+                    WHEN krs_detail.nilai_huruf = 'D' THEN 1
+                    ELSE 0
+                    END * mata_kuliah.sks
+                ) / SUM(total_sks), 2) as ipk")
+            )
+            ->groupBy("krs.semester")
+            ->get();
+         
+            $fetch_profil = Mahasiswa::where("id",Auth::user()->mahasiswa->id)->first();
+            $fetch_jadwal = DB::table("krs")
+            ->join("krs_detail","krs_detail.krs_id","=","krs.id")
+            ->join("kelas_mata_kuliah","kelas_mata_kuliah.id","=","krs_detail.kelas_mata_kuliah_id")
+            ->join("dosen","dosen.id","=", "kelas_mata_kuliah.dosen_id")
+            ->join("mata_kuliah","mata_kuliah.id" ,"=","kelas_mata_kuliah.mata_kuliah_id")
+            ->join("pertemuan","pertemuan.kelas_mata_kuliah_id","=","kelas_mata_kuliah.id")
+            ->where("krs.mahasiswa_id","=",Auth::user()->mahasiswa->id)
+            ->where("pertemuan.tanggal", now()->toDateString())            
+            ->select("mata_kuliah.nama_mata_kuliah","pertemuan.tanggal","dosen.nama_dosen")
+            ->get();
+         
+            return Inertia::render('Dashboard/DashboardMahasiswa',[
+                "data_total_sks_ipk"=>$fetch_total_sks_ipk,
+                "data_jadwal"=>$fetch_jadwal,
+                "data_profile"=>$fetch_profil,
+                "data_ips"=>$fetch_ips,
+            ]);
     }
 
     public function dashboard_admin(){

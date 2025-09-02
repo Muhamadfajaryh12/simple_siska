@@ -30,14 +30,14 @@ const BarChartComponent = ({ chartData, title }) => {
                 display: true,
                 text: title,
             },
-            scales: {
-                x: {
-                    type: "category",
-                },
-                y: {
-                    ticks: {
-                        beginAtZero: true,
-                    },
+        },
+        scales: {
+            x: {
+                type: "category",
+            },
+            y: {
+                ticks: {
+                    beginAtZero: true,
                 },
             },
         },

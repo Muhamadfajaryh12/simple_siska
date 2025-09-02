@@ -1,15 +1,16 @@
 import PaymentButton from "@/Components/PaymentButton";
 import StatusButton from "@/Components/StatusButton";
+import SubText from "@/Components/SubText";
 import useToIDR from "@/hooks/useToIDR";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
 
 const TagihanUkt = ({ data_tagihan_ukt }) => {
-    console.log(data_tagihan_ukt);
     return (
         <AdminLayout title={["Pembayaran", "UKT"]}>
             {data_tagihan_ukt.map((item) => (
                 <div className="rounded-md bg-white border p-4">
+                    <SubText text={"Tagihan"} />
                     <div className="flex justify-between items-center">
                         <div className="">
                             <h1>{item.mahasiswa.nama_mahasiswa}</h1>
