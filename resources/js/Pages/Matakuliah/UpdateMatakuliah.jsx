@@ -12,12 +12,6 @@ const UpdateMatakuliah = ({
     return (
         <AdminLayout title={["Mata Kuliah", "Form", "Edit"]}>
             <div className="bg-white rounded-md p-4">
-                <div className=" text-gray-900 mb-2">
-                    <p className="text-lg">Formulir Pembuatan Mata Kuliah</p>
-                    <span className="text-sm font-bold">
-                        Silahkan mengisi formulir dengan benar!
-                    </span>
-                </div>
                 <MataKuliahForm
                     data_prodi={data_prodi}
                     data_dosen={data_dosen}

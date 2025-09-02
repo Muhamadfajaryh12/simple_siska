@@ -4,6 +4,7 @@ import Modal from "@/Components/Modal";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SubText from "@/Components/SubText";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
@@ -48,7 +49,7 @@ const Matakuliah = ({ data, data_prodi }) => {
             selector: (row) => (
                 <div className="flex gap-2">
                     <SecondaryButton>
-                        <Link href={`/mata_kuliah/form/${row.id}`}>
+                        <Link href={route("mata_kuliah.update", row.id)}>
                             <FaPencil />
                         </Link>
                     </SecondaryButton>
@@ -82,7 +83,6 @@ const Matakuliah = ({ data, data_prodi }) => {
             ...prev,
             [key]: value,
         }));
-        console.log(filterData);
     };
 
     const filterData = data.filter((item) => {
@@ -100,12 +100,15 @@ const Matakuliah = ({ data, data_prodi }) => {
                         <PrimaryButton>BUAT MATA KULIAH</PrimaryButton>
                     </Link>
                 </div>
-                <DataTable
-                    columns={columns}
-                    data={filterData}
-                    fixedHeader
-                    pagination
-                />
+                <div className="p-4 bg-white rounded-md">
+                    <SubText text={"Table"} />
+                    <DataTable
+                        columns={columns}
+                        data={filterData}
+                        fixedHeader
+                        pagination
+                    />
+                </div>
             </div>
         </AdminLayout>
     );

@@ -4,6 +4,7 @@ import DeleteModal from "@/Components/modal/DeleteModal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Select from "@/Components/Select";
+import SubText from "@/Components/SubText";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
@@ -53,7 +54,7 @@ const Mahasiswa = ({ data, data_prodi, data_fakultas }) => {
             selector: (row) => (
                 <div className="flex gap-2">
                     <SecondaryButton>
-                        <Link href={`/mahasiswa/form/${row.id}`}>
+                        <Link href={route("mahasiswa.update", row.id)}>
                             <FaPencil />
                         </Link>
                     </SecondaryButton>
@@ -116,12 +117,15 @@ const Mahasiswa = ({ data, data_prodi, data_fakultas }) => {
                         <PrimaryButton>BUAT Mahasiswa</PrimaryButton>
                     </Link>
                 </div>
-                <DataTable
-                    columns={columns}
-                    data={filterData}
-                    fixedHeader
-                    pagination
-                />
+                <div className="p-4 bg-white rounded-md">
+                    <SubText text={"Table"} />
+                    <DataTable
+                        columns={columns}
+                        data={filterData}
+                        fixedHeader
+                        pagination
+                    />
+                </div>
             </AdminLayout>
         </div>
     );

@@ -99,12 +99,6 @@ const Sidebar = ({ auth, open }) => {
                 icon: <GoDatabase />,
             },
             {
-                title: "Penilaian",
-                link: "nilai_dosen.index",
-                role: "Dosen",
-                icon: <GoDatabase />,
-            },
-            {
                 title: "Kartu Rencana Studi",
                 link: "krs_mahasiswa.index",
                 role: "Mahasiswa",
@@ -133,9 +127,9 @@ const Sidebar = ({ auth, open }) => {
                 icon: <GoBook />,
             },
         ],
-        "Kelas Mengajar": [
+        "Kelas Mata Kuliah": [
             {
-                title: "Kelas",
+                title: "Kelas Mengajar",
                 link: "kelas_mengajar.index",
                 role: "Dosen",
                 icon: <GoDatabase />,
@@ -193,11 +187,11 @@ const Sidebar = ({ auth, open }) => {
                                 {filteredList.map((items) => (
                                     <li
                                         key={items.title}
-                                        className={`hover:bg-gray-100 p-2 rounded-md  flex items-center mt-2 ${
+                                        className={`hover:bg-blue-900 hover:text-white p-2 rounded-md  flex items-center mt-2 ${
                                             pathname.includes(
                                                 items.title.toLowerCase()
                                             )
-                                                ? "bg-gray-100"
+                                                ? "bg-blue-900 text-white"
                                                 : ""
                                         }`}
                                         style={{ letterSpacing: "1px" }}

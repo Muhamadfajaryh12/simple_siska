@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import TextInputContent from "../input/TextInputContent";
 import PrimaryButton from "../PrimaryButton";
 import { useForm } from "@inertiajs/react";
+import SubText from "../SubText";
 
 const FakultasForm = ({ fakultas }) => {
     const { data, setData, errors, reset, post, put, processing } = useForm({
@@ -32,7 +33,8 @@ const FakultasForm = ({ fakultas }) => {
     }, [fakultas]);
 
     return (
-        <div className="mt-2">
+        <div>
+            <SubText text={"Formulir Fakultas"} />
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <TextInputContent
                     label={"Nama Fakultas"}

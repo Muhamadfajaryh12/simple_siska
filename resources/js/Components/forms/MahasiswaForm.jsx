@@ -6,6 +6,7 @@ import SelectContent from "../input/SelectContent";
 import DataTable from "react-data-table-component";
 import PrimaryButton from "../PrimaryButton";
 import DangerButton from "../DangerButton";
+import SubText from "../SubText";
 
 const MahasiswaForm = ({
     data_fakultas,
@@ -161,6 +162,7 @@ const MahasiswaForm = ({
     };
     return (
         <>
+            <SubText text={"Formulir Mahasiswa"} />
             <form
                 className="flex flex-col gap-4"
                 onSubmit={!data_mahasiswa ? handleAddedTemp : handleUpdate}

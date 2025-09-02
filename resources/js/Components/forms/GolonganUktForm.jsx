@@ -3,6 +3,7 @@ import TextInputContent from "../input/TextInputContent";
 import SelectContent from "../input/SelectContent";
 import PrimaryButton from "../PrimaryButton";
 import { router } from "@inertiajs/react";
+import SubText from "../SubText";
 
 const golonganData = [
     {
@@ -63,6 +64,7 @@ const GolonganUktForm = ({ data_prodi }) => {
     return (
         <>
             <div className="bg-white rounded-md p-4 border">
+                <SubText text={"Formulir Golongan UKT"} />
                 <div className="flex flex-col gap-4">
                     <SelectContent
                         label={"Program Studi"}
@@ -88,7 +90,7 @@ const GolonganUktForm = ({ data_prodi }) => {
                 </div>
             </div>
             <div className="mt-2 bg-white rounded-md p-4 border">
-                <h1>Data yang akan disimpan</h1>
+                <SubText text={"Data yang akan disimpan"} />
                 {temp.map((item, index) => (
                     <div className="my-4 grid grid-cols-3 gap-4">
                         <TextInputContent

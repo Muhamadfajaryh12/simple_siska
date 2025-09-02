@@ -3,6 +3,7 @@ import FilterColumn from "@/Components/FilterColumn";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SubText from "@/Components/SubText";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
@@ -108,12 +109,15 @@ const Dosen = ({ data, data_prodi, data_fakultas }) => {
                         <PrimaryButton>Buat Dosen</PrimaryButton>
                     </Link>
                 </div>
-                <DataTable
-                    columns={columns}
-                    data={filterData}
-                    fixedHeader
-                    pagination
-                />
+                <div className="p-4 rounded-md bg-white">
+                    <SubText text={"Table"} />
+                    <DataTable
+                        columns={columns}
+                        data={filterData}
+                        fixedHeader
+                        pagination
+                    />
+                </div>
             </AdminLayout>
         </div>
     );

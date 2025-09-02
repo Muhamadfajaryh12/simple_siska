@@ -7,6 +7,7 @@ import DataTable from "react-data-table-component";
 import StatusButton from "@/Components/StatusButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import EditTahunAjaran from "./partials/EditTahunAjaran";
+import SubText from "@/Components/SubText";
 
 const TahunAjaran = ({ data_semester_ajaran }) => {
     const { showModal } = useModal();
@@ -30,21 +31,25 @@ const TahunAjaran = ({ data_semester_ajaran }) => {
                     Membuat Semester Ajaran
                 </PrimaryButton>
             </div>
-            <DataTable
-                data={data_semester_ajaran}
-                columns={[
-                    {
-                        name: "Tahun Ajaran",
-                        selector: (row) => row.semester_ajaran,
-                    },
-                    {
-                        name: "Status",
-                        selector: (row) => (
-                            <StatusButton>{row.status}</StatusButton>
-                        ),
-                    },
-                ]}
-            />
+
+            <div className="p-4 bg-white rounded-md">
+                <SubText text={"Table"} />
+                <DataTable
+                    data={data_semester_ajaran}
+                    columns={[
+                        {
+                            name: "Tahun Ajaran",
+                            selector: (row) => row.semester_ajaran,
+                        },
+                        {
+                            name: "Status",
+                            selector: (row) => (
+                                <StatusButton>{row.status}</StatusButton>
+                            ),
+                        },
+                    ]}
+                />
+            </div>
         </AdminLayout>
     );
 };

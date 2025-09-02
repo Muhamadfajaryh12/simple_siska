@@ -9,6 +9,7 @@ import { FaPencil, FaTrash } from "react-icons/fa6";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SubText from "@/Components/SubText";
 const Fakultas = ({ data }) => {
     const { showModal, closeModal } = useModal();
 
@@ -34,7 +35,7 @@ const Fakultas = ({ data }) => {
             selector: (row) => (
                 <div className="flex gap-2">
                     <SecondaryButton>
-                        <Link href={`/fakultas/form/${row.id}`}>
+                        <Link href={route("fakultas.update", row.id)}>
                             <FaPencil size={15} />
                         </Link>
                     </SecondaryButton>
@@ -61,7 +62,15 @@ const Fakultas = ({ data }) => {
                     <PrimaryButton>Buat Fakultas</PrimaryButton>
                 </Link>
             </div>
-            <DataTable columns={columns} data={data} fixedHeader pagination />
+            <div className="p-4 rounded-md bg-white">
+                <SubText text={"Table"} />
+                <DataTable
+                    columns={columns}
+                    data={data}
+                    fixedHeader
+                    pagination
+                />
+            </div>
         </AdminLayout>
     );
 };

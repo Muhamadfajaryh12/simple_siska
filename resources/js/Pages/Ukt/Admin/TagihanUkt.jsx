@@ -1,5 +1,6 @@
 import FilterColumn from "@/Components/FilterColumn";
 import StatusButton from "@/Components/StatusButton";
+import SubText from "@/Components/SubText";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
@@ -51,34 +52,38 @@ const TagihanUkt = ({ data_tagihan_ukt, data_prodi, data_semester_ajaran }) => {
                     onChange={updateFilter}
                 />
             </div>
-            <DataTable
-                data={dataFilter || []}
-                columns={[
-                    {
-                        name: "NIM",
-                        selector: (row) => row.mahasiswa.nim,
-                    },
-                    {
-                        name: "Mahasiwa",
-                        selector: (row) => row.mahasiswa.nama_mahasiswa,
-                    },
-                    {
-                        name: "Program Studi",
-                        selector: (row) => row.mahasiswa.prodi.nama_prodi,
-                    },
-                    {
-                        name: "Semester Ajaran",
-                        selector: (row) => row.semester_ajaran.semester_ajaran,
-                    },
-                    {
-                        name: "Status",
-                        selector: (row) => (
-                            <StatusButton>{row.status}</StatusButton>
-                        ),
-                    },
-                ]}
-                pagination
-            />
+            <div className="p-4 rounded-md bg-white">
+                <SubText text="Table" />
+                <DataTable
+                    data={dataFilter || []}
+                    columns={[
+                        {
+                            name: "NIM",
+                            selector: (row) => row.mahasiswa.nim,
+                        },
+                        {
+                            name: "Mahasiwa",
+                            selector: (row) => row.mahasiswa.nama_mahasiswa,
+                        },
+                        {
+                            name: "Program Studi",
+                            selector: (row) => row.mahasiswa.prodi.nama_prodi,
+                        },
+                        {
+                            name: "Semester Ajaran",
+                            selector: (row) =>
+                                row.semester_ajaran.semester_ajaran,
+                        },
+                        {
+                            name: "Status",
+                            selector: (row) => (
+                                <StatusButton>{row.status}</StatusButton>
+                            ),
+                        },
+                    ]}
+                    pagination
+                />
+            </div>
         </AdminLayout>
     );
 };

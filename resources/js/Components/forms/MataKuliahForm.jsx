@@ -6,6 +6,7 @@ import TextInputContent from "../input/TextInputContent";
 import SelectContent from "../input/SelectContent";
 import DangerButton from "../DangerButton";
 import { FaTrash } from "react-icons/fa6";
+import SubText from "../SubText";
 
 const MataKuliahForm = ({ data_prodi, data_semester, data_mata_kuliah }) => {
     const [temp, setTemp] = useState([]);
@@ -102,6 +103,7 @@ const MataKuliahForm = ({ data_prodi, data_semester, data_mata_kuliah }) => {
 
     return (
         <>
+            <SubText text="Formulir Mata Kuliah" />
             <form
                 onSubmit={!data_mata_kuliah ? handleAddTemp : handleUpdate}
                 className="flex flex-col gap-4"

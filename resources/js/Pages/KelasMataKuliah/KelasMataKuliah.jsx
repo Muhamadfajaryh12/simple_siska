@@ -3,6 +3,7 @@ import FilterColumn from "@/Components/FilterColumn";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SubText from "@/Components/SubText";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
@@ -48,7 +49,7 @@ const KelasMataKuliah = ({ data_kelas_mata_kuliah, data_prodi }) => {
             name: "Action",
             selector: (row) => (
                 <div className="flex gap-2">
-                    <Link href={`/kelas_mata_kuliah/form/${row.id}`}>
+                    <Link href={route("kelas_mata_kuliah.update", row.id)}>
                         <SecondaryButton>
                             <FaPencil />
                         </SecondaryButton>
@@ -96,11 +97,14 @@ const KelasMataKuliah = ({ data_kelas_mata_kuliah, data_prodi }) => {
                     filterData={filterConfig}
                     onChange={updateFilter}
                 />
-                <Link href="/kelas_mata_kuliah/form">
+                <Link href={route("kelas_mata_kuliah.create")}>
                     <PrimaryButton>Buat Kelas Perkuliahan</PrimaryButton>
                 </Link>
             </div>
-            <DataTable data={filterData} columns={colums} pagination />
+            <div className="p-4 bg-white rounded-md">
+                <SubText text={"Table"} />
+                <DataTable data={filterData} columns={colums} pagination />
+            </div>
         </AdminLayout>
     );
 };

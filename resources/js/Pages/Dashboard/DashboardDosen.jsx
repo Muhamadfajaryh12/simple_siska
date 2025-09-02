@@ -103,7 +103,7 @@ const CardDashboardDosen = ({ title, total, icon }) => {
                 </h1>
             </div>
 
-            <h1 className="text-5xl text-blue-900 font-extrabold my-4">
+            <h1 className="text-5xl text-blue-900 font-extrabold my-2">
                 {total}
             </h1>
         </div>

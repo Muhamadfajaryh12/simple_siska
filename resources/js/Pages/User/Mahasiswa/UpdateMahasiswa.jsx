@@ -18,12 +18,6 @@ const UpdateMahasiswa = ({
             ]}
         >
             <div className="bg-white rounded p-4">
-                <div className=" text-gray-900 mb-4">
-                    <p className="text-lg">Formulir Perubahan Mahasiswa</p>
-                    <span className="text-sm font-bold">
-                        Silahkan mengisi formulir dengan benar!
-                    </span>
-                </div>
                 <MahasiswaForm
                     data_fakultas={data_fakultas}
                     data_prodi={data_prodi}

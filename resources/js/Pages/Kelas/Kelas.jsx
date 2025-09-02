@@ -3,6 +3,7 @@ import FilterColumn from "@/Components/FilterColumn";
 import DeleteModal from "@/Components/modal/DeleteModal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SubText from "@/Components/SubText";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
@@ -47,12 +48,12 @@ const Kelas = ({ data_kelas, data_prodi }) => {
             selector: (row) => (
                 <div className="flex gap-2 items-center">
                     <SecondaryButton>
-                        <Link href={`/kelas/${row.id}`}>
+                        <Link href={route("kelas.detail", row.id)}>
                             <FaEye />
                         </Link>
                     </SecondaryButton>
                     <SecondaryButton>
-                        <Link href={`/kelas/form/${row.id}`}>
+                        <Link href={route("kelas.update", row.id)}>
                             <FaPencil />
                         </Link>
                     </SecondaryButton>
@@ -101,12 +102,15 @@ const Kelas = ({ data_kelas, data_prodi }) => {
                     <PrimaryButton>Buat Kelas</PrimaryButton>
                 </Link>
             </div>
-            <DataTable
-                columns={columns}
-                data={filterData}
-                fixedHeader
-                pagination
-            />
+            <div className="p-4 rounded-md bg-white">
+                <SubText text={"Table"} />
+                <DataTable
+                    columns={columns}
+                    data={filterData}
+                    fixedHeader
+                    pagination
+                />
+            </div>
         </AdminLayout>
     );
 };

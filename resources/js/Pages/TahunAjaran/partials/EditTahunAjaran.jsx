@@ -1,5 +1,6 @@
 import SelectContent from "@/Components/input/SelectContent";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SubText from "@/Components/SubText";
 import { useForm } from "@inertiajs/react";
 import React from "react";
 
@@ -15,6 +16,7 @@ const EditTahunAjaran = ({ data_semester_ajaran }) => {
 
     return (
         <div className="p-4">
+            <SubText text={"Formulir Edit Tahun Ajaran Aktif"} />
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <SelectContent
                     data={data_semester_ajaran}

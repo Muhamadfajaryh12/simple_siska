@@ -2,6 +2,7 @@ import FilterColumn from "@/Components/FilterColumn";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Select from "@/Components/Select";
+import SubText from "@/Components/SubText";
 import useToIDR from "@/hooks/useToIDR";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link } from "@inertiajs/react";
@@ -40,38 +41,41 @@ const GolonganUkt = ({ data_golongan_ukt, data_prodi }) => {
                     filterData={filterConfig}
                     onChange={UpdateFilter}
                 />
-                <Link href="/golongan_ukt/form">
+                <Link href={route("golongan_ukt.create")}>
                     <PrimaryButton>Buat Golongan UKT</PrimaryButton>
                 </Link>
             </div>
-            <DataTable
-                data={filterData}
-                columns={[
-                    {
-                        name: "Golongan",
-                        selector: (row) => row.golongan,
-                    },
-                    {
-                        name: "Nominal",
-                        selector: (row) => useToIDR(row.nominal),
-                    },
-                    {
-                        name: "Program Studi",
-                        selector: (row) => row.prodi.nama_prodi,
-                    },
-                    {
-                        name: "Action",
-                        selector: (row) => (
-                            <Link>
-                                <SecondaryButton>
-                                    <FaPencil />
-                                </SecondaryButton>
-                            </Link>
-                        ),
-                    },
-                ]}
-                pagination
-            />
+            <div className="p-4 bg-white rounded-md">
+                <SubText text={"Table"} />
+                <DataTable
+                    data={filterData}
+                    columns={[
+                        {
+                            name: "Golongan",
+                            selector: (row) => row.golongan,
+                        },
+                        {
+                            name: "Nominal",
+                            selector: (row) => useToIDR(row.nominal),
+                        },
+                        {
+                            name: "Program Studi",
+                            selector: (row) => row.prodi.nama_prodi,
+                        },
+                        {
+                            name: "Action",
+                            selector: (row) => (
+                                <Link>
+                                    <SecondaryButton>
+                                        <FaPencil />
+                                    </SecondaryButton>
+                                </Link>
+                            ),
+                        },
+                    ]}
+                    pagination
+                />
+            </div>
         </AdminLayout>
     );
 };

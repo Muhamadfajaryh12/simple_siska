@@ -6,16 +6,7 @@ const CreateProdi = ({ fakultas }) => {
     return (
         <div>
             <AdminLayout title={["Program Studi", "Form"]}>
-                {" "}
                 <div className="bg-white rounded-md p-4">
-                    <div className=" text-gray-900">
-                        <p className="text-lg">
-                            Formulir Pembuatan Program Studi
-                        </p>
-                        <span className="text-sm font-bold">
-                            Silahkan mengisi formulir dengan benar!
-                        </span>
-                    </div>
                     <ProdiForm data_fakultas={fakultas} />
                 </div>
             </AdminLayout>

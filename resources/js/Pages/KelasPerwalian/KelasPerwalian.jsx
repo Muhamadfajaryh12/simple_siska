@@ -26,7 +26,12 @@ const KelasPerwalian = ({ data_kelas }) => {
                             name: "Action",
                             selector: (row) => (
                                 <div>
-                                    <Link href={`/perwalian/kelas/${row.id}`}>
+                                    <Link
+                                        href={route(
+                                            "detail_kelas_perwalian.index",
+                                            row.id
+                                        )}
+                                    >
                                         <SecondaryButton>
                                             <FaEye />
                                         </SecondaryButton>

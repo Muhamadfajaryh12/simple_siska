@@ -1,5 +1,6 @@
 import TextInputContent from "@/Components/input/TextInputContent";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SubText from "@/Components/SubText";
 import { useForm } from "@inertiajs/react";
 import React from "react";
 
@@ -18,6 +19,7 @@ const CreateTahunAjaran = () => {
     };
     return (
         <div className="p-4">
+            <SubText text={"Formulir Tahun Ajaran Aktif"} />
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <TextInputContent
                     label={"Semester Ajaran"}

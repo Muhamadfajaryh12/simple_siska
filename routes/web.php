@@ -35,7 +35,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::middleware(['auth','checkRole:Admin'])->group(function(){
+Route::prefix("admin")->middleware(['auth','checkRole:Admin'])->group(function(){
 
     Route::prefix("/fakultas")->group(function(){
         Route::get('/',[FakultasController::class,'index'])->name('fakultas.index');
@@ -135,10 +135,11 @@ Route::middleware(['auth','checkRole:Admin'])->group(function(){
     });
 });
 //DOSEN
-Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
-    Route::prefix("/krs")->group(function(){
-        Route::get('/verifikasi',[KRSController::class,'index_dosen'])->name('krs_dosen.index');
-        Route::get('/verifikasi/{id}',[KRSController::class,'index_verifikasi'])->name('krs_dosen.verifikasi');
+
+Route::prefix("/dosen")->middleware(["auth",'checkRole:Dosen'])->group(function(){
+    Route::prefix("/kartu_rencana_studi")->group(function(){
+        Route::get('/',[KRSController::class,'index_dosen'])->name('krs_dosen.index');
+        Route::get('/{id}',[KRSController::class,'index_verifikasi'])->name('krs_dosen.verifikasi');
         Route::get('/penilaian_krs/{id}',[KRSController::class,'index_penilaian'])->name('krs_dosen.penilaian');
 
         Route::put('/verifikasi_krs/{id}',[KrsController::class,'verifikasi'])->name('krs.verifikasi');
@@ -154,7 +155,7 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
     });        Route::put("/",[NilaiController::class,"edit"])->name("nilai.edit");
 
     
-    Route::prefix("kelas_mengajar")->group(function(){
+    Route::prefix("/kelas_mengajar")->group(function(){
         Route::get('/',[KelasMataKuliahController::class,"kelas_mengajar_index"])->name("kelas_mengajar.index");
         Route::get('/{id}',[KelasMataKuliahController::class,"kelas_mengajar_detail"])->name("kelas_mengajar.detail");
         Route::post('/{id}',[PertemuanController::class,"edit"])->name("pertemuan.edit");
@@ -180,7 +181,7 @@ Route::middleware(["auth",'checkRole:Dosen'])->group(function(){
     });
 
     Route::post("/generate/{id}",[KelasMataKuliahController::class,"generate_nilai"])->name("generate_nilai");
-    Route::prefix("/dosen/absen")->group(function(){
+    Route::prefix("/absen")->group(function(){
         Route::post("/",[AbsenDosenController::class,"store"])->name("absen_dosen.store");
     });
 });

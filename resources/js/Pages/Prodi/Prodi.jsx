@@ -9,6 +9,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import FilterColumn from "@/Components/FilterColumn";
 import DangerButton from "@/Components/DangerButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SubText from "@/Components/SubText";
 const Prodi = ({ data, data_fakultas }) => {
     const { showModal, closeModal } = useModal();
     const [filters, setFilters] = useState({
@@ -46,7 +47,7 @@ const Prodi = ({ data, data_fakultas }) => {
             selector: (row) => (
                 <div className="flex gap-2">
                     <SecondaryButton>
-                        <Link href={`/prodi/form/${row.id}`}>
+                        <Link href={route("prodi.update", row.id)}>
                             <FaPencil size={15} />
                         </Link>
                     </SecondaryButton>
@@ -100,12 +101,15 @@ const Prodi = ({ data, data_fakultas }) => {
                     </Link>
                 </div>
 
-                <DataTable
-                    columns={columns}
-                    data={filterData}
-                    fixedHeader
-                    pagination
-                />
+                <div className="p-4 bg-white rounded-md">
+                    <SubText text="Table" />
+                    <DataTable
+                        columns={columns}
+                        data={filterData}
+                        fixedHeader
+                        pagination
+                    />
+                </div>
             </AdminLayout>
         </>
     );

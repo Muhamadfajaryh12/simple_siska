@@ -8,6 +8,7 @@ import PrimaryButton from "../PrimaryButton";
 import DataTable from "react-data-table-component";
 import DangerButton from "../DangerButton";
 import { FaTrash } from "react-icons/fa6";
+import SubText from "../SubText";
 const KelasMataKuliahForm = ({
     data_dosen,
     data_mata_kuliah,
@@ -116,6 +117,7 @@ const KelasMataKuliahForm = ({
     ];
     return (
         <div>
+            <SubText text="Formulir Kelas Mata Kuliah" />
             <form
                 className="flex flex-col gap-4"
                 onSubmit={

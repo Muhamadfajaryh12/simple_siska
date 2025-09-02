@@ -1,4 +1,5 @@
 import BarChartComponent from "@/Components/chart/BarChartComponent";
+import SubText from "@/Components/SubText";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
 import { FaAustralSign, FaBook, FaBuilding, FaUser } from "react-icons/fa6";
@@ -127,17 +128,8 @@ const DashboardAdmin = ({
 const CardDashboard = ({ title, icon, value, color }) => {
     return (
         <div className=" rounded-lg bg-white p-4">
-            <div className="flex gap-4 items-center">
-                <div className={`${color} h-6 w-6`}></div>
-                <h1 className="text-blue-900 text-lg font-extrabold">
-                    {title}
-                </h1>
-            </div>
-            <div className="p-4">
-                <h1 className="text-5xl text-blue-900 font-extrabold">
-                    {value}
-                </h1>
-            </div>
+            <SubText text={title} />
+            <h1 className="text-5xl text-blue-900 font-extrabold ">{value}</h1>
         </div>
     );
 };

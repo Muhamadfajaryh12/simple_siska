@@ -6,6 +6,7 @@ import PrimaryButton from "../PrimaryButton";
 import DataTable from "react-data-table-component";
 import DangerButton from "../DangerButton";
 import { FaTrash } from "react-icons/fa6";
+import SubText from "../SubText";
 
 const DosenForm = ({ data_fakultas, data_prodi, data_dosen }) => {
     const { data, setData, errors, post, put, reset, processing } = useForm({
@@ -92,6 +93,7 @@ const DosenForm = ({ data_fakultas, data_prodi, data_dosen }) => {
     };
     return (
         <>
+            <SubText text={"Formulir Dosen"} />
             <form
                 className="flex flex-col gap-4"
                 onSubmit={!data_dosen ? handleAddedTemp : handleUpdate}
