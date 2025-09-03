@@ -3,6 +3,8 @@ import DoughnutChartComponent from "@/Components/chart/DoughnutChartComponent";
 import SubText from "@/Components/SubText";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
+import { CiLock } from "react-icons/ci";
+import { FaClock, FaUser } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
 const DashboardMahasiswa = ({
@@ -11,7 +13,7 @@ const DashboardMahasiswa = ({
     data_profile,
     data_jadwal,
 }) => {
-    console.log(data_profile);
+    console.log(data_jadwal);
     return (
         <AdminLayout title={["Dashboard"]}>
             <div className="flex gap-4">
@@ -56,7 +58,7 @@ const DashboardMahasiswa = ({
                                                 (item) => item.ipk
                                             ),
                                             backgroundColor:
-                                                "rgba(25, 0, 255, 1)",
+                                                "rgba(0, 0, 66, 1)",
                                         },
                                     ],
                                 }}
@@ -65,10 +67,30 @@ const DashboardMahasiswa = ({
                     </div>
 
                     <div className="w-full h-56 bg-white rounded-md p-4 overflow-y-auto">
-                        <SubText text={"Jadwal"} />
+                        <SubText text={"Jadwal kuliah hari ini"} />
                         {data_jadwal.map((item) => (
                             <div className="rounded-md bg-blue-100 p-4">
-                                {item.tanggal}
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex items-center justify-between">
+                                        <h1 className="font-bold">
+                                            {item.nama_mata_kuliah}
+                                        </h1>
+                                        <h1 className="font-bold">
+                                            {item.sks} SKS
+                                        </h1>
+                                    </div>
+                                    <div className="flex gap-2 items-center">
+                                        <FaUser />
+                                        <h6>{item.nama_dosen}</h6>
+                                    </div>
+                                    <div className="flex gap-2 items-center">
+                                        <FaClock />
+                                        <h6>
+                                            {item.jam_mulai} -{" "}
+                                            {item.jam_selesai}
+                                        </h6>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>

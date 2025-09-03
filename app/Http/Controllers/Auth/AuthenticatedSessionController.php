@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         if($user->role == 'Dosen') {
             return redirect()->route('dashboard.dosen'); 
         } elseif ($user->role == 'Mahasiswa') {
-            return redirect()->route('profile.index'); 
+            return redirect()->route('dashboard.mahasiswa'); 
         }else{
             return redirect()->route("dashboard.admin");
         }

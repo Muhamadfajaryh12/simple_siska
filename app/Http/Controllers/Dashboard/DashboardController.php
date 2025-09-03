@@ -89,7 +89,8 @@ class DashboardController extends Controller
             ->join("pertemuan","pertemuan.kelas_mata_kuliah_id","=","kelas_mata_kuliah.id")
             ->where("krs.mahasiswa_id","=",Auth::user()->mahasiswa->id)
             ->where("pertemuan.tanggal", now()->toDateString())            
-            ->select("mata_kuliah.nama_mata_kuliah","pertemuan.tanggal","dosen.nama_dosen")
+            ->select("mata_kuliah.nama_mata_kuliah","pertemuan.tanggal","dosen.nama_dosen","kelas_mata_kuliah.jam_selesai",
+            "kelas_mata_kuliah.jam_mulai","mata_kuliah.sks")
             ->get();
          
             return Inertia::render('Dashboard/DashboardMahasiswa',[

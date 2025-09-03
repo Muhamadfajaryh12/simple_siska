@@ -28,6 +28,12 @@ const Sidebar = ({ auth, open }) => {
                 role: "Dosen",
                 icon: <FaDashcube />,
             },
+            {
+                title: "Dashboard",
+                link: "dashboard.mahasiswa",
+                role: "Mahasiswa",
+                icon: <FaDashcube />,
+            },
         ],
 
         Pengguna: [
