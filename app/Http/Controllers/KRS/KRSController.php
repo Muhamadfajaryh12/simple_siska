@@ -7,6 +7,7 @@ use App\Models\KelasMataKuliah;
 use App\Models\KRS;
 use App\Models\KrsDetail;
 use App\Models\Matakuliah;
+use App\Models\SemesterAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -202,16 +203,16 @@ class KRSController extends Controller
      
             $validation = $request->validate([
                 "total_sks" =>"required",
-                "semester"=>"required",
                 'mata_kuliah'=>"required|array"
             ]);
     
+            $tahun_ajaran = SemesterAjaran::where("status","aktif")->first();
             $krs = KRS::create([
                 "mahasiswa_id"=> $user->id,
-                "semester"=>$validation["semester"],
+                "semester"=>$user->semester,
                 "total_sks"=>$validation["total_sks"],
                 "status"=>"Menunggu",
-                "tahun_ajaran"=>"2025",
+                "tahun_ajaran"=>$tahun_ajaran["status"],
             ]);
     
             foreach ($validation['mata_kuliah'] as $data ){
