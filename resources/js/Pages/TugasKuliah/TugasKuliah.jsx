@@ -25,7 +25,6 @@ const TugasKuliah = ({ data_tugas_kuliah }) => {
     const handlePreviewTugasModal = (preview) => {
         showModal(<PreviewTugasModal preview={preview} />);
     };
-    console.log(data_tugas_kuliah);
     return (
         <AdminLayout title={["Tugas Kuliah"]}>
             <div className="flex flex-col gap-4">

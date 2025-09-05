@@ -15,7 +15,6 @@ import StatusButton from "@/Components/StatusButton";
 import SubText from "@/Components/SubText";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
-    console.log(data_pertemuan);
     const { data, setData, post, processing } = useForm({
         materi: data_pertemuan?.materi || "",
         file_materi: "",

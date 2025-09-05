@@ -4,7 +4,6 @@ import useToIDR from "@/hooks/useToIDR";
 import React from "react";
 
 const ProfileKuliah = ({ data_mahasiswa }) => {
-    console.log(data_mahasiswa);
     return (
         <div className="flex flex-col gap-4">
             <TextInputContent

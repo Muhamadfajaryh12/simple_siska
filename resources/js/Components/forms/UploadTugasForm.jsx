@@ -34,7 +34,6 @@ const UploadTugasForm = ({ id }) => {
                     name={"file_pengumpulan"}
                     onChange={(e) => {
                         setData("file_pengumpulan", e.target.files[0]);
-                        console.log(data.file_pengumpulan);
                     }}
                 />
                 <PrimaryButton disabled={processing}>KIRIM</PrimaryButton>

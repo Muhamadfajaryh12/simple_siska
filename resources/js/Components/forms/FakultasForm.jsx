@@ -20,7 +20,6 @@ const FakultasForm = ({ fakultas }) => {
                       reset();
                   },
               });
-        console.log(fakultas);
     };
 
     useEffect(() => {

@@ -23,9 +23,7 @@ const AdminLayout = ({ title, children }) => {
             default:
                 break;
         }
-        console.log(auth);
     }, []);
-    console.log(auth);
     return (
         <div className="w-full min-h-screen bg-gray-300">
             <div className="flex">

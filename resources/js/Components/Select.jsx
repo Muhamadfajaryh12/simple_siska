@@ -9,7 +9,6 @@ const Select = ({
     disabled = false,
     ...props
 }) => {
-    console.log(disabled);
     return (
         <select
             {...props}

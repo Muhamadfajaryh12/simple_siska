@@ -16,7 +16,6 @@ const DashboardAdmin = ({
     data_total_mahasiswa_group_angkatan,
     data_total_pendapatan_group_fakultas,
 }) => {
-    console.log(data_total_mahasiswa_dosen_group_fakultas);
     return (
         <AdminLayout title={["Dashboard"]}>
             <div className="grid grid-cols-3 gap-4">

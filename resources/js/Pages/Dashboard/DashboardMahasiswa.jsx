@@ -13,7 +13,6 @@ const DashboardMahasiswa = ({
     data_profile,
     data_jadwal,
 }) => {
-    console.log(data_jadwal);
     return (
         <AdminLayout title={["Dashboard"]}>
             <div className="flex gap-4">

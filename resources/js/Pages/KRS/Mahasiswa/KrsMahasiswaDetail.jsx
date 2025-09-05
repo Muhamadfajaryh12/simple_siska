@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
 const KrsMahasiswaDetail = ({ auth, data_krs }) => {
-    console.log(data_krs);
     let columns = [
         {
             name: "Mata Kuliah",

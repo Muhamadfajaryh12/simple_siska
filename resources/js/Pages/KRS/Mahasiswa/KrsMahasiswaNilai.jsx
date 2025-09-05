@@ -6,7 +6,6 @@ import jsPDF from "jspdf";
 import React, { useRef } from "react";
 import "jspdf-autotable";
 const NilaiMahasiswa = ({ data_krs, auth }) => {
-    console.log(auth);
     const content = useRef();
     const totalSKS = data_krs.reduce(
         (acc, item) => acc + item.mata_kuliah.sks,
