@@ -11,7 +11,6 @@ const RekapNilaiSection = ({ id, data_rekap }) => {
         try {
             const response = await axios.post(`/generate/${id}`);
             setData(response.data.data);
-            console.log(response);
         } catch (error) {
             console.log(error);
         }
