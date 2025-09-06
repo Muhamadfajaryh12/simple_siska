@@ -6,7 +6,7 @@ export default function Guest({ children }) {
                     Sistem Informasi Akademik
                 </h1>
             </div>
-            <div className="w-full   ">{children}</div>
+            <div className="w-full">{children}</div>
         </div>
     );
 }
