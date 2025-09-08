@@ -1,3 +1,4 @@
+import CardDashboard from "@/Components/card/CardDashboard";
 import DangerButton from "@/Components/DangerButton";
 import TandaTugasForm from "@/Components/forms/TandaTugasForm";
 import UploadTugasForm from "@/Components/forms/UploadTugasForm";
@@ -27,6 +28,11 @@ const TugasKuliah = ({ data_tugas_kuliah }) => {
     };
     return (
         <AdminLayout title={["Tugas Kuliah"]}>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+                <CardDashboard title={"Tugas Terselesaikan"} value={100} />
+                <CardDashboard title={"Tugas Menunggu"} value={100} />
+                <CardDashboard title={"Tugas Terlewat"} value={100} />
+            </div>
             <div className="flex flex-col gap-4">
                 {data_tugas_kuliah.map((item) => (
                     <div className="bg-white rounded-md py-4 border shadow-sm  px-6">

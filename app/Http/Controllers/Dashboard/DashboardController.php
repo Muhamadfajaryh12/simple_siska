@@ -80,7 +80,7 @@ class DashboardController extends Controller
             ->groupBy("krs.semester")
             ->get();
          
-            $fetch_profil = Mahasiswa::where("id",Auth::user()->mahasiswa->id)->first();
+            $fetch_profil = Mahasiswa::with("user")->where("id",Auth::user()->mahasiswa->id)->first();
             $fetch_jadwal = DB::table("krs")
             ->join("krs_detail","krs_detail.krs_id","=","krs.id")
             ->join("kelas_mata_kuliah","kelas_mata_kuliah.id","=","krs_detail.kelas_mata_kuliah_id")

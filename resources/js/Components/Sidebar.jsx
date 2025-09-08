@@ -176,7 +176,7 @@ const Sidebar = ({ auth, open }) => {
                 open ? "block" : "hidden"
             } border-r bg-white min-h-screen w-72`}
         >
-            <h1 className="text-red-600 font-bold text-4xl text-center my-4">
+            <h1 className="text-blue-900 font-bold text-4xl text-center my-4">
                 SISKA
             </h1>
             <ul className="my-4 mx-auto p-4">

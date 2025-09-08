@@ -1,4 +1,5 @@
 import React from "react";
+import SubText from "../SubText";
 
 const CardDashboard = ({ title, icon, value, color }) => {
     return (

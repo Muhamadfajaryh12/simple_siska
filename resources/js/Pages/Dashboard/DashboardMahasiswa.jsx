@@ -3,9 +3,9 @@ import DoughnutChartComponent from "@/Components/chart/DoughnutChartComponent";
 import SubText from "@/Components/SubText";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
-import { CiLock } from "react-icons/ci";
-import { FaClock, FaUser } from "react-icons/fa6";
-import { MdEmail } from "react-icons/md";
+import { CiLock, CiPhone } from "react-icons/ci";
+import { FaClock, FaPhone, FaUser } from "react-icons/fa6";
+import { MdContactPhone, MdEmail } from "react-icons/md";
 
 const DashboardMahasiswa = ({
     data_total_sks_ipk,
@@ -13,6 +13,7 @@ const DashboardMahasiswa = ({
     data_profile,
     data_jadwal,
 }) => {
+    console.log(data_profile);
     return (
         <AdminLayout title={["Dashboard"]}>
             <div className="flex gap-4">
@@ -67,40 +68,64 @@ const DashboardMahasiswa = ({
 
                     <div className="w-full h-56 bg-white rounded-md p-4 overflow-y-auto">
                         <SubText text={"Jadwal kuliah hari ini"} />
-                        {data_jadwal.map((item) => (
-                            <div className="rounded-md bg-blue-100 p-4">
-                                <div className="flex flex-col gap-2">
-                                    <div className="flex items-center justify-between">
-                                        <h1 className="font-bold">
-                                            {item.nama_mata_kuliah}
-                                        </h1>
-                                        <h1 className="font-bold">
-                                            {item.sks} SKS
-                                        </h1>
-                                    </div>
-                                    <div className="flex gap-2 items-center">
-                                        <FaUser />
-                                        <h6>{item.nama_dosen}</h6>
-                                    </div>
-                                    <div className="flex gap-2 items-center">
-                                        <FaClock />
-                                        <h6>
-                                            {item.jam_mulai} -{" "}
-                                            {item.jam_selesai}
-                                        </h6>
+                        {data_jadwal?.length > 0 ? (
+                            data_jadwal.map((item) => (
+                                <div className="rounded-md bg-blue-100 p-4">
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex items-center justify-between">
+                                            <h1 className="font-bold">
+                                                {item.nama_mata_kuliah}
+                                            </h1>
+                                            <h1 className="font-bold">
+                                                {item.sks} SKS
+                                            </h1>
+                                        </div>
+                                        <div className="flex gap-2 items-center">
+                                            <FaUser />
+                                            <h6>{item.nama_dosen}</h6>
+                                        </div>
+                                        <div className="flex gap-2 items-center">
+                                            <FaClock />
+                                            <h6>
+                                                {item.jam_mulai} -{" "}
+                                                {item.jam_selesai}
+                                            </h6>
+                                        </div>
                                     </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="flex items-center justify-center bg-green-200 border-green-500 border rounded-md p-4">
+                                <h1>Tidak ada jadwal perkuliahan hari ini!</h1>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 ">
                     <div className="bg-white rounded-md h-96 w-80 p-4">
                         <SubText text="Informasi Pengguna" />
-                        <div className="">
-                            <MdEmail />
+                        <div className="flex flex-col gap-4 mt-10">
+                            <div className="rounded-full w-32 h-32 bg-gray-300 flex items-center justify-center mx-auto">
+                                <FaUser size={40} />
+                            </div>
+                            <h1 className="font-bold text-center size-2xl">
+                                {data_profile.nama_mahasiswa}
+                            </h1>
+                            <div className="">
+                                <div className="flex gap-2 items-center my-2">
+                                    <div className="bg-blue-900 p-2 rounded-md">
+                                        <MdEmail className="text-white" />
+                                    </div>
+                                    <h1>{data_profile.user.email}</h1>
+                                </div>
+                                <div className="flex gap-2 items-center my-2">
+                                    <div className="bg-blue-900 p-2 rounded-md">
+                                        <FaPhone className="text-white" />
+                                    </div>
+                                    <h1>{data_profile.contact}</h1>
+                                </div>
+                            </div>
                         </div>
-                        <div></div>
                     </div>
                     <div className="bg-white rounded-md h-96 w-80 p-4">
                         <SubText text="Masa Studi" />
