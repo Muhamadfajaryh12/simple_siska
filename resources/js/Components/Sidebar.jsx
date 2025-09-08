@@ -193,19 +193,29 @@ const Sidebar = ({ auth, open }) => {
                                 {filteredList.map((items) => (
                                     <li
                                         key={items.title}
-                                        className={`hover:bg-blue-900 hover:text-white p-2 rounded-md  flex items-center mt-2 ${
-                                            pathname.includes(
-                                                items.title.toLowerCase()
-                                            )
-                                                ? "bg-blue-900 text-white"
-                                                : ""
-                                        }`}
+                                        className={` rounded-md  flex items-center  gap-2 mt-2 `}
                                         style={{ letterSpacing: "1px" }}
                                     >
-                                        {items?.icon}
+                                        <div
+                                            className={` p-2 rounded-md ${
+                                                pathname.includes(
+                                                    items.title.toLowerCase()
+                                                )
+                                                    ? "bg-blue-900 text-white"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {items?.icon}
+                                        </div>
                                         <Link
                                             href={route(items.link)}
-                                            className="mx-2 text-sm "
+                                            className={` text-sm ${
+                                                pathname.includes(
+                                                    items.title.toLowerCase()
+                                                )
+                                                    ? "text-blue-900 font-bold "
+                                                    : ""
+                                            }`}
                                         >
                                             {items.title}
                                         </Link>
