@@ -6,11 +6,14 @@ import useToIDR from "@/hooks/useToIDR";
 import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
 
-const TagihanUkt = ({ data_tagihan_ukt }) => {
+const TagihanUkt = ({ data_tagihan_ukt, data_total_tagihan_ukt }) => {
     return (
         <AdminLayout title={["Pembayaran", "UKT"]}>
             <div className="grid grid-cols-3 gap-4 mb-6">
-                <CardDashboard title={"Tagihan Tersisa"} value={"0"} />
+                <CardDashboard
+                    title={"Tagihan Tersisa"}
+                    value={useToIDR(data_total_tagihan_ukt.total_tagihan_ukt)}
+                />
             </div>
             {data_tagihan_ukt.map((item) => (
                 <div className="rounded-md bg-white border p-4">

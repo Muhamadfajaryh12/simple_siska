@@ -7,6 +7,7 @@ use App\Models\SemesterAjaran;
 use App\Models\Ukt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class UktController extends Controller
@@ -28,9 +29,16 @@ class UktController extends Controller
 
     public function mahasiswa_index(){
         $fetch_tagihan_ukt = Ukt::with(["mahasiswa.prodi","mahasiswa.golongan_ukt","semester_ajaran"])->where("mahasiswa_id",Auth::user()->mahasiswa->id)->get();
-
+        $fetch_total_tagihan_ukt = DB::table("ukt")
+        ->leftJoin("mahasiswa","mahasiswa.id" , "=","ukt.mahasiswa_id")
+        ->leftJoin("golongan_ukt","golongan_ukt.id","=","mahasiswa.golongan_ukt_id")
+        ->where("mahasiswa_id","=",Auth::user()->mahasiswa->id)
+        ->where("ukt.status","=","menunggu")
+        ->selectRaw("COALESCE(SUM(golongan_ukt.nominal), 0) as total_tagihan_ukt")
+        ->first();
         return Inertia::render("Ukt/Mahasiswa/TagihanUkt",[
-            "data_tagihan_ukt"=>$fetch_tagihan_ukt
+            "data_tagihan_ukt"=>$fetch_tagihan_ukt,
+            "data_total_tagihan_ukt"=>$fetch_total_tagihan_ukt
         ]);
     }
     /**

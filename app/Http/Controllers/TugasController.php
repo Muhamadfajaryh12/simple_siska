@@ -8,6 +8,7 @@ use App\Models\Tugas;
 use App\Models\TugasMahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class TugasController extends Controller
@@ -18,8 +19,17 @@ class TugasController extends Controller
         // })->get();
 
         $fetch_tugas_kuliah = TugasMahasiswa::with("tugas.pertemuan.kelas_mata_kuliah.mata_kuliah")->where("mahasiswa_id",Auth::user()->mahasiswa->id)->get();
+        $fetch_total_tugas_kuliah = DB::table("tugas_mahasiswa")
+        ->where("mahasiswa_id","=",Auth::user()->mahasiswa->id)
+        ->select(
+            DB::raw("SUM(CASE WHEN status = 'selesai' THEN 1 ELSE 0 END) as total_tugas_selesai"),
+                     DB::raw("SUM(CASE WHEN status = 'menunggu' THEN 1 ELSE 0 END) as total_tugas_menunggu"),
+                     DB::raw("COUNT(*) as total_tugas")
+
+        )->first();
         return Inertia::render("TugasKuliah/TugasKuliah",[
-            "data_tugas_kuliah"=>$fetch_tugas_kuliah
+            "data_tugas_kuliah"=>$fetch_tugas_kuliah,
+            "data_total_tugas_kuliah"=>$fetch_total_tugas_kuliah
         ]);
     }
     public function store(Request $request){

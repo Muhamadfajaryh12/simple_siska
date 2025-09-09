@@ -12,7 +12,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import React from "react";
 import { FaPencil } from "react-icons/fa6";
 
-const TugasKuliah = ({ data_tugas_kuliah }) => {
+const TugasKuliah = ({ data_tugas_kuliah, data_total_tugas_kuliah }) => {
     const { showModal } = useModal();
 
     const handleUploadTugasModal = (id) => {
@@ -29,9 +29,18 @@ const TugasKuliah = ({ data_tugas_kuliah }) => {
     return (
         <AdminLayout title={["Tugas Kuliah"]}>
             <div className="grid grid-cols-3 gap-4 mb-6">
-                <CardDashboard title={"Tugas Terselesaikan"} value={100} />
-                <CardDashboard title={"Tugas Menunggu"} value={100} />
-                <CardDashboard title={"Tugas Terlewat"} value={100} />
+                <CardDashboard
+                    title={"Tugas Terselesaikan"}
+                    value={data_total_tugas_kuliah.total_tugas_selesai}
+                />
+                <CardDashboard
+                    title={"Tugas Menunggu"}
+                    value={data_total_tugas_kuliah.total_tugas_menunggu}
+                />
+                <CardDashboard
+                    title={"Total Tugas"}
+                    value={data_total_tugas_kuliah.total_tugas}
+                />
             </div>
             <div className="flex flex-col gap-4">
                 {data_tugas_kuliah.map((item) => (
