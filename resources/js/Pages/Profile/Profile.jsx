@@ -10,7 +10,9 @@ import ChangePasswordForm from "./Partials/ChangePasswordForm";
 const Profile = ({ data_mahasiswa }) => {
     const [active, setActive] = useState("data_diri");
     const buttonActive = (value) => {
-        return active == value ? `bg-violet-500 text-white` : `bg-white`;
+        return active == value
+            ? `bg-green-600 text-white font-semibold`
+            : `bg-white`;
     };
 
     const handleSection = () => {
@@ -27,12 +29,12 @@ const Profile = ({ data_mahasiswa }) => {
     };
     return (
         <AdminLayout title={["Profile", `${data_mahasiswa.nama_mahasiswa}`]}>
-            <div className="flex mb-4">
+            <div className="flex mb-4 gap-2">
                 <button
                     onClick={() => setActive("data_diri")}
                     className={`${buttonActive(
                         "data_diri"
-                    )} rounded-md p-2 border w-full`}
+                    )} rounded-md p-2  w-full`}
                 >
                     Informasi Diri
                 </button>
@@ -40,7 +42,7 @@ const Profile = ({ data_mahasiswa }) => {
                     onClick={() => setActive("data_kuliah")}
                     className={`${buttonActive(
                         "data_kuliah"
-                    )} rounded-md p-2 border w-full`}
+                    )} rounded-md p-2  w-full`}
                 >
                     Informasi Kuliah
                 </button>
@@ -48,7 +50,7 @@ const Profile = ({ data_mahasiswa }) => {
                     onClick={() => setActive("ubah_password")}
                     className={`${buttonActive(
                         "ubah_password"
-                    )} rounded-md p-2 border w-full`}
+                    )} rounded-md p-2  w-full`}
                 >
                     Ubah Password
                 </button>

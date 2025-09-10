@@ -122,7 +122,7 @@ Route::prefix("admin")->middleware(['auth','checkRole:Admin'])->group(function()
         Route::post('/',[GolonganUktController::class,"store"])->name("golongan_ukt.store");
     });
     
-    Route::get('admin/dashboard',[DashboardController::class,"dashboard_admin"])->name("dashboard.admin");
+    Route::get('/dashboard',[DashboardController::class,"dashboard_admin"])->name("dashboard.admin");
 
     Route::prefix("/tahun_ajaran")->group(function(){
         Route::get("/",[SemesterAjaranController::class,"index"])->name("tahun_ajaran.index");

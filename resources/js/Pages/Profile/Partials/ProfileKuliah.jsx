@@ -1,4 +1,5 @@
 import TextInputContent from "@/Components/input/TextInputContent";
+import SubText from "@/Components/SubText";
 import useToIDR from "@/hooks/useToIDR";
 
 import React from "react";
@@ -6,6 +7,7 @@ import React from "react";
 const ProfileKuliah = ({ data_mahasiswa }) => {
     return (
         <div className="flex flex-col gap-4">
+            <SubText text={"Informasi Perkuliahan"} />
             <TextInputContent
                 disabled
                 label={"Fakultas"}

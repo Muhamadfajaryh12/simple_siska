@@ -16,13 +16,15 @@ const TagihanUkt = ({ data_tagihan_ukt, data_total_tagihan_ukt }) => {
                 />
             </div>
             {data_tagihan_ukt.map((item) => (
-                <div className="rounded-md bg-white border p-4">
+                <div className="rounded-md bg-white border p-4 my-2">
                     <SubText text={"Tagihan"} />
                     <div className="flex justify-between items-center">
                         <div className="">
-                            <h1>{item.mahasiswa.nama_mahasiswa}</h1>
-                            <h1 className="capitalize">
-                                {item.mahasiswa.prodi.nama_prodi}
+                            <h1 className=" font-bold">
+                                {item.mahasiswa.nama_mahasiswa} -{" "}
+                                <span className="capitalize">
+                                    {item.mahasiswa.prodi.nama_prodi}
+                                </span>
                             </h1>
                             <h1>
                                 Nominal Pembayaran :{" "}

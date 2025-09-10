@@ -33,7 +33,7 @@ class UktController extends Controller
         ->leftJoin("mahasiswa","mahasiswa.id" , "=","ukt.mahasiswa_id")
         ->leftJoin("golongan_ukt","golongan_ukt.id","=","mahasiswa.golongan_ukt_id")
         ->where("mahasiswa_id","=",Auth::user()->mahasiswa->id)
-        ->where("ukt.status","=","menunggu")
+        ->where("ukt.status","=","belum lunas")
         ->selectRaw("COALESCE(SUM(golongan_ukt.nominal), 0) as total_tagihan_ukt")
         ->first();
         return Inertia::render("Ukt/Mahasiswa/TagihanUkt",[

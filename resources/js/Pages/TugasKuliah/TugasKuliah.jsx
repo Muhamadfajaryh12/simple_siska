@@ -9,11 +9,20 @@ import StatusButton from "@/Components/StatusButton";
 import SubText from "@/Components/SubText";
 import { useModal } from "@/Context/ModalContext";
 import AdminLayout from "@/Layouts/AdminLayout";
-import React from "react";
+import React, { useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 
 const TugasKuliah = ({ data_tugas_kuliah, data_total_tugas_kuliah }) => {
     const { showModal } = useModal();
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const itemPerPage = 5;
+
+    const firstIndex = (currentPage - 1) * itemPerPage;
+    const lastIndex = firstIndex + itemPerPage;
+    const dataFilter = data_tugas_kuliah?.slice(firstIndex, lastIndex) || [];
+    const totalPages = Math.ceil(data_tugas_kuliah.length / itemPerPage);
 
     const handleUploadTugasModal = (id) => {
         showModal(<UploadTugasForm id={id} />);
@@ -25,6 +34,14 @@ const TugasKuliah = ({ data_tugas_kuliah, data_total_tugas_kuliah }) => {
 
     const handlePreviewTugasModal = (preview) => {
         showModal(<PreviewTugasModal preview={preview} />);
+    };
+
+    const handlePagination = (type) => {
+        if (type == "prev") {
+            setCurrentPage((prev) => prev - 1);
+        } else {
+            setCurrentPage((prev) => prev + 1);
+        }
     };
     return (
         <AdminLayout title={["Tugas Kuliah"]}>
@@ -43,7 +60,7 @@ const TugasKuliah = ({ data_tugas_kuliah, data_total_tugas_kuliah }) => {
                 />
             </div>
             <div className="flex flex-col gap-4">
-                {data_tugas_kuliah.map((item) => (
+                {dataFilter.map((item) => (
                     <div className="bg-white rounded-md py-4 border shadow-sm  px-6">
                         <SubText text={item.tugas.type.toUpperCase()} />
                         <div className="flex justify-between">
@@ -100,6 +117,22 @@ const TugasKuliah = ({ data_tugas_kuliah, data_total_tugas_kuliah }) => {
                     </div>
                 ))}
             </div>
+            {dataFilter.length > 0 && (
+                <div className="flex gap-2 justify-center my-4 ">
+                    <SecondaryButton
+                        onClick={() => handlePagination("prev")}
+                        disabled={currentPage == 1}
+                    >
+                        PREV
+                    </SecondaryButton>
+                    <SecondaryButton
+                        onClick={() => handlePagination("next")}
+                        disabled={currentPage == totalPages}
+                    >
+                        Next
+                    </SecondaryButton>
+                </div>
+            )}
         </AdminLayout>
     );
 };

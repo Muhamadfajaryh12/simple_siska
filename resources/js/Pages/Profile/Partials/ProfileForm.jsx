@@ -1,6 +1,7 @@
 import SelectContent from "@/Components/input/SelectContent";
 import TextInputContent from "@/Components/input/TextInputContent";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SubText from "@/Components/SubText";
 import { useForm } from "@inertiajs/react";
 import React from "react";
 
@@ -28,6 +29,7 @@ const ProfileForm = ({ data_mahasiswa }) => {
 
     return (
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <SubText text={"Informasi Diri"} />
             <TextInputContent
                 type={"text"}
                 label={"Nama Lengkap"}
