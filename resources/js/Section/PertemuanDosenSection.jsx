@@ -13,21 +13,20 @@ import DeleteModal from "@/Components/modal/DeleteModal";
 import AbsenDosenModal from "@/Components/modal/AbsenDosenModal";
 import StatusButton from "@/Components/StatusButton";
 import SubText from "@/Components/SubText";
+import MateriSection from "./MateriSection";
 
 const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
-    const { data, setData, post, processing } = useForm({
-        materi: data_pertemuan?.materi || "",
-        file_materi: "",
-    });
-    const [active, setActive] = useState("absen");
-
-    const { showModal, closeModal } = useModal();
+    const { data, setData, post, processing } = useForm();
     const handleEdit = (e) => {
         e.preventDefault();
         post(route("pertemuan.edit", { id: data_pertemuan.id }), {
             forceFormData: true,
         });
     };
+
+    const [active, setActive] = useState("absen");
+
+    const { showModal, closeModal } = useModal();
 
     const handleModalTugas = () => {
         showModal(<TugasForm id={data_pertemuan.id} />);
@@ -58,7 +57,7 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
     const tabButtonClass = (activeTab) => {
         return `w-full p-2 rounded-md ${
             active == activeTab
-                ? "bg-violet-500 text-white"
+                ? "bg-green-500 text-white"
                 : "bg-white shadow-sm"
         }`;
     };
@@ -87,28 +86,13 @@ const PertemuanDosenSection = ({ data_pertemuan, total_mahasiswa }) => {
                             </SecondaryButton>
                         )}
                     </h1>
-                    <TextInputContent
-                        label={"Materi"}
-                        type={"text"}
-                        name={"materi"}
-                        value={data.materi}
-                        onChange={(e) => setData("materi", e.target.value)}
-                    />
-                    <TextInputContent
-                        label="File Materi"
-                        type="file"
-                        name="file_materi"
-                        onChange={(e) =>
-                            setData("file_materi", e.target.files[0])
-                        }
-                    />
-                    <PrimaryButton disabled={processing}>SIMPAN</PrimaryButton>
                 </form>
             </div>
+            <MateriSection data_pertemuan={data_pertemuan} />
             <div className="border rounded-md p-4 my-4 bg-white">
                 {data_pertemuan.tugas ? (
                     <>
-                        <SubText text={"Tugas Perkuliahan"} />
+                        <SubText text={"Tugas Pertemuan"} />
                         <h1>
                             Judul Tugas : {data_pertemuan.tugas.judul_tugas}
                         </h1>
