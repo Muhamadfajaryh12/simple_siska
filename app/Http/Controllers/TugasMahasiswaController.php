@@ -45,7 +45,7 @@ class TugasMahasiswaController extends Controller
             $validation = $request->validate([
                 "data_nilai_tugas_mahasiswa" => "required|array",
                 "data_nilai_tugas_mahasiswa.*.id"=>"required",
-                 "data_nilai_tugas_mahasiswa.*.nilai"=>"required",
+                "data_nilai_tugas_mahasiswa.*.nilai"=>"required",
             ]);
 
             foreach($validation["data_nilai_tugas_mahasiswa"] as $item){

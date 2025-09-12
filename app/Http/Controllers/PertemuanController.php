@@ -27,17 +27,20 @@ class PertemuanController extends Controller
                 "materi"=>"required",
                 "file_materi" => "sometimes"
             ]);
+            
             $path = "";
+            $dataUpdate = [
+                "materi" => $validation["materi"]
+          
+            ];
             if($request->hasFile("file_materi")){
                 $path = $request->file("file_materi")->store("file_materi","public");
+                $dataUpdate["file_materi"] = $path;
             }
             
             $pertemuan = Pertemuan::findOrFail($id);
-            
-            $pertemuan->update([
-                "materi" => $validation["materi"],
-                "file_materi"=>$path
-            ]);
+
+            $pertemuan->update($dataUpdate);
             
             return redirect()->back()->with("success","Berhasil menambahkan materi");
         }catch(\Exception $e){
